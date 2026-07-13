@@ -41,6 +41,7 @@
   html{background:var(--bg)}
   body{font-family:var(--body);color:var(--ink);margin:0;line-height:1.5;-webkit-text-size-adjust:100%}
   button,input{-webkit-appearance:none;appearance:none}
+  a{color:inherit}
   .wrap{max-width:1060px;margin:0 auto;padding:0 20px 80px}
 
   /* ---------- header ---------- */
@@ -73,13 +74,14 @@
 
   /* ---------- tabs / segs ---------- */
   .tabs{display:flex;justify-content:center;margin:20px 0 0}
-  .seg{display:inline-flex;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:3px;box-shadow:var(--shadow)}
+  .seg{display:inline-flex;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:3px;box-shadow:var(--shadow);flex-wrap:wrap;justify-content:center}
   .seg button{border:0;background:transparent;color:var(--ink2);font:600 13px var(--body);
               padding:7px 16px;border-radius:999px;cursor:pointer}
   .seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
   .seg button:focus-visible,.watch:focus-visible,.reset:focus-visible,.pill:focus-visible,
-  .avgrid button:focus-visible,.plist button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-  .tabs .seg button{font-size:14px;padding:9px 26px}
+  .avgrid button:focus-visible,.plist button:focus-visible,.act a:focus-visible,.act button:focus-visible,
+  .modal-x:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .tabs .seg button{font-size:14px;padding:9px 22px}
 
   /* ---------- stats ---------- */
   .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin:30px 0 8px}
@@ -151,6 +153,13 @@
   .due{font-size:11.5px;font-family:var(--mono);color:var(--accent)}
   .due.past{color:var(--warn)}
   .card.done .due{visibility:hidden}
+
+  .act{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+  .act a,.act button{display:flex;align-items:center;justify-content:center;gap:5px;
+      border:1px solid var(--line);background:var(--panel2);color:var(--ink);text-decoration:none;
+      font:600 12px var(--body);padding:8px 6px;border-radius:8px;cursor:pointer;line-height:1.15;text-align:center}
+  .act a:hover,.act button:hover{border-color:var(--accent);color:var(--accent)}
+  .act .plat{font-family:var(--mono);font-size:9.5px;letter-spacing:.02em;opacity:.85}
   .watch{margin-top:auto;border:1.5px solid var(--accent);background:transparent;color:var(--accent);
          font:700 13px var(--body);padding:8px 10px;border-radius:8px;cursor:pointer;transition:background .12s,color .12s}
   .watch:hover{background:var(--accent);color:var(--accent-ink)}
@@ -162,6 +171,18 @@
   .plan h2{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:22px;margin:0 0 6px}
   .plan p{color:var(--ink2);font-size:14px;margin:6px 0}
   .plan b{color:var(--ink)}
+
+  /* ---------- did you know ---------- */
+  .dyk-intro{color:var(--ink2);font-size:15px;max-width:60ch;margin:24px 0 4px}
+  .facts{display:flex;flex-direction:column;gap:12px}
+  .fact{display:flex;gap:14px;align-items:flex-start;background:var(--panel);border:1px solid var(--line);
+        border-radius:var(--radius);box-shadow:var(--shadow);padding:14px 16px}
+  .fact .chip{width:46px;height:64px;border-radius:6px;flex:none;display:flex;align-items:center;justify-content:center;
+              font-family:var(--display);font-weight:800;font-size:18px;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.4)}
+  .fact .fx b{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:16px;letter-spacing:.02em;display:block}
+  .fact .fx .fy{font-family:var(--mono);font-size:11px;color:var(--ink2);margin:1px 0 6px}
+  .fact .fx p{margin:0;font-size:14px;color:var(--ink);line-height:1.5}
+
   footer{margin-top:36px;color:var(--ink2);font-size:12.5px;text-align:center}
   footer p{margin:4px 0}
 
@@ -194,6 +215,33 @@
          display:block;margin:-8px 0 12px;min-height:14px}
   .newp .watch{width:100%;font-size:14px;padding:11px}
 
+  /* ---------- detail modal ---------- */
+  .modal{position:fixed;inset:0;background:var(--scrim);
+         -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+         display:flex;align-items:center;justify-content:center;padding:20px;z-index:60;overflow-y:auto}
+  .modal-card{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:14px;
+              box-shadow:var(--shadow);max-width:440px;width:100%;padding:24px 24px 22px;margin:auto}
+  .modal-x{position:absolute;top:12px;right:12px;border:1px solid var(--line);background:var(--panel2);color:var(--ink2);
+           width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:15px;line-height:1}
+  .modal-x:hover{color:var(--warn);border-color:var(--warn)}
+  .m-head{display:flex;gap:14px;align-items:flex-start;margin-bottom:16px;padding-right:28px}
+  .m-chip{width:52px;height:74px;border-radius:7px;flex:none;display:flex;align-items:center;justify-content:center;
+          font-family:var(--display);font-weight:800;font-size:20px;color:#fff;text-shadow:0 1px 5px rgba(0,0,0,.4)}
+  .m-head h3{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:21px;letter-spacing:.02em;margin:0;line-height:1.02;text-wrap:balance}
+  .m-sub{font-family:var(--mono);font-size:11.5px;color:var(--ink2);margin:4px 0 0}
+  .m-lab{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin:0 0 8px}
+  .m-cast{display:flex;flex-direction:column;gap:0;margin:0 0 16px}
+  .crow{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-top:1px solid var(--line);font-size:13.5px}
+  .crow:first-child{border-top:0}
+  .crow b{font-weight:700}
+  .crow span{color:var(--ink2);text-align:right}
+  .m-fact{background:var(--panel2);border-radius:8px;padding:12px 14px;font-size:13.5px;line-height:1.5;margin:0 0 16px}
+  .m-fact b{color:var(--accent)}
+  .m-play{display:flex;align-items:center;justify-content:center;gap:7px;border:1.5px solid var(--accent);
+          background:var(--accent);color:var(--accent-ink);text-decoration:none;font:700 14px var(--body);
+          padding:11px;border-radius:9px}
+  .m-play:hover{filter:brightness(1.06)}
+
   [hidden]{display:none !important}
   @media (prefers-reduced-motion: reduce){ .card,.bar i{transition:none} .card:hover{transform:none} }
   @media (max-width:480px){ .cd-cell{min-width:70px} .cd-num{font-size:34px} .avgrid{grid-template-columns:repeat(4,1fr)} }
@@ -215,6 +263,7 @@
     <div class="seg" role="group" aria-label="Section">
       <button id="tabMov" aria-pressed="true">Movies · 37</button>
       <button id="tabSer" aria-pressed="false">Series · 13</button>
+      <button id="tabDyk" aria-pressed="false">Did You Know?</button>
     </div>
   </div>
 
@@ -265,12 +314,24 @@
     <div class="grid" id="serlist"></div>
   </section>
 
+  <!-- ================= DID YOU KNOW ================= -->
+  <section id="sec-dyk" hidden>
+    <p class="dyk-intro">One genuinely interesting thing about every film and series in the marathon —
+       for the group chat, the pre-show hype, or settling an argument. Tap any card's <b>Cast</b> button
+       elsewhere to see who played whom.</p>
+    <div class="phase-h"><h2>The films</h2><small>37 facts</small></div>
+    <div class="facts" id="dykMovies"></div>
+    <div class="phase-h"><h2>The series</h2><small>13 facts</small></div>
+    <div class="facts" id="dykSeries"></div>
+  </section>
+
   <footer>
     <p>Runtimes and IMDb ratings as of July 2026 — ratings drift a little over time.</p>
-    <p>Fantastic Four: First Steps happens on another Earth (828) — it sits last since it leads straight into Doomsday.</p>
-    <p>Card art and avatars are original to this page — studio artwork is copyrighted, so every title gets its own colorway instead.</p>
-    <p><b>Save as an app:</b> Android/Chrome — tap the install prompt or menu → “Add to Home screen”.
-       iPhone — open in Safari, tap Share, then “Add to Home Screen”.</p>
+    <p><b>Where to watch (India):</b> almost every Marvel film and series streams on <b>JioHotstar</b>; the
+       Sony Spider-Man films are also on SonyLIV. Each <b>Watch</b> button opens JustWatch, which shows the
+       live streaming option for that title in India.</p>
+    <p>Card art and avatars are original to this page — studio artwork is copyrighted, so every title gets its own colorway.</p>
+    <p><b>Save as an app:</b> iPhone — open in Safari, tap Share → “Add to Home Screen”. Android/Chrome — tap Install app or menu → “Add to Home screen”.</p>
     <p>Profiles and progress are saved on this device only.</p>
   </footer>
 </div>
@@ -291,11 +352,19 @@
   </div>
 </div>
 
+<!-- ================= DETAIL MODAL ================= -->
+<div class="modal" id="modal" hidden>
+  <div class="modal-card">
+    <button class="modal-x" id="modalX" aria-label="Close">✕</button>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
 <script>
 const PREMIERE = new Date(2026, 11, 18, 0, 0, 0);           // Dec 18 2026, local
 const FINISH_BY = new Date(2026, 11, 11, 0, 0, 0);          // finish films a week early
-const KEY = "mcu_doomsday_watched_v1";                      // legacy single-user key
 const KP  = "mcu_doomsday_profiles_v1";
+const KEY = "mcu_doomsday_watched_v1";                      // legacy single-user key
 
 /* title, year, runtime(min), imdb, phase, chrono index, [gradient c1,c2], monogram */
 const FILMS = [
@@ -355,10 +424,70 @@ const SERIES = [
  ["Ironheart",2025,6,270,4.2,11,"Riri Williams, straight out of Wakanda Forever",["#5c1a1a","#e0a133"],"IH"],
 ].map((s,i)=>({id:101+i,rel:i+1,title:s[0],year:s[1],eps:s[2],run:s[3],imdb:s[4],chr:s[5],tie:s[6],g:s[7],mono:s[8],key:!!s[9]}));
 
+/* per-title detail: director, cast [actor,character], one fact. plat defaults to JioHotstar. */
+const DATA = {
+ 1:{dir:"Jon Favreau",cast:[["Robert Downey Jr.","Tony Stark / Iron Man"],["Gwyneth Paltrow","Pepper Potts"],["Terrence Howard","James Rhodes"],["Jeff Bridges","Obadiah Stane"]],fact:"The script was unfinished during filming, so Robert Downey Jr. improvised much of his dialogue on the spot — including the now-iconic ‘I am Iron Man’ ad-lib that ended the film."},
+ 2:{dir:"Louis Leterrier",cast:[["Edward Norton","Bruce Banner / Hulk"],["Liv Tyler","Betty Ross"],["Tim Roth","Emil Blonsky / Abomination"],["William Hurt","Thaddeus Ross"]],fact:"Edward Norton quietly rewrote much of the script himself. He never returned as Banner — the role was recast with Mark Ruffalo — making this the odd one out of the saga."},
+ 3:{dir:"Jon Favreau",cast:[["Robert Downey Jr.","Tony Stark / Iron Man"],["Don Cheadle","James Rhodes / War Machine"],["Scarlett Johansson","Natasha Romanoff / Black Widow"],["Mickey Rourke","Ivan Vanko / Whiplash"],["Sam Rockwell","Justin Hammer"]],fact:"Elon Musk has a cameo, and Tony Stark was partly modelled on him — Favreau sent Downey to tour SpaceX for inspiration. This is also Black Widow's debut."},
+ 4:{dir:"Kenneth Branagh",cast:[["Chris Hemsworth","Thor"],["Natalie Portman","Jane Foster"],["Tom Hiddleston","Loki"],["Anthony Hopkins","Odin"]],fact:"Chris Hemsworth actually flunked his first audition — and his younger brother Liam nearly landed the role instead before Chris got a second shot."},
+ 5:{dir:"Joe Johnston",cast:[["Chris Evans","Steve Rogers / Captain America"],["Hayley Atwell","Peggy Carter"],["Sebastian Stan","Bucky Barnes"],["Hugo Weaving","Red Skull"]],fact:"Chris Evans turned the role down several times before saying yes. ‘Skinny Steve’ was made by digitally shrinking Evans and grafting his face onto a smaller body double."},
+ 6:{dir:"Joss Whedon",cast:[["Robert Downey Jr.","Tony Stark / Iron Man"],["Chris Evans","Steve Rogers / Captain America"],["Mark Ruffalo","Bruce Banner / Hulk"],["Scarlett Johansson","Black Widow"],["Tom Hiddleston","Loki"]],fact:"The silent shawarma scene was shot the day after the premiere and added at the last minute — which is why a few actors look noticeably different in it."},
+ 7:{dir:"Shane Black",cast:[["Robert Downey Jr.","Tony Stark / Iron Man"],["Gwyneth Paltrow","Pepper Potts"],["Guy Pearce","Aldrich Killian"],["Ben Kingsley","Trevor Slattery"]],fact:"The ‘Mandarin’ twist — that the terrifying villain was really a washed-up actor — so divided fans that Marvel made a short film years later to reveal the real Mandarin existed."},
+ 8:{dir:"Alan Taylor",cast:[["Chris Hemsworth","Thor"],["Natalie Portman","Jane Foster"],["Tom Hiddleston","Loki"],["Christopher Eccleston","Malekith"]],fact:"That surprise cameo where Loki morphs into Captain America? That's Chris Evans playing Loki-playing-Cap — Hemsworth reportedly couldn't stop laughing on set."},
+ 9:{dir:"Anthony & Joe Russo",cast:[["Chris Evans","Steve Rogers / Captain America"],["Scarlett Johansson","Black Widow"],["Sebastian Stan","Bucky / Winter Soldier"],["Anthony Mackie","Sam Wilson / Falcon"],["Robert Redford","Alexander Pierce"]],fact:"Marvel hired the Russo brothers off the back of their TV comedy work on Community. Robert Redford took the villain role largely because his grandchildren were fans."},
+ 10:{dir:"James Gunn",cast:[["Chris Pratt","Peter Quill / Star-Lord"],["Zoe Saldaña","Gamora"],["Dave Bautista","Drax"],["Vin Diesel","Groot (voice)"],["Bradley Cooper","Rocket (voice)"]],fact:"Vin Diesel recorded ‘I am Groot’ in several languages for international releases. Rocket was modelled on a real long-haired raccoon named Oreo, brought onto set."},
+ 11:{dir:"Joss Whedon",cast:[["Robert Downey Jr.","Tony Stark / Iron Man"],["Chris Evans","Captain America"],["Mark Ruffalo","Hulk"],["James Spader","Ultron (voice)"],["Elizabeth Olsen","Wanda Maximoff"]],fact:"James Spader performed Ultron via full facial motion-capture, so the robot villain carries his exact expressions and sardonic delivery."},
+ 12:{dir:"Peyton Reed",cast:[["Paul Rudd","Scott Lang / Ant-Man"],["Evangeline Lilly","Hope van Dyne"],["Michael Douglas","Hank Pym"],["Corey Stoll","Darren Cross / Yellowjacket"]],fact:"Original director Edgar Wright developed the film for eight years before leaving over creative differences; Paul Rudd co-wrote the version that finally got made."},
+ 13:{dir:"Anthony & Joe Russo",cast:[["Chris Evans","Captain America"],["Robert Downey Jr.","Iron Man"],["Sebastian Stan","Winter Soldier"],["Chadwick Boseman","T'Challa / Black Panther"],["Tom Holland","Peter Parker / Spider-Man"]],fact:"The huge airport battle was filmed at a real decommissioned airport in Leipzig, Germany — Spider-Man and Ant-Man's size-changing was added digitally afterward."},
+ 14:{dir:"Scott Derrickson",cast:[["Benedict Cumberbatch","Stephen Strange"],["Chiwetel Ejiofor","Karl Mordo"],["Rachel McAdams","Christine Palmer"],["Tilda Swinton","The Ancient One"]],fact:"Cumberbatch studied real surgeons to nail Strange's hand movements. The reality-bending city visuals pushed VFX further than Inception, folding entire streets over themselves."},
+ 15:{dir:"James Gunn",cast:[["Chris Pratt","Star-Lord"],["Zoe Saldaña","Gamora"],["Dave Bautista","Drax"],["Kurt Russell","Ego"],["Michael Rooker","Yondu"]],fact:"Kurt Russell was digitally de-aged for the 1980-set opening — one of the MCU's earliest full de-aging jobs. The film hides a record five post-credits scenes."},
+ 16:{dir:"Jon Watts",plat:"JioHotstar / SonyLIV",cast:[["Tom Holland","Peter Parker / Spider-Man"],["Michael Keaton","Adrian Toomes / Vulture"],["Zendaya","MJ"],["Marisa Tomei","May Parker"],["Robert Downey Jr.","Tony Stark"]],fact:"To prepare, Tom Holland secretly enrolled in a real Bronx high school under a fake name and accent — none of his classmates knew they were sitting next to Spider-Man."},
+ 17:{dir:"Taika Waititi",cast:[["Chris Hemsworth","Thor"],["Tom Hiddleston","Loki"],["Cate Blanchett","Hela"],["Tessa Thompson","Valkyrie"],["Jeff Goldblum","Grandmaster"]],fact:"Director Taika Waititi improvised huge chunks of the comedy and voices the rock gladiator Korg himself. Jeff Goldblum ad-libbed nearly all of the Grandmaster's lines."},
+ 18:{dir:"Ryan Coogler",cast:[["Chadwick Boseman","T'Challa / Black Panther"],["Michael B. Jordan","Erik Killmonger"],["Lupita Nyong'o","Nakia"],["Danai Gurira","Okoye"],["Letitia Wright","Shuri"]],fact:"It became the first superhero film ever nominated for Best Picture at the Oscars — and won three Academy Awards, a genre milestone."},
+ 19:{dir:"Anthony & Joe Russo",cast:[["Josh Brolin","Thanos"],["Robert Downey Jr.","Iron Man"],["Chris Hemsworth","Thor"],["Chris Evans","Captain America"],["Zoe Saldaña","Gamora"]],fact:"To stop the ending leaking, most of the cast were given fake scripts with decoy scenes — only Robert Downey Jr. and Chris Evans were trusted with the real one."},
+ 20:{dir:"Peyton Reed",cast:[["Paul Rudd","Scott Lang / Ant-Man"],["Evangeline Lilly","Hope van Dyne / Wasp"],["Michael Douglas","Hank Pym"],["Michelle Pfeiffer","Janet van Dyne"],["Hannah John-Kamen","Ghost"]],fact:"It's the first MCU film to name a female hero in its title — the Wasp finally shared top billing."},
+ 21:{dir:"Anna Boden & Ryan Fleck",cast:[["Brie Larson","Carol Danvers / Captain Marvel"],["Samuel L. Jackson","Nick Fury"],["Ben Mendelsohn","Talos"],["Jude Law","Yon-Rogg"]],fact:"Set in the 1990s, it digitally de-aged Samuel L. Jackson for the whole film. Goose the cat was played by four different cats — and one very patient animatronic."},
+ 22:{dir:"Anthony & Joe Russo",cast:[["Robert Downey Jr.","Iron Man"],["Chris Evans","Captain America"],["Scarlett Johansson","Black Widow"],["Josh Brolin","Thanos"],["Karen Gillan","Nebula"]],fact:"On release it overtook Avatar as the highest-grossing film of all time. The line ‘Avengers… assemble’ was deliberately saved across eleven years for this exact moment."},
+ 23:{dir:"Jon Watts",plat:"JioHotstar / SonyLIV",cast:[["Tom Holland","Peter Parker / Spider-Man"],["Zendaya","MJ"],["Jake Gyllenhaal","Quentin Beck / Mysterio"],["Samuel L. Jackson","Nick Fury"],["Jacob Batalon","Ned Leeds"]],fact:"Shot across Venice, Prague, Berlin and London, it closed out the Infinity Saga — the final film in Marvel's first 23-movie arc."},
+ 24:{dir:"Cate Shortland",cast:[["Scarlett Johansson","Natasha Romanoff / Black Widow"],["Florence Pugh","Yelena Belova"],["David Harbour","Alexei / Red Guardian"],["Rachel Weisz","Melina"],["Ray Winstone","Dreykov"]],fact:"Though released in 2021, it's set years earlier, between Civil War and Infinity War — and quietly introduced Florence Pugh's Yelena as Natasha's successor."},
+ 25:{dir:"Destin Daniel Cretton",cast:[["Simu Liu","Shang-Chi"],["Awkwafina","Katy"],["Tony Leung","Xu Wenwu / The Mandarin"],["Michelle Yeoh","Ying Nan"]],fact:"Hong Kong legend Tony Leung made his Hollywood debut here as the villain. The bus fight was staged as a tribute to Jackie Chan's prop-driven action comedy."},
+ 26:{dir:"Chloé Zhao",cast:[["Gemma Chan","Sersi"],["Richard Madden","Ikaris"],["Angelina Jolie","Thena"],["Kumail Nanjiani","Kingo"],["Salma Hayek","Ajak"]],fact:"Directed by Oscar-winner Chloé Zhao straight off Nomadland, it introduced the MCU's first deaf superhero (Makkari) and its first openly gay lead hero."},
+ 27:{dir:"Jon Watts",plat:"JioHotstar / SonyLIV",cast:[["Tom Holland","Peter Parker / Spider-Man"],["Zendaya","MJ"],["Benedict Cumberbatch","Doctor Strange"],["Willem Dafoe","Green Goblin"],["Alfred Molina","Doctor Octopus"]],fact:"The return of Tobey Maguire and Andrew Garfield was denied for over a year despite relentless leaks — the cast lied in interviews right up to release day."},
+ 28:{dir:"Sam Raimi",cast:[["Benedict Cumberbatch","Stephen Strange"],["Elizabeth Olsen","Wanda / Scarlet Witch"],["Xochitl Gomez","America Chavez"],["Benedict Wong","Wong"],["Chiwetel Ejiofor","Karl Mordo"]],fact:"Horror maestro Sam Raimi — director of the original Tobey Maguire Spider-Man trilogy — returned to Marvel after nearly 20 years, bringing full-on horror staging with him."},
+ 29:{dir:"Taika Waititi",cast:[["Chris Hemsworth","Thor"],["Natalie Portman","Jane Foster / Mighty Thor"],["Christian Bale","Gorr the God Butcher"],["Tessa Thompson","Valkyrie"]],fact:"Russell Crowe improvised Zeus's thick Greek accent on set. The pair of screaming goats pulling Thor's chariot became an instant internet meme."},
+ 30:{dir:"Ryan Coogler",cast:[["Letitia Wright","Shuri"],["Angela Bassett","Ramonda"],["Tenoch Huerta","Namor"],["Danai Gurira","Okoye"],["Lupita Nyong'o","Nakia"]],fact:"Made after Chadwick Boseman's death in 2020, the film chose to honour him rather than recast T'Challa — reshaping the entire story around his absence."},
+ 31:{dir:"Peyton Reed",cast:[["Paul Rudd","Scott Lang / Ant-Man"],["Evangeline Lilly","Hope van Dyne / Wasp"],["Jonathan Majors","Kang the Conqueror"],["Michelle Pfeiffer","Janet van Dyne"],["Kathryn Newton","Cassie Lang"]],fact:"It promoted Kang to the saga's next big villain, and set almost the entire story inside the microscopic Quantum Realm — the MCU's strangest world yet."},
+ 32:{dir:"James Gunn",cast:[["Chris Pratt","Star-Lord"],["Zoe Saldaña","Gamora"],["Dave Bautista","Drax"],["Chukwudi Iwuji","The High Evolutionary"],["Bradley Cooper","Rocket (voice)"]],fact:"It was James Gunn's Marvel farewell before he left to run rival DC Studios. Rocket's harrowing origin flashbacks reduced test audiences — and cast — to tears."},
+ 33:{dir:"Nia DaCosta",cast:[["Brie Larson","Carol Danvers / Captain Marvel"],["Teyonah Parris","Monica Rambeau"],["Iman Vellani","Kamala Khan / Ms. Marvel"],["Zawe Ashton","Dar-Benn"]],fact:"At 105 minutes it's the shortest film in the entire MCU — and features a gleefully bizarre detour to a planet where everyone communicates by singing."},
+ 34:{dir:"Shawn Levy",cast:[["Ryan Reynolds","Wade Wilson / Deadpool"],["Hugh Jackman","Logan / Wolverine"],["Emma Corrin","Cassandra Nova"],["Matthew Macfadyen","Paradox"]],fact:"Hugh Jackman returned as Wolverine years after swearing he was finished with the character in Logan — and it became the MCU's first R-rated film."},
+ 35:{dir:"Julius Onah",cast:[["Anthony Mackie","Sam Wilson / Captain America"],["Harrison Ford","Thaddeus Ross / Red Hulk"],["Danny Ramirez","Joaquin Torres / Falcon"],["Tim Blake Nelson","Samuel Sterns / The Leader"]],fact:"Harrison Ford took over the role of Thaddeus Ross following William Hurt's passing — and gets to turn into the Red Hulk in his first Marvel outing."},
+ 36:{dir:"Jake Schreier",cast:[["Florence Pugh","Yelena Belova"],["Sebastian Stan","Bucky Barnes"],["David Harbour","Red Guardian"],["Julia Louis-Dreyfus","Valentina"],["Lewis Pullman","Bob / Sentry"]],fact:"That asterisk in the title isn't a typo — it's a deliberate plot tease that only pays off in the film's final moments, quietly renaming the team."},
+ 37:{dir:"Matt Shakman",cast:[["Pedro Pascal","Reed Richards / Mister Fantastic"],["Vanessa Kirby","Sue Storm / Invisible Woman"],["Joseph Quinn","Johnny Storm / Human Torch"],["Ebon Moss-Bachrach","Ben Grimm / The Thing"]],fact:"Set on a retro-futuristic 1960s ‘Earth-828’ rather than the main timeline, it's the launchpad straight into Avengers: Doomsday — which is why it caps this list."},
+ 101:{dir:"Matt Shakman",cast:[["Elizabeth Olsen","Wanda Maximoff"],["Paul Bettany","Vision"],["Kathryn Hahn","Agatha Harkness"],["Teyonah Parris","Monica Rambeau"]],fact:"Every episode lovingly recreates a different era of American sitcoms, from I Love Lucy to Modern Family. The villain reveal song ‘Agatha All Along’ won an Emmy."},
+ 102:{dir:"Kari Skogland",cast:[["Anthony Mackie","Sam Wilson / Falcon"],["Sebastian Stan","Bucky Barnes"],["Wyatt Russell","John Walker"],["Daniel Brühl","Zemo"]],fact:"It was meant to be the very first Disney+ Marvel show, but pandemic delays pushed it back — so WandaVision aired first and stole the ‘first’ title."},
+ 103:{dir:"Kate Herron",cast:[["Tom Hiddleston","Loki"],["Sophia Di Martino","Sylvie"],["Owen Wilson","Mobius"],["Gugu Mbatha-Raw","Ravonna Renslayer"],["Jonathan Majors","He Who Remains"]],fact:"This is where the MCU's multiverse officially breaks open — its finale unleashes the variant threat that Avengers: Doomsday is built around. It was also Marvel's first series renewed for a second season."},
+ 104:{dir:"Bryan Andrews",cast:[["Jeffrey Wright","The Watcher (voice)"],["Various","MCU cast reprising roles (voice)"]],fact:"Almost every film actor returned to voice their animated counterpart. Chadwick Boseman recorded several episodes before his death, making it part of his final work."},
+ 105:{dir:"Rhys Thomas",cast:[["Jeremy Renner","Clint Barton / Hawkeye"],["Hailee Steinfeld","Kate Bishop"],["Vincent D'Onofrio","Wilson Fisk / Kingpin"],["Alaqua Cox","Maya Lopez / Echo"]],fact:"Set at Christmas in New York, it introduces fan-favourite Kate Bishop and quietly brings the Netflix-era Kingpin into the main MCU."},
+ 106:{dir:"Mohamed Diab",cast:[["Oscar Isaac","Marc Spector / Steven Grant"],["Ethan Hawke","Arthur Harrow"],["May Calamawy","Layla El-Faouly"]],fact:"Oscar Isaac plays several distinct personalities sharing one body. By design it barely touches the wider MCU — you can watch it almost completely standalone."},
+ 107:{dir:"Adil El Arbi & Bilall Fallah",cast:[["Iman Vellani","Kamala Khan / Ms. Marvel"],["Matt Lintz","Bruno"],["Mohan Kapur","Yusuf"],["Zenobia Shroff","Muneeba"]],fact:"Iman Vellani was a lifelong Marvel superfan with no professional credits when she was cast as her own favourite hero — her first-ever acting role."},
+ 108:{dir:"Kat Coiro",cast:[["Tatiana Maslany","Jennifer Walters / She-Hulk"],["Mark Ruffalo","Bruce Banner / Hulk"],["Tim Roth","Emil Blonsky / Abomination"]],fact:"Jennifer talks straight to the camera throughout — and in the finale literally breaks out of her own show to argue with Marvel's story-writing algorithm."},
+ 109:{dir:"Ali Selim",cast:[["Samuel L. Jackson","Nick Fury"],["Ben Mendelsohn","Talos"],["Emilia Clarke","G'iah"],["Olivia Colman","Sonya Falsworth"]],fact:"Its AI-assisted opening title sequence sparked real controversy — a fittingly paranoid touch for a show about shape-shifters you can't trust."},
+ 110:{dir:"Sydney Freeland",cast:[["Alaqua Cox","Maya Lopez / Echo"],["Vincent D'Onofrio","Wilson Fisk / Kingpin"],["Chaske Spencer","Henry"],["Graham Greene","Skully"]],fact:"Launched under Marvel's mature ‘Spotlight’ banner meant to be watchable with zero homework. Its lead, Maya, is both deaf and an amputee — as is actor Alaqua Cox."},
+ 111:{dir:"Jac Schaeffer",cast:[["Kathryn Hahn","Agatha Harkness"],["Joe Locke","Billy / Wiccan"],["Aubrey Plaza","Rio Vidal"],["Patti LuPone","Lilia Calderu"]],fact:"It spun directly out of that Emmy-winning WandaVision song. Aubrey Plaza's mysterious Rio is revealed to be Death itself, walking around in human form."},
+ 112:{dir:"Various",cast:[["Charlie Cox","Matt Murdock / Daredevil"],["Vincent D'Onofrio","Wilson Fisk / Kingpin"],["Margarita Levieva","Heather Glenn"],["Jon Bernthal","Frank Castle / Punisher"]],fact:"It revives the beloved, gritty Netflix Daredevil years after its cancellation — with Charlie Cox and Vincent D'Onofrio picking their rivalry right back up."},
+ 113:{dir:"Sam Bailey & Angela Barnes",cast:[["Dominique Thorne","Riri Williams / Ironheart"],["Anthony Ramos","Parker Robbins / The Hood"],["Lyric Ross","Natalie"],["Regan Aliyah","Jeri"]],fact:"Riri builds her armour as a broke MIT student, straight out of Wakanda Forever — and the show collides her hard-science suit with actual magic for the first time."},
+};
+
 const PHASES = {1:"Phase One",2:"Phase Two",3:"Phase Three",4:"Phase Four",5:"Phase Five",6:"Phase Six"};
 const SAGA   = {1:"Infinity Saga",2:"Infinity Saga",3:"Infinity Saga",4:"Multiverse Saga",5:"Multiverse Saga",6:"Multiverse Saga"};
 
-/* ---------- original minimalist avatars ---------- */
+let store;
+try{ store = JSON.parse(localStorage.getItem(KP)) || {active:null,profiles:[]}; }
+catch(e){ store = {active:null,profiles:[]}; }
+let watched=new Set();
+let order="rel", filter="all", tab="movies", serOrder="rel", pickedAv="stark";
+
+/* ---------- avatars ---------- */
 const cir=(bg,inner)=>`<svg viewBox="0 0 64 64" role="img"><circle cx="32" cy="32" r="31" fill="${bg}"/>${inner}</svg>`;
 const AVATARS=[
  ["stark","Stark",cir("#8a1c1c",`<rect x="18" y="15" width="28" height="34" rx="11" fill="#e0a133"/><rect x="22" y="31" width="8" height="4" rx="2" fill="#8a1c1c"/><rect x="34" y="31" width="8" height="4" rx="2" fill="#8a1c1c"/>`)],
@@ -376,20 +505,15 @@ const AVATARS=[
 ];
 const avatarSVG = id => (AVATARS.find(a=>a[0]===id)||AVATARS[0])[2];
 
-/* ---------- profiles ---------- */
-let store;
-try{ store = JSON.parse(localStorage.getItem(KP)) || {active:null,profiles:[]}; }
-catch(e){ store = {active:null,profiles:[]}; }
-let watched = new Set();
-let order="rel", filter="all", tab="movies", serOrder="rel", pickedAv=AVATARS[0][0];
-
 const activeP = () => store.profiles.find(p=>p.id===store.active);
 const persist = () => localStorage.setItem(KP, JSON.stringify(store));
 function save(){ const p=activeP(); if(p){ p.watched=[...watched]; persist(); } }
 
 const fmtH = m => Math.floor(m/60)+"h "+String(m%60).padStart(2,"0")+"m";
 const fmtDate = d => d.toLocaleDateString(undefined,{month:"short",day:"numeric"});
-const esc = s => s.replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const esc = s => String(s).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const jw = t => "https://www.justwatch.com/in/search?q="+encodeURIComponent(t);
+const platOf = id => (DATA[id]&&DATA[id].plat) || "JioHotstar";
 
 /* ---------- login ---------- */
 function openLogin(){
@@ -399,7 +523,7 @@ function openLogin(){
     const done=p.watched.filter(id=>id<=37).length;
     const b=document.createElement("button");
     b.innerHTML=`<span class="av">${avatarSVG(p.avatar)}</span>${esc(p.name)}<small>${done}/37 films</small>`;
-    b.onclick=()=>{ enter(p.id); };
+    b.onclick=()=>enter(p.id);
     box.appendChild(b);
   }
   document.getElementById("newp").dataset.solo = store.profiles.length? "0":"1";
@@ -448,13 +572,34 @@ function renderWho(){
   wireInstall();
 }
 
+/* ---------- detail modal ---------- */
+function itemById(id){ return id<=37 ? FILMS.find(f=>f.id===id) : SERIES.find(s=>s.id===id); }
+function openDetail(id){
+  const it=itemById(id), d=DATA[id]||{};
+  const isTv=id>100;
+  const rows=(d.cast||[]).map(c=>`<div class="crow"><b>${esc(c[0])}</b><span>${esc(c[1])}</span></div>`).join("");
+  document.getElementById("modalBody").innerHTML=`
+    <div class="m-head">
+      <div class="m-chip" style="background:linear-gradient(160deg,${it.g[0]},${it.g[1]})">${it.mono}</div>
+      <div><h3>${esc(it.title)}</h3>
+        <p class="m-sub">${it.year} · ${isTv?it.eps+" episodes":PHASES[it.phase]} · ★ ${it.imdb.toFixed(1)}${d.dir?" · Dir. "+esc(d.dir):""}</p></div>
+    </div>
+    <p class="m-lab">Main cast — actor & character</p>
+    <div class="m-cast">${rows||'<div class="crow"><span>Cast list coming soon.</span></div>'}</div>
+    ${d.fact?`<p class="m-fact"><b>Did you know?</b> ${esc(d.fact)}</p>`:""}
+    <a class="m-play" href="${jw(it.title)}" target="_blank" rel="noopener">▶ Watch on ${platOf(id)}</a>`;
+  document.getElementById("modal").hidden=false;
+}
+function closeModal(){ document.getElementById("modal").hidden=true; }
+document.getElementById("modalX").onclick=closeModal;
+document.getElementById("modal").addEventListener("click",e=>{ if(e.target.id==="modal") closeModal(); });
+document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeModal(); });
+
 /* ---------- pacing ---------- */
 function dueDates(){
-  const seq = films().filter(f=>!watched.has(f.id));
-  const now = new Date();
-  const span = Math.max(FINISH_BY - now, 0);
-  const map = {};
-  seq.forEach((f,i)=>{ map[f.id] = new Date(now.getTime() + span*(i+1)/seq.length); });
+  const seq=films().filter(f=>!watched.has(f.id));
+  const now=new Date(), span=Math.max(FINISH_BY-now,0), map={};
+  seq.forEach((f,i)=>{ map[f.id]=new Date(now.getTime()+span*(i+1)/seq.length); });
   return map;
 }
 function films(){
@@ -462,7 +607,6 @@ function films(){
   s.sort(order==="rel" ? (a,b)=>a.id-b.id : (a,b)=>a.chr-b.chr);
   return s;
 }
-
 function posterHTML(item, num, tv){
   return `
     <div class="poster" style="background:linear-gradient(160deg,${item.g[0]},${item.g[1]})">
@@ -472,6 +616,12 @@ function posterHTML(item, num, tv){
       <span class="stamp">Watched</span>
       <div class="p-title">${item.title}</div>
       <div class="p-year">${item.year} · ${tv?item.eps+" episodes":PHASES[item.phase]}</div>
+    </div>`;
+}
+function actHTML(id){
+  return `<div class="act">
+      <a href="${jw(itemById(id).title)}" target="_blank" rel="noopener">▶ Watch<span class="plat">${platOf(id)}</span></a>
+      <button type="button" data-cast="${id}">👁 Cast<span class="plat">&amp; trivia</span></button>
     </div>`;
 }
 
@@ -500,13 +650,14 @@ function render(){
       const done=watched.has(f.id);
       const n=order==="rel"?f.id:f.chr;
       const d=due[f.id];
-      const late=d && d < new Date();
+      const late=d && d<new Date();
       const card=document.createElement("article");
       card.className="card"+(done?" done":"");
       card.innerHTML=`${posterHTML(f,n,false)}
         <div class="meta">
           <div class="meta-row"><span>⏱ ${fmtH(f.run)}</span><span class="imdb">★ ${f.imdb.toFixed(1)}</span></div>
           <div class="meta-row"><span class="due ${late?"past":""}">${d?"watch by "+fmtDate(d):""}</span></div>
+          ${actHTML(f.id)}
           <button class="watch" data-id="${f.id}">${done?"✓ Watched":"Mark watched"}</button>
         </div>`;
       grid.appendChild(card);
@@ -514,7 +665,6 @@ function render(){
     list.appendChild(grid);
   }
 
-  /* movie stats */
   const total=FILMS.length, doneN=FILMS.filter(f=>watched.has(f.id)).length;
   const minsLeft=FILMS.filter(f=>!watched.has(f.id)).reduce((s,f)=>s+f.run,0);
   const daysLeft=Math.max(Math.ceil((FINISH_BY-new Date())/864e5),1);
@@ -530,7 +680,6 @@ function render(){
   document.getElementById("barwrap").setAttribute("aria-valuenow",pct);
   document.getElementById("barlab").textContent=pct+"% of the saga complete";
 
-  /* plan */
   const avg=Math.round(minsLeft/Math.max(total-doneN,1));
   document.getElementById("planbody").innerHTML= doneN===total
     ? `<p><b>You did it.</b> ${total} films, the whole saga. Book the Dec 18 tickets —
@@ -558,12 +707,12 @@ function renderSeries(){
       <div class="meta">
         <div class="meta-row"><span>${s.eps} eps · ${fmtH(s.run)}</span><span class="imdb">★ ${s.imdb.toFixed(1)}</span></div>
         <div class="tie">${s.tie}</div>
+        ${actHTML(s.id)}
         <button class="watch" data-id="${s.id}">${done?"✓ Watched":"Mark watched"}</button>
       </div>`;
     grid.appendChild(card);
   }
-  document.getElementById("serOrderLab").textContent =
-    (serOrder==="rel"?"release order":"in-universe order")+" · ~76h total";
+  document.getElementById("serOrderLab").textContent=(serOrder==="rel"?"release order":"in-universe order")+" · ~76h total";
   const doneN=SERIES.filter(s=>watched.has(s.id)).length;
   const minsLeft=SERIES.filter(s=>!watched.has(s.id)).reduce((a,s)=>a+s.run,0);
   const filmsDone=FILMS.every(f=>watched.has(f.id));
@@ -572,6 +721,20 @@ function renderSeries(){
     <div class="stat"><b>${fmtH(minsLeft)}</b><span>series screen time left</span></div>
     <div class="stat"><b>${filmsDone?"Open":"Locked-ish"}</b>
       <span>${filmsDone?"films done — dive in":"finish the 37 films first (honor system)"}</span></div>`;
+}
+
+/* ---------- did you know ---------- */
+function factCard(it){
+  const d=DATA[it.id]||{};
+  return `<div class="fact">
+      <div class="chip" style="background:linear-gradient(160deg,${it.g[0]},${it.g[1]})">${it.mono}</div>
+      <div class="fx"><b>${esc(it.title)}</b><div class="fy">${it.year}${it.id>100?" · series":" · "+PHASES[it.phase]}</div>
+        <p>${esc(d.fact||"")}</p></div>
+    </div>`;
+}
+function renderDYK(){
+  document.getElementById("dykMovies").innerHTML=FILMS.map(factCard).join("");
+  document.getElementById("dykSeries").innerHTML=SERIES.map(factCard).join("");
 }
 
 /* ---------- countdown ---------- */
@@ -587,18 +750,22 @@ setInterval(tick,1000); tick();
 
 /* ---------- events ---------- */
 document.addEventListener("click",e=>{
-  const b=e.target.closest(".watch"); if(!b||!b.dataset.id)return;
-  const id=+b.dataset.id;
-  watched.has(id)?watched.delete(id):watched.add(id);
-  save(); render();
+  const w=e.target.closest(".watch");
+  if(w && w.dataset.id){ const id=+w.dataset.id; watched.has(id)?watched.delete(id):watched.add(id); save(); render(); return; }
+  const c=e.target.closest("[data-cast]");
+  if(c){ openDetail(+c.dataset.cast); }
 });
 document.getElementById("tabMov").onclick=()=>{tab="movies";syncTabs();};
 document.getElementById("tabSer").onclick=()=>{tab="series";syncTabs();};
+document.getElementById("tabDyk").onclick=()=>{tab="dyk";syncTabs();};
 function syncTabs(){
   document.getElementById("tabMov").setAttribute("aria-pressed",tab==="movies");
   document.getElementById("tabSer").setAttribute("aria-pressed",tab==="series");
+  document.getElementById("tabDyk").setAttribute("aria-pressed",tab==="dyk");
   document.getElementById("sec-movies").hidden = tab!=="movies";
   document.getElementById("sec-series").hidden = tab!=="series";
+  document.getElementById("sec-dyk").hidden = tab!=="dyk";
+  if(tab==="dyk") renderDYK();
 }
 document.getElementById("ordRel").onclick=()=>{order="rel";syncSeg();render();};
 document.getElementById("ordChr").onclick=()=>{order="chr";syncSeg();render();};
@@ -619,9 +786,7 @@ document.getElementById("reset").onclick=()=>{
 
 /* ---------- install (PWA) ---------- */
 let deferredPrompt=null;
-window.addEventListener("beforeinstallprompt",e=>{
-  e.preventDefault(); deferredPrompt=e; wireInstall();
-});
+window.addEventListener("beforeinstallprompt",e=>{ e.preventDefault(); deferredPrompt=e; wireInstall(); });
 function wireInstall(){
   const b=document.getElementById("installBtn");
   if(!b) return;
