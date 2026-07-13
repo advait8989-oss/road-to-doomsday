@@ -196,9 +196,13 @@
   .login-card h2{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:30px;margin:2px 0 4px}
   .login-card .hint{color:var(--ink2);font-size:13.5px;margin:0 0 18px}
   .plist{display:flex;flex-direction:column;gap:8px;margin:0 0 18px}
-  .plist button{display:flex;align-items:center;gap:12px;border:1px solid var(--line);background:var(--panel2);
+  .plist .prow{display:flex;align-items:center;gap:8px}
+  .plist .psel{flex:1;min-width:0;display:flex;align-items:center;gap:12px;border:1px solid var(--line);background:var(--panel2);
                 border-radius:10px;padding:9px 12px;cursor:pointer;font:600 14px var(--body);color:var(--ink);text-align:left}
-  .plist button:hover{border-color:var(--accent)}
+  .plist .psel:hover{border-color:var(--accent)}
+  .plist .pdel{flex:none;width:40px;height:40px;border:1px solid var(--line);background:var(--panel2);color:var(--ink2);
+               border-radius:10px;cursor:pointer;font-size:20px;line-height:1}
+  .plist .pdel:hover{color:var(--warn);border-color:var(--warn)}
   .plist .av{width:34px;height:34px;border-radius:50%;overflow:hidden;flex:none}
   .plist .av svg{display:block;width:100%;height:100%}
   .plist small{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--ink2)}
@@ -523,10 +527,21 @@ function openLogin(){
   box.innerHTML="";
   for(const p of store.profiles){
     const done=p.watched.filter(id=>id<=37).length;
-    const b=document.createElement("button");
-    b.innerHTML=`<span class="av">${avatarSVG(p.avatar)}</span>${esc(p.name)}<small>${done}/37 films</small>`;
-    b.onclick=()=>enter(p.id);
-    box.appendChild(b);
+    const row=document.createElement("div");row.className="prow";
+    const sel=document.createElement("button");sel.className="psel";
+    sel.innerHTML=`<span class="av">${avatarSVG(p.avatar)}</span>${esc(p.name)}<small>${done}/37 films</small>`;
+    sel.onclick=()=>enter(p.id);
+    const del=document.createElement("button");del.className="pdel";del.textContent="×";
+    del.title="Remove profile";del.setAttribute("aria-label","Remove profile "+p.name);
+    del.onclick=()=>{
+      if(confirm(`Remove profile “${p.name}”? This can't be undone.`)){
+        store.profiles=store.profiles.filter(x=>x.id!==p.id);
+        if(store.active===p.id) store.active=null;
+        persist(); openLogin();
+      }
+    };
+    row.appendChild(sel);row.appendChild(del);
+    box.appendChild(row);
   }
   document.getElementById("newp").dataset.solo = store.profiles.length? "0":"1";
   buildAvGrid();
