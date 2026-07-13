@@ -1,6 +1,6 @@
 <meta charset="utf-8">
 <title>Road to Doomsday — MCU Marathon Tracker</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#0c110e">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -39,7 +39,8 @@
     --scrim:rgba(0,0,0,.65);
   }
   html{background:var(--bg)}
-  body{font-family:var(--body);color:var(--ink);margin:0;line-height:1.5}
+  body{font-family:var(--body);color:var(--ink);margin:0;line-height:1.5;-webkit-text-size-adjust:100%}
+  button,input{-webkit-appearance:none;appearance:none}
   .wrap{max-width:1060px;margin:0 auto;padding:0 20px 80px}
 
   /* ---------- header ---------- */
@@ -165,7 +166,8 @@
   footer p{margin:4px 0}
 
   /* ---------- login overlay ---------- */
-  .login{position:fixed;inset:0;background:var(--scrim);backdrop-filter:blur(6px);
+  .login{position:fixed;inset:0;background:var(--scrim);
+         -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
          display:flex;align-items:center;justify-content:center;padding:20px;z-index:50;overflow-y:auto}
   .login-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);
               max-width:460px;width:100%;padding:28px 26px;text-align:center;margin:auto}
@@ -181,11 +183,12 @@
   .newp{border-top:1px solid var(--line);padding-top:18px}
   .newp[data-solo="1"]{border-top:0;padding-top:0}
   .newp input{width:100%;box-sizing:border-box;background:var(--panel2);border:1px solid var(--line);
-              border-radius:8px;color:var(--ink);font:600 15px var(--body);padding:11px 13px;margin-bottom:14px}
+              border-radius:8px;color:var(--ink);font:600 16px var(--body);padding:11px 13px;margin-bottom:14px}
   .newp input:focus{outline:2px solid var(--accent);outline-offset:1px}
-  .avgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:16px}
-  .avgrid button{border:2px solid transparent;background:var(--panel2);border-radius:50%;padding:3px;cursor:pointer;aspect-ratio:1}
-  .avgrid button svg{display:block;width:100%;height:100%}
+  .avgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:16px;align-items:start}
+  .avgrid button{border:2px solid transparent;background:var(--panel2);border-radius:50%;padding:3px;
+                 cursor:pointer;display:block;width:100%;box-sizing:border-box}
+  .avgrid button svg{display:block;width:100%;height:auto}
   .avgrid button[aria-pressed="true"]{border-color:var(--accent);background:var(--panel)}
   .avlab{font-family:var(--mono);font-size:11px;color:var(--ink2);letter-spacing:.08em;text-transform:uppercase;
          display:block;margin:-8px 0 12px;min-height:14px}
