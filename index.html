@@ -1,12 +1,19 @@
 <meta charset="utf-8">
 <title>Road to Doomsday — MCU Marathon Tracker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#0c110e">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Doomsday">
 <style>
   :root{
     --bg:#f1f4f0; --panel:#ffffff; --panel2:#e7ece7; --ink:#182119; --ink2:#5b6a5e;
     --line:#d3dcd3; --accent:#136f45; --accent-ink:#ffffff; --gold:#a97b1c;
     --good:#136f45; --warn:#a04a12; --shadow:0 1px 2px rgba(20,30,22,.08),0 6px 24px rgba(20,30,22,.07);
-    --radius:10px;
+    --radius:10px; --scrim:rgba(20,30,22,.55);
     --display:'Avenir Next Condensed','Arial Narrow','Helvetica Neue Condensed','Roboto Condensed',system-ui,sans-serif;
     --body:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
     --mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
@@ -16,17 +23,20 @@
       --bg:#0c110e; --panel:#141b16; --panel2:#1b241e; --ink:#dbe6dd; --ink2:#8fa093;
       --line:#26332a; --accent:#3ecf8a; --accent-ink:#06130c; --gold:#d9a441;
       --good:#3ecf8a; --warn:#e0873f; --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 28px rgba(0,0,0,.35);
+      --scrim:rgba(0,0,0,.65);
     }
   }
   :root[data-theme="light"]{
     --bg:#f1f4f0; --panel:#ffffff; --panel2:#e7ece7; --ink:#182119; --ink2:#5b6a5e;
     --line:#d3dcd3; --accent:#136f45; --accent-ink:#ffffff; --gold:#a97b1c;
     --good:#136f45; --warn:#a04a12; --shadow:0 1px 2px rgba(20,30,22,.08),0 6px 24px rgba(20,30,22,.07);
+    --scrim:rgba(20,30,22,.55);
   }
   :root[data-theme="dark"]{
     --bg:#0c110e; --panel:#141b16; --panel2:#1b241e; --ink:#dbe6dd; --ink2:#8fa093;
     --line:#26332a; --accent:#3ecf8a; --accent-ink:#06130c; --gold:#d9a441;
     --good:#3ecf8a; --warn:#e0873f; --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 28px rgba(0,0,0,.35);
+    --scrim:rgba(0,0,0,.65);
   }
   html{background:var(--bg)}
   body{font-family:var(--body);color:var(--ink);margin:0;line-height:1.5}
@@ -49,13 +59,25 @@
   .cd-lab{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink2)}
   .premiere{font-family:var(--mono);font-size:12px;color:var(--ink2);text-align:center;margin:6px 0 0}
 
-  /* ---------- tabs ---------- */
-  .tabs{display:flex;justify-content:center;margin:26px 0 0}
+  /* ---------- who bar ---------- */
+  .who{display:flex;align-items:center;justify-content:center;gap:10px;margin:24px 0 0;flex-wrap:wrap}
+  .who .av{width:36px;height:36px;border-radius:50%;overflow:hidden;flex:none;border:2px solid var(--accent)}
+  .who .av svg{display:block;width:100%;height:100%}
+  .who span{font-size:14px;color:var(--ink2)}
+  .who b{color:var(--ink)}
+  .pill{border:1px solid var(--line);background:var(--panel);color:var(--ink2);font:600 12.5px var(--body);
+        padding:7px 14px;border-radius:999px;cursor:pointer}
+  .pill:hover{color:var(--accent);border-color:var(--accent)}
+  .pill.acc{border-color:var(--accent);color:var(--accent)}
+
+  /* ---------- tabs / segs ---------- */
+  .tabs{display:flex;justify-content:center;margin:20px 0 0}
   .seg{display:inline-flex;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:3px;box-shadow:var(--shadow)}
   .seg button{border:0;background:transparent;color:var(--ink2);font:600 13px var(--body);
               padding:7px 16px;border-radius:999px;cursor:pointer}
   .seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
-  .seg button:focus-visible,.watch:focus-visible,.reset:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .seg button:focus-visible,.watch:focus-visible,.reset:focus-visible,.pill:focus-visible,
+  .avgrid button:focus-visible,.plist button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
   .tabs .seg button{font-size:14px;padding:9px 26px}
 
   /* ---------- stats ---------- */
@@ -141,9 +163,37 @@
   .plan b{color:var(--ink)}
   footer{margin-top:36px;color:var(--ink2);font-size:12.5px;text-align:center}
   footer p{margin:4px 0}
+
+  /* ---------- login overlay ---------- */
+  .login{position:fixed;inset:0;background:var(--scrim);backdrop-filter:blur(6px);
+         display:flex;align-items:center;justify-content:center;padding:20px;z-index:50;overflow-y:auto}
+  .login-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);
+              max-width:460px;width:100%;padding:28px 26px;text-align:center;margin:auto}
+  .login-card h2{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:30px;margin:2px 0 4px}
+  .login-card .hint{color:var(--ink2);font-size:13.5px;margin:0 0 18px}
+  .plist{display:flex;flex-direction:column;gap:8px;margin:0 0 18px}
+  .plist button{display:flex;align-items:center;gap:12px;border:1px solid var(--line);background:var(--panel2);
+                border-radius:10px;padding:9px 12px;cursor:pointer;font:600 14px var(--body);color:var(--ink);text-align:left}
+  .plist button:hover{border-color:var(--accent)}
+  .plist .av{width:34px;height:34px;border-radius:50%;overflow:hidden;flex:none}
+  .plist .av svg{display:block;width:100%;height:100%}
+  .plist small{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--ink2)}
+  .newp{border-top:1px solid var(--line);padding-top:18px}
+  .newp[data-solo="1"]{border-top:0;padding-top:0}
+  .newp input{width:100%;box-sizing:border-box;background:var(--panel2);border:1px solid var(--line);
+              border-radius:8px;color:var(--ink);font:600 15px var(--body);padding:11px 13px;margin-bottom:14px}
+  .newp input:focus{outline:2px solid var(--accent);outline-offset:1px}
+  .avgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:16px}
+  .avgrid button{border:2px solid transparent;background:var(--panel2);border-radius:50%;padding:3px;cursor:pointer;aspect-ratio:1}
+  .avgrid button svg{display:block;width:100%;height:100%}
+  .avgrid button[aria-pressed="true"]{border-color:var(--accent);background:var(--panel)}
+  .avlab{font-family:var(--mono);font-size:11px;color:var(--ink2);letter-spacing:.08em;text-transform:uppercase;
+         display:block;margin:-8px 0 12px;min-height:14px}
+  .newp .watch{width:100%;font-size:14px;padding:11px}
+
   [hidden]{display:none !important}
   @media (prefers-reduced-motion: reduce){ .card,.bar i{transition:none} .card:hover{transform:none} }
-  @media (max-width:480px){ .cd-cell{min-width:70px} .cd-num{font-size:34px} }
+  @media (max-width:480px){ .cd-cell{min-width:70px} .cd-num{font-size:34px} .avgrid{grid-template-columns:repeat(4,1fr)} }
 </style>
 
 <div class="wrap">
@@ -155,6 +205,7 @@
        finish before the premiere.</p>
     <div class="countdown" id="countdown" aria-label="Countdown to Avengers Doomsday"></div>
     <p class="premiere">Avengers: Doomsday — in theaters December 18, 2026</p>
+    <div class="who" id="who"></div>
   </header>
 
   <div class="tabs">
@@ -196,27 +247,52 @@
     <div class="note">
       <p><b>Bonus round — start only after the 37 films.</b></p>
       <p>The movies are the spine of the story; none of these series is required to follow it.
-         Watch them in the order below (their release order) once the film marathon is done —
-         or cherry-pick from the notes on each card. If you only have time for one,
-         make it <b>Loki</b>: it's the multiverse foundation Doomsday builds on.</p>
+         Watch them once the film marathon is done — or cherry-pick from the notes on each card.
+         If you only have time for one, make it <b>Loki</b>: it's the multiverse foundation
+         Doomsday builds on.</p>
     </div>
     <div class="stats" id="serstats"></div>
-    <div class="phase-h"><h2>Disney+ series</h2><small>recommended order · ~76h total</small></div>
+    <div class="controls">
+      <div class="seg" role="group" aria-label="Series order">
+        <button id="serRel" aria-pressed="true">Release order</button>
+        <button id="serChr" aria-pressed="false">Story timeline</button>
+      </div>
+    </div>
+    <div class="phase-h"><h2>Disney+ series</h2><small id="serOrderLab">release order · ~76h total</small></div>
     <div class="grid" id="serlist"></div>
   </section>
 
   <footer>
     <p>Runtimes and IMDb ratings as of July 2026 — ratings drift a little over time.</p>
     <p>Fantastic Four: First Steps happens on another Earth (828) — it sits last since it leads straight into Doomsday.</p>
-    <p>Card art is original to this page — the studio posters are copyrighted, so every title gets its own colorway instead.</p>
-    <p>Progress is saved in this browser. Friends opening this link get their own fresh tracker.</p>
+    <p>Card art and avatars are original to this page — studio artwork is copyrighted, so every title gets its own colorway instead.</p>
+    <p><b>Save as an app:</b> Android/Chrome — tap the install prompt or menu → “Add to Home screen”.
+       iPhone — open in Safari, tap Share, then “Add to Home Screen”.</p>
+    <p>Profiles and progress are saved on this device only.</p>
   </footer>
+</div>
+
+<!-- ================= LOGIN ================= -->
+<div class="login" id="login" hidden>
+  <div class="login-card">
+    <p class="eyebrow">Road to Doomsday</p>
+    <h2>Who's watching?</h2>
+    <p class="hint">Pick your profile, or suit up a new one. Each profile keeps its own progress on this device.</p>
+    <div class="plist" id="plist"></div>
+    <div class="newp" id="newp">
+      <input id="pname" maxlength="20" placeholder="Your name" autocomplete="off">
+      <div class="avgrid" id="avgrid"></div>
+      <span class="avlab" id="avlab"></span>
+      <button class="watch" id="pgo">Start watching</button>
+    </div>
+  </div>
 </div>
 
 <script>
 const PREMIERE = new Date(2026, 11, 18, 0, 0, 0);           // Dec 18 2026, local
 const FINISH_BY = new Date(2026, 11, 11, 0, 0, 0);          // finish films a week early
-const KEY = "mcu_doomsday_watched_v1";
+const KEY = "mcu_doomsday_watched_v1";                      // legacy single-user key
+const KP  = "mcu_doomsday_profiles_v1";
 
 /* title, year, runtime(min), imdb, phase, chrono index, [gradient c1,c2], monogram */
 const FILMS = [
@@ -259,34 +335,117 @@ const FILMS = [
  ["The Fantastic Four: First Steps",2025,115,7.2,6,37,["#26418f","#c0c5ce"],"F4"],
 ].map((f,i)=>({id:i+1,title:f[0],year:f[1],run:f[2],imdb:f[3],phase:f[4],chr:f[5],g:f[6],mono:f[7]}));
 
-/* title, year, episodes, total mins, imdb, tie-in, [gradient], monogram, key? */
+/* title, year, episodes, total mins, imdb, chrono index, tie-in, [gradient], monogram, key? */
 const SERIES = [
- ["WandaVision",2021,9,350,7.9,"Reality-warping sitcom grief — leads into Multiverse of Madness",["#6e1230","#c94f7c"],"WV"],
- ["The Falcon and the Winter Soldier",2021,6,300,7.1,"Sam Wilson takes the shield — sets up Brave New World",["#1e3a5f","#c62828"],"FW"],
- ["Loki",2021,12,570,8.2,"Seasons 1 + 2. The multiverse spine — the single most important series before Doomsday",["#2a5c2a","#e0c341"],"LK",true],
- ["What If...?",2021,26,720,7.4,"Animated multiverse anthology (3 seasons) — optional, but very on-theme",["#26418f","#5cc8d4"],"WI"],
- ["Hawkeye",2021,6,280,7.5,"Clint passes the bow to Kate Bishop",["#3d2a5c","#a33540"],"HK"],
- ["Moon Knight",2022,6,280,7.3,"Standalone — a new hero, no homework needed",["#2f2f3d","#d9d4c2"],"MK"],
- ["Ms. Marvel",2022,6,260,6.2,"Kamala Khan's origin — feeds straight into The Marvels",["#26418f","#c62828"],"MM"],
- ["She-Hulk: Attorney at Law",2022,9,270,5.2,"Courtroom comedy — light, mostly standalone",["#2a5c3d","#7fb069"],"SH"],
- ["Secret Invasion",2023,6,270,5.9,"Fury vs. shape-shifting Skrulls — sets up The Marvels and Brave New World",["#1c2a1e","#3d7a5c"],"SI"],
- ["Echo",2024,5,220,5.9,"Street-level spinoff of Hawkeye",["#3d2f2a","#b08968"],"EC"],
- ["Agatha All Along",2024,9,330,7.2,"WandaVision spinoff down the Witches' Road",["#3d2a5c","#7a5cad"],"AA"],
- ["Daredevil: Born Again",2025,9,450,8.3,"Street-level Marvel at its best — pairs with Echo",["#5c1010","#c62828"],"DD"],
- ["Ironheart",2025,6,270,4.2,"Riri Williams, straight out of Wakanda Forever",["#5c1a1a","#e0a133"],"IH"],
-].map((s,i)=>({id:101+i,n:i+1,title:s[0],year:s[1],eps:s[2],run:s[3],imdb:s[4],tie:s[5],g:s[6],mono:s[7],key:!!s[8]}));
+ ["WandaVision",2021,9,350,7.9,1,"Reality-warping sitcom grief — leads into Multiverse of Madness",["#6e1230","#c94f7c"],"WV"],
+ ["The Falcon and the Winter Soldier",2021,6,300,7.1,2,"Sam Wilson takes the shield — sets up Brave New World",["#1e3a5f","#c62828"],"FW"],
+ ["Loki",2021,12,570,8.2,3,"Seasons 1 + 2. The multiverse spine — the single most important series before Doomsday",["#2a5c2a","#e0c341"],"LK",true],
+ ["What If...?",2021,26,720,7.4,4,"Animated multiverse anthology (3 seasons) — optional, but very on-theme",["#26418f","#5cc8d4"],"WI"],
+ ["Hawkeye",2021,6,280,7.5,5,"Clint passes the bow to Kate Bishop",["#3d2a5c","#a33540"],"HK"],
+ ["Moon Knight",2022,6,280,7.3,6,"Standalone — a new hero, no homework needed",["#2f2f3d","#d9d4c2"],"MK"],
+ ["Ms. Marvel",2022,6,260,6.2,7,"Kamala Khan's origin — feeds straight into The Marvels",["#26418f","#c62828"],"MM"],
+ ["She-Hulk: Attorney at Law",2022,9,270,5.2,8,"Courtroom comedy — light, mostly standalone",["#2a5c3d","#7fb069"],"SH"],
+ ["Secret Invasion",2023,6,270,5.9,9,"Fury vs. shape-shifting Skrulls — sets up The Marvels and Brave New World",["#1c2a1e","#3d7a5c"],"SI"],
+ ["Echo",2024,5,220,5.9,10,"Street-level spinoff of Hawkeye",["#3d2f2a","#b08968"],"EC"],
+ ["Agatha All Along",2024,9,330,7.2,12,"WandaVision spinoff down the Witches' Road — set three years after Westview",["#3d2a5c","#7a5cad"],"AA"],
+ ["Daredevil: Born Again",2025,9,450,8.3,13,"Street-level Marvel at its best — a year after Echo",["#5c1010","#c62828"],"DD"],
+ ["Ironheart",2025,6,270,4.2,11,"Riri Williams, straight out of Wakanda Forever",["#5c1a1a","#e0a133"],"IH"],
+].map((s,i)=>({id:101+i,rel:i+1,title:s[0],year:s[1],eps:s[2],run:s[3],imdb:s[4],chr:s[5],tie:s[6],g:s[7],mono:s[8],key:!!s[9]}));
 
 const PHASES = {1:"Phase One",2:"Phase Two",3:"Phase Three",4:"Phase Four",5:"Phase Five",6:"Phase Six"};
 const SAGA   = {1:"Infinity Saga",2:"Infinity Saga",3:"Infinity Saga",4:"Multiverse Saga",5:"Multiverse Saga",6:"Multiverse Saga"};
 
-let watched = new Set(JSON.parse(localStorage.getItem(KEY)||"[]"));
-let order = "rel", filter = "all", tab = "movies";
+/* ---------- original minimalist avatars ---------- */
+const cir=(bg,inner)=>`<svg viewBox="0 0 64 64" role="img"><circle cx="32" cy="32" r="31" fill="${bg}"/>${inner}</svg>`;
+const AVATARS=[
+ ["stark","Stark",cir("#8a1c1c",`<rect x="18" y="15" width="28" height="34" rx="11" fill="#e0a133"/><rect x="22" y="31" width="8" height="4" rx="2" fill="#8a1c1c"/><rect x="34" y="31" width="8" height="4" rx="2" fill="#8a1c1c"/>`)],
+ ["cap","Captain",cir("#1e3a5f",`<circle cx="32" cy="32" r="21" fill="#c62828"/><circle cx="32" cy="32" r="14.5" fill="#e8e4d8"/><circle cx="32" cy="32" r="8.5" fill="#26418f"/><path d="M32 25.5l2.1 4.7 5.2.4-4 3.4 1.3 5.1-4.6-2.8-4.6 2.8 1.3-5.1-4-3.4 5.2-.4z" fill="#fff"/>`)],
+ ["thor","Thor",cir("#27364d",`<rect x="19" y="20" width="26" height="15" rx="3" fill="#9db4d4"/><rect x="29" y="35" width="6" height="15" rx="2.5" fill="#7a5c3d"/>`)],
+ ["hulk","Hulk",cir("#2e7d32",`<rect x="18" y="23" width="11" height="4.5" rx="2" fill="#14380f" transform="rotate(14 23.5 25)"/><rect x="35" y="23" width="11" height="4.5" rx="2" fill="#14380f" transform="rotate(-14 40.5 25)"/><path d="M20 41q12 7 24 0" stroke="#14380f" stroke-width="4" fill="none" stroke-linecap="round"/>`)],
+ ["widow","Widow",cir("#1c1c1c",`<path d="M23 19h18l-6.5 13 6.5 13H23l6.5-13z" fill="#c62828"/>`)],
+ ["spidey","Spidey",cir("#c62828",`<g stroke="#1c1c1c" stroke-width="2" fill="none"><path d="M32 4v56M8 19l48 26M8 45l48-26"/><circle cx="32" cy="32" r="11"/><circle cx="32" cy="32" r="21"/></g>`)],
+ ["panther","Panther",cir("#241a3d",`<g stroke="#c0c5ce" stroke-width="3.5" stroke-linecap="round" fill="none"><path d="M20 19l8 26M32 17l3 28M44 19l-8 26"/></g>`)],
+ ["marvel","Marvel",cir("#26418f",`<path d="M1 32h62a31 31 0 0 1-62 0z" fill="#c62828"/><path d="M32 17l4.4 9.8 10.7 1-8.1 7.1 2.4 10.4-9.4-5.6-9.4 5.6 2.4-10.4-8.1-7.1 10.7-1z" fill="#c9a227"/>`)],
+ ["strange","Strange",cir("#3d2a5c",`<ellipse cx="32" cy="32" rx="18" ry="10.5" fill="#c9a227"/><circle cx="32" cy="32" r="6" fill="#2ecfd4"/><circle cx="32" cy="32" r="2.5" fill="#1c1c2e"/>`)],
+ ["loki","Loki",cir("#2a5c2a",`<path d="M21 42c-9-7-9-20-2-26 0 9 3 13 8 16zM43 42c9-7 9-20 2-26 0 9-3 13-8 16z" fill="#c9a227"/>`)],
+ ["wanda","Wanda",cir("#6e1230",`<path d="M17 40l5.5-16 9.5 9 9.5-9 5.5 16z" fill="#c9a227"/><circle cx="32" cy="45" r="3" fill="#c9a227"/>`)],
+ ["groot","Groot",cir("#5c4a33",`<path d="M20 15q-3-9 5-10M44 15q3-9-5-10" stroke="#7fb069" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="25" cy="29" r="3" fill="#1c1c1c"/><circle cx="39" cy="29" r="3" fill="#1c1c1c"/><path d="M25 41q7 5 14 0" stroke="#1c1c1c" stroke-width="2.5" fill="none" stroke-linecap="round"/>`)],
+];
+const avatarSVG = id => (AVATARS.find(a=>a[0]===id)||AVATARS[0])[2];
+
+/* ---------- profiles ---------- */
+let store;
+try{ store = JSON.parse(localStorage.getItem(KP)) || {active:null,profiles:[]}; }
+catch(e){ store = {active:null,profiles:[]}; }
+let watched = new Set();
+let order="rel", filter="all", tab="movies", serOrder="rel", pickedAv=AVATARS[0][0];
+
+const activeP = () => store.profiles.find(p=>p.id===store.active);
+const persist = () => localStorage.setItem(KP, JSON.stringify(store));
+function save(){ const p=activeP(); if(p){ p.watched=[...watched]; persist(); } }
 
 const fmtH = m => Math.floor(m/60)+"h "+String(m%60).padStart(2,"0")+"m";
 const fmtDate = d => d.toLocaleDateString(undefined,{month:"short",day:"numeric"});
-const save = () => localStorage.setItem(KEY, JSON.stringify([...watched]));
+const esc = s => s.replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 
-/* evenly space remaining films between now and FINISH_BY */
+/* ---------- login ---------- */
+function openLogin(){
+  const box=document.getElementById("plist");
+  box.innerHTML="";
+  for(const p of store.profiles){
+    const done=p.watched.filter(id=>id<=37).length;
+    const b=document.createElement("button");
+    b.innerHTML=`<span class="av">${avatarSVG(p.avatar)}</span>${esc(p.name)}<small>${done}/37 films</small>`;
+    b.onclick=()=>{ enter(p.id); };
+    box.appendChild(b);
+  }
+  document.getElementById("newp").dataset.solo = store.profiles.length? "0":"1";
+  buildAvGrid();
+  document.getElementById("login").hidden=false;
+}
+function buildAvGrid(){
+  const g=document.getElementById("avgrid");
+  g.innerHTML="";
+  for(const [id,label,svg] of AVATARS){
+    const b=document.createElement("button");
+    b.type="button"; b.innerHTML=svg; b.title=label;
+    b.setAttribute("aria-pressed", id===pickedAv);
+    b.onclick=()=>{ pickedAv=id; buildAvGrid(); };
+    g.appendChild(b);
+  }
+  document.getElementById("avlab").textContent="Avatar: "+(AVATARS.find(a=>a[0]===pickedAv)||AVATARS[0])[1];
+}
+function enter(id){
+  store.active=id; persist();
+  watched=new Set(activeP().watched);
+  document.getElementById("login").hidden=true;
+  renderWho(); render();
+}
+document.getElementById("pgo").onclick=()=>{
+  const name=document.getElementById("pname").value.trim()||"Hero";
+  let seed=[];
+  if(store.profiles.length===0){
+    try{ seed=JSON.parse(localStorage.getItem(KEY))||[]; }catch(e){}
+    localStorage.removeItem(KEY);
+  }
+  const p={id:Date.now(), name, avatar:pickedAv, watched:seed};
+  store.profiles.push(p); persist();
+  document.getElementById("pname").value="";
+  enter(p.id);
+};
+function renderWho(){
+  const p=activeP();
+  document.getElementById("who").innerHTML = p
+    ? `<span class="av">${avatarSVG(p.avatar)}</span><span>Watching as <b>${esc(p.name)}</b></span>
+       <button class="pill" id="switchBtn">Switch profile</button>
+       <button class="pill acc" id="installBtn" hidden>Install app</button>`
+    : "";
+  const sb=document.getElementById("switchBtn");
+  if(sb) sb.onclick=openLogin;
+  wireInstall();
+}
+
+/* ---------- pacing ---------- */
 function dueDates(){
   const seq = films().filter(f=>!watched.has(f.id));
   const now = new Date();
@@ -302,7 +461,6 @@ function films(){
 }
 
 function posterHTML(item, num, tv){
-  const done=watched.has(item.id);
   return `
     <div class="poster" style="background:linear-gradient(160deg,${item.g[0]},${item.g[1]})">
       <span class="p-num">#${String(num).padStart(2,"0")}</span>
@@ -387,11 +545,13 @@ function render(){
 function renderSeries(){
   const grid=document.getElementById("serlist");
   grid.innerHTML="";
-  for(const s of SERIES){
+  const seq=[...SERIES].sort(serOrder==="rel" ? (a,b)=>a.rel-b.rel : (a,b)=>a.chr-b.chr);
+  for(const s of seq){
     const done=watched.has(s.id);
+    const n=serOrder==="rel"?s.rel:s.chr;
     const card=document.createElement("article");
     card.className="card tv"+(done?" done":"");
-    card.innerHTML=`${posterHTML(s,s.n,true)}
+    card.innerHTML=`${posterHTML(s,n,true)}
       <div class="meta">
         <div class="meta-row"><span>${s.eps} eps · ${fmtH(s.run)}</span><span class="imdb">★ ${s.imdb.toFixed(1)}</span></div>
         <div class="tie">${s.tie}</div>
@@ -399,6 +559,8 @@ function renderSeries(){
       </div>`;
     grid.appendChild(card);
   }
+  document.getElementById("serOrderLab").textContent =
+    (serOrder==="rel"?"release order":"in-universe order")+" · ~76h total";
   const doneN=SERIES.filter(s=>watched.has(s.id)).length;
   const minsLeft=SERIES.filter(s=>!watched.has(s.id)).reduce((a,s)=>a+s.run,0);
   const filmsDone=FILMS.every(f=>watched.has(f.id));
@@ -409,7 +571,7 @@ function renderSeries(){
       <span>${filmsDone?"films done — dive in":"finish the 37 films first (honor system)"}</span></div>`;
 }
 
-/* countdown */
+/* ---------- countdown ---------- */
 function tick(){
   const el=document.getElementById("countdown");
   let ms=PREMIERE-new Date();
@@ -420,9 +582,9 @@ function tick(){
 }
 setInterval(tick,1000); tick();
 
-/* events */
+/* ---------- events ---------- */
 document.addEventListener("click",e=>{
-  const b=e.target.closest(".watch"); if(!b)return;
+  const b=e.target.closest(".watch"); if(!b||!b.dataset.id)return;
   const id=+b.dataset.id;
   watched.has(id)?watched.delete(id):watched.add(id);
   save(); render();
@@ -437,14 +599,38 @@ function syncTabs(){
 }
 document.getElementById("ordRel").onclick=()=>{order="rel";syncSeg();render();};
 document.getElementById("ordChr").onclick=()=>{order="chr";syncSeg();render();};
+document.getElementById("serRel").onclick=()=>{serOrder="rel";syncSeg();renderSeries();};
+document.getElementById("serChr").onclick=()=>{serOrder="chr";syncSeg();renderSeries();};
 document.querySelectorAll("[data-f]").forEach(b=>b.onclick=()=>{filter=b.dataset.f;syncSeg();render();});
 function syncSeg(){
   document.getElementById("ordRel").setAttribute("aria-pressed",order==="rel");
   document.getElementById("ordChr").setAttribute("aria-pressed",order==="chr");
+  document.getElementById("serRel").setAttribute("aria-pressed",serOrder==="rel");
+  document.getElementById("serChr").setAttribute("aria-pressed",serOrder==="chr");
   document.querySelectorAll("[data-f]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.f===filter));
 }
 document.getElementById("reset").onclick=()=>{
-  if(confirm("Clear all watched progress (movies and series)?")){watched.clear();save();render();}
+  const p=activeP();
+  if(p && confirm(`Clear all watched progress for ${p.name}?`)){watched.clear();save();render();}
 };
+
+/* ---------- install (PWA) ---------- */
+let deferredPrompt=null;
+window.addEventListener("beforeinstallprompt",e=>{
+  e.preventDefault(); deferredPrompt=e; wireInstall();
+});
+function wireInstall(){
+  const b=document.getElementById("installBtn");
+  if(!b) return;
+  b.hidden=!deferredPrompt;
+  b.onclick=async()=>{ if(!deferredPrompt) return; deferredPrompt.prompt(); await deferredPrompt.userChoice; deferredPrompt=null; wireInstall(); };
+}
+if("serviceWorker" in navigator && (location.protocol==="https:"||location.hostname==="localhost")){
+  addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));
+}
+
+/* ---------- boot ---------- */
+if(activeP()){ watched=new Set(activeP().watched); renderWho(); }
+else openLogin();
 render();
 </script>
