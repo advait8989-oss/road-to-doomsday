@@ -283,6 +283,16 @@
           padding:11px;border-radius:9px}
   .m-play:hover{filter:brightness(1.06)}
 
+  /* ---------- sync panel ---------- */
+  .code-big{font-family:var(--display);font-weight:800;font-size:clamp(24px,7vw,34px);letter-spacing:.05em;
+            text-align:center;background:var(--panel2);border:1.5px dashed var(--accent);border-radius:10px;
+            padding:14px 10px;margin:0 0 6px;user-select:all;-webkit-user-select:all}
+  .code-sub{font-family:var(--mono);font-size:11px;color:var(--ink2);text-align:center;margin:0 0 14px}
+  .m-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+  .m-btns .watch{margin-top:0}
+  .m-note{font-size:13.5px;color:var(--ink2);line-height:1.5;margin:0}
+  .m-note b{color:var(--accent)}
+
   /* ---------- toasts ---------- */
   .toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);z-index:75;
          background:var(--panel);border:1.5px solid var(--accent);border-radius:12px;
@@ -441,7 +451,7 @@
     </div>
     <div class="syncp">
       <p class="hint">Already watching on another device? Paste the sync link from that device:</p>
-      <input id="synccode" placeholder="Paste sync link or code" autocomplete="off">
+      <input id="synccode" placeholder="Your code, e.g. IRONMAN-7K2" autocomplete="off">
       <button class="watch" id="syncgo">Import my progress</button>
     </div>
   </div>
@@ -727,6 +737,14 @@ function enter(id){
   renderWho(); render();
   cloudPull();
 }
+const HERO_NAMES=["IRONMAN","WIDOW","THOR","HULK","LOKI","GROOT","WANDA","STRANGE","PANTHER","FURY",
+ "ROCKET","VISION","FALCON","HAWKEYE","STARLORD","GAMORA","NEBULA","SHURI","VALKYRIE","QUILL",
+ "PARKER","WONG","KORG","MANTIS","YELENA","KAMALA","MORBIUS","DRAX"];
+function makeHeroCode(){
+  const abc="ABCDEFGHJKMNPQRSTUVWXYZ23456789";
+  return HERO_NAMES[Math.random()*HERO_NAMES.length|0]+"-"+
+         Array.from({length:3},()=>abc[Math.random()*abc.length|0]).join("");
+}
 document.getElementById("pgo").onclick=()=>{
   const name=document.getElementById("pname").value.trim()||"Hero";
   let seed=[];
@@ -734,19 +752,19 @@ document.getElementById("pgo").onclick=()=>{
     try{ seed=JSON.parse(localStorage.getItem(KEY))||[]; }catch(e){}
     localStorage.removeItem(KEY);
   }
-  const abc="ABCDEFGHJKMNPQRSTUVWXYZ23456789";
-  const uid=(name.replace(/[^a-z]/gi,"").slice(0,3).toUpperCase()||"MCU")+"-"+
-            Array.from({length:4},()=>abc[Math.random()*abc.length|0]).join("");
+  const uid=makeHeroCode();
   const p={id:Date.now(), uid, start:Date.now(), name, avatar:pickedAv, watched:seed};
   store.profiles.push(p); persist();
   document.getElementById("pname").value="";
   enter(p.id);
+  toastMsg(`Welcome, <b>${esc(name)}</b>! Your cloud code is <b>${uid}</b> — pinned at the top. Type it on any device to pick up right where you left off.`);
 };
 function renderWho(){
   const p=activeP();
   const earned = p && FILMS.every(f=>p.watched.includes(f.id));
   document.getElementById("who").innerHTML = p
     ? `<span class="av">${avatarSVG(p.avatar)}</span><span>Watching as <b>${esc(p.name)}</b></span>
+       <button class="pill acc" id="codeBtn" title="Your cloud code — tap for sync options">🔑 ${esc(p.uid||"")}</button>
        <button class="pill" id="switchBtn">Switch profile</button>
        <button class="pill" id="syncBtn">Sync devices</button>
        ${earned?'<button class="pill acc" id="rewardBtn">🎉 Stickers</button>':""}
@@ -755,7 +773,9 @@ function renderWho(){
   const sb=document.getElementById("switchBtn");
   if(sb) sb.onclick=openLogin;
   const yb=document.getElementById("syncBtn");
-  if(yb) yb.onclick=shareSync;
+  if(yb) yb.onclick=openSyncPanel;
+  const cb=document.getElementById("codeBtn");
+  if(cb) cb.onclick=openSyncPanel;
   const rb=document.getElementById("rewardBtn");
   if(rb) rb.onclick=()=>openParty();
   wireInstall();
@@ -770,13 +790,41 @@ function syncLink(){
   const d={u:p.uid,n:p.name,a:p.avatar,t:p.start||p.id,w:[...watched]};
   return location.origin+location.pathname+"#s="+b64e(JSON.stringify(d));
 }
-function shareSync(){
-  const link=syncLink(); if(!link) return;
-  const p=activeP();
-  const msg=`Sync link copied!\n\nOpen it once on your other device and you're logged in as ${p.name} — after that, progress syncs automatically through the cloud.\n\nYour cloud code is ${p.uid} — you can also just type it into the "sync" box on any device.`;
+function copyText(t,btn){
+  const done=()=>{ if(btn){ const o=btn.textContent; btn.textContent="Copied ✓"; setTimeout(()=>btn.textContent=o,1600); } };
+  const fallback=()=>{
+    const ta=document.createElement("textarea");
+    ta.value=t; ta.style.cssText="position:fixed;opacity:0;left:-999px";
+    document.body.appendChild(ta); ta.focus(); ta.select();
+    let ok=false; try{ ok=document.execCommand("copy"); }catch(e){}
+    ta.remove();
+    if(ok) done(); else prompt("Copy this:",t);
+  };
   if(navigator.clipboard&&navigator.clipboard.writeText){
-    navigator.clipboard.writeText(link).then(()=>alert(msg)).catch(()=>prompt("Copy this link, open it on your other device:",link));
-  } else prompt("Copy this link, open it on your other device:",link);
+    navigator.clipboard.writeText(t).then(done).catch(fallback);
+  } else fallback();
+}
+function openSyncPanel(){
+  const p=activeP(); if(!p) return;
+  const link=syncLink();
+  document.getElementById("modalBody").innerHTML=`
+    <div class="m-head">
+      <div class="m-chip" style="background:linear-gradient(160deg,#123524,#3ecf8a);font-size:26px">🔑</div>
+      <div><h3>Sync devices</h3>
+        <p class="m-sub">${esc(p.name)} — your progress follows this code</p></div>
+    </div>
+    <div class="code-big">${esc(p.uid)}</div>
+    <p class="code-sub">your cloud code — also pinned at the top of the page</p>
+    <p class="m-note">On any other device, open the tracker and type this code into
+       <b>“Already watching on another device?”</b> — you'll be logged in as ${esc(p.name)} with all
+       your progress. After that it stays in sync automatically whenever you're online.</p>
+    <div class="m-btns">
+      <button class="watch" id="cpCode">Copy code</button>
+      <button class="watch" id="cpLink">Copy magic link</button>
+    </div>`;
+  document.getElementById("cpCode").onclick=e=>copyText(p.uid,e.target);
+  document.getElementById("cpLink").onclick=e=>copyText(link,e.target);
+  document.getElementById("modal").hidden=false;
 }
 function importSync(raw){
   const m=String(raw).match(/#s=([A-Za-z0-9_-]+)/);
@@ -1095,16 +1143,19 @@ setInterval(tick,1000); tick();
 
 /* ---------- toasts ---------- */
 let toastTimer=null;
-function showCheer(id){
-  const msg = id<=38 ? CHEERS[id] : SERIES_CHEERS[(id-101)%SERIES_CHEERS.length];
-  if(!msg) return;
+function toastMsg(html,ms){
   document.querySelectorAll(".toast").forEach(t=>t.remove());
   clearTimeout(toastTimer);
   const el=document.createElement("div");
   el.className="toast"; el.setAttribute("role","status");
-  el.innerHTML=`<b>${esc(itemById(id).title)}</b> — ${esc(msg)}`;
+  el.innerHTML=html;
   document.body.appendChild(el);
-  toastTimer=setTimeout(()=>{ el.classList.add("bye"); setTimeout(()=>el.remove(),450); },3200);
+  toastTimer=setTimeout(()=>{ el.classList.add("bye"); setTimeout(()=>el.remove(),450); },ms||3200);
+}
+function showCheer(id){
+  const msg = id<=38 ? CHEERS[id] : SERIES_CHEERS[(id-101)%SERIES_CHEERS.length];
+  if(!msg) return;
+  toastMsg(`<b>${esc(itemById(id).title)}</b> — ${esc(msg)}`);
 }
 
 /* ---------- celebration + sticker pack ---------- */
