@@ -72,6 +72,39 @@
   .pill:hover{color:var(--accent);border-color:var(--accent)}
   .pill.acc{border-color:var(--accent);color:var(--accent)}
 
+  /* ---------- your pace ---------- */
+  .pace{max-width:640px;margin:24px auto 0;background:var(--panel);border:1px solid var(--line);
+        border-radius:var(--radius);box-shadow:var(--shadow);padding:16px 20px 14px;text-align:left}
+  .pace .m-lab{margin:0 0 6px}
+  .pace-head{font-family:var(--display);font-weight:800;font-size:20px;text-transform:uppercase;
+             letter-spacing:.02em;margin:0 0 12px;line-height:1.1;text-wrap:balance}
+  .pace-bar{position:relative;height:10px;border-radius:999px;background:var(--panel2);
+            border:1px solid var(--line);overflow:visible;margin:0 0 6px}
+  .pace-bar i{display:block;height:100%;background:var(--accent);border-radius:999px;width:0%;transition:width .5s ease}
+  .pace-bar b{position:absolute;top:-4px;bottom:-4px;width:2.5px;background:var(--gold);border-radius:2px;left:0%}
+  .pace-legend{display:flex;gap:16px;font-family:var(--mono);font-size:10.5px;color:var(--ink2);margin:0 0 12px}
+  .pace-legend span:first-child{color:var(--accent)}
+  .pace-legend span:last-child{color:var(--gold)}
+  .pace-row{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 10px}
+  .pace-row span{font-family:var(--mono);font-size:11.5px;color:var(--ink2);background:var(--panel2);
+                 border:1px solid var(--line);border-radius:999px;padding:4px 11px;font-variant-numeric:tabular-nums}
+  .pace-row span b{color:var(--ink);font-weight:700}
+  .pace-tip{font-size:13.5px;color:var(--ink2);margin:0;line-height:1.45}
+  .pace-tip b{color:var(--accent)}
+
+  /* ---------- finale ---------- */
+  .finale{margin-top:48px}
+  .fin-card{max-width:420px;margin:0 auto;background:var(--panel);border:1px solid var(--line);
+            border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;text-align:center}
+  .fin-card img{width:100%;display:block}
+  .fin-fallback{aspect-ratio:2/3;display:flex;align-items:center;justify-content:center;
+                font-family:var(--display);font-weight:800;font-size:72px;color:rgba(255,255,255,.9)}
+  .fin-meta{padding:18px 18px 20px}
+  .fin-meta h3{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:24px;
+               letter-spacing:.03em;margin:0 0 4px}
+  .fin-meta .m-sub{margin:0 0 14px}
+  .fin-meta .watch{width:100%}
+
   /* ---------- tabs / segs ---------- */
   .tabs{display:flex;justify-content:center;margin:20px 0 0}
   .seg{display:inline-flex;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:3px;box-shadow:var(--shadow);flex-wrap:wrap;justify-content:center}
@@ -256,17 +289,25 @@
   <header>
     <p class="eyebrow">Marvel Cinematic Universe · Rewatch Mission</p>
     <h1>Road to <span class="doom">Doomsday</span></h1>
-    <p class="sub">All 37 MCU films with runtimes and IMDb ratings, plus the 13 Disney+ series
-       for the bonus round. Tick off what you've seen — the schedule re-paces itself so you
-       finish before the premiere.</p>
+    <p class="sub">All 38 MCU films with runtimes and IMDb ratings — including Spider-Man:
+       Brand New Day — plus the 13 Disney+ series for the bonus round. Tick off what you've
+       seen; the schedule re-paces itself so you finish before the premiere.</p>
     <div class="countdown" id="countdown" aria-label="Countdown to Avengers Doomsday"></div>
     <p class="premiere">Avengers: Doomsday — in theaters December 18, 2026</p>
     <div class="who" id="who"></div>
+    <div class="pace" id="pace" hidden>
+      <p class="m-lab">Your pace</p>
+      <p class="pace-head" id="paceHead"></p>
+      <div class="pace-bar" aria-hidden="true"><i id="paceYou"></i><b id="paceTick"></b></div>
+      <div class="pace-legend"><span>■ you</span><span>| where you should be today</span></div>
+      <div class="pace-row" id="paceRow"></div>
+      <p class="pace-tip" id="paceTip"></p>
+    </div>
   </header>
 
   <div class="tabs">
     <div class="seg" role="group" aria-label="Section">
-      <button id="tabMov" aria-pressed="true">Movies · 37</button>
+      <button id="tabMov" aria-pressed="true">Movies · 38</button>
       <button id="tabSer" aria-pressed="false">Series · 13</button>
       <button id="tabDyk" aria-pressed="false">Did You Know?</button>
     </div>
@@ -297,6 +338,18 @@
       <h2>Your pacing plan</h2>
       <div id="planbody"></div>
     </div>
+
+    <div class="finale">
+      <div class="phase-h"><h2>The finish line</h2><small>what it's all for</small></div>
+      <div class="fin-card">
+        <div id="finPoster"></div>
+        <div class="fin-meta">
+          <h3>Avengers: Doomsday</h3>
+          <p class="m-sub">In theaters December 18, 2026 · Dir. Anthony &amp; Joe Russo</p>
+          <button class="watch" type="button" data-cast="39">👁 Cast &amp; first details</button>
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- ================= SERIES ================= -->
@@ -324,7 +377,7 @@
     <p class="dyk-intro">One genuinely interesting thing about every film and series in the marathon —
        for the group chat, the pre-show hype, or settling an argument. Tap any card's <b>Cast</b> button
        elsewhere to see who played whom.</p>
-    <div class="phase-h"><h2>The films</h2><small>37 facts</small></div>
+    <div class="phase-h"><h2>The films</h2><small>38 films + the finale</small></div>
     <div class="facts" id="dykMovies"></div>
     <div class="phase-h"><h2>The series</h2><small>13 facts</small></div>
     <div class="facts" id="dykSeries"></div>
@@ -370,7 +423,7 @@ const PREMIERE = new Date(2026, 11, 18, 0, 0, 0);           // Dec 18 2026, loca
 const FINISH_BY = new Date(2026, 11, 11, 0, 0, 0);          // finish films a week early
 const KP  = "mcu_doomsday_profiles_v1";
 const KEY = "mcu_doomsday_watched_v1";                      // legacy single-user key
-const POSTERS = {"12": "poster/12.jpg", "20": "poster/20.jpg", "31": "poster/31.jpg", "11": "poster/11.jpg", "22": "poster/22.jpg", "19": "poster/19.jpg", "30": "poster/30.jpg", "18": "poster/18.jpg", "24": "poster/24.jpg", "35": "poster/35.jpg", "13": "poster/13.jpg", "5": "poster/5.jpg", "9": "poster/9.jpg", "21": "poster/21.jpg", "34": "poster/34.jpg", "14": "poster/14.jpg", "28": "poster/28.jpg", "26": "poster/26.jpg", "10": "poster/10.jpg", "15": "poster/15.jpg", "32": "poster/32.jpg", "1": "poster/1.jpg", "3": "poster/3.jpg", "7": "poster/7.jpg", "103": "poster/103.jpg", "25": "poster/25.jpg", "23": "poster/23.jpg", "16": "poster/16.jpg", "27": "poster/27.jpg", "6": "poster/6.jpg", "102": "poster/102.jpg", "37": "poster/37.jpg", "2": "poster/2.jpg", "33": "poster/33.jpg", "29": "poster/29.jpg", "17": "poster/17.jpg", "8": "poster/8.jpg", "4": "poster/4.jpg", "101": "poster/101.jpg", "36": "poster/36.jpg", "111": "poster/111.jpg", "112": "poster/112.jpg", "110": "poster/110.jpg", "105": "poster/105.jpg", "113": "poster/113.jpg", "106": "poster/106.jpg", "107": "poster/107.jpg", "109": "poster/109.jpg", "108": "poster/108.jpg", "104": "poster/104.jpg"};
+const POSTERS = {"12": "poster/12.jpg", "20": "poster/20.jpg", "31": "poster/31.jpg", "11": "poster/11.jpg", "22": "poster/22.jpg", "19": "poster/19.jpg", "30": "poster/30.jpg", "18": "poster/18.jpg", "24": "poster/24.jpg", "35": "poster/35.jpg", "13": "poster/13.jpg", "5": "poster/5.jpg", "9": "poster/9.jpg", "21": "poster/21.jpg", "34": "poster/34.jpg", "14": "poster/14.jpg", "28": "poster/28.jpg", "26": "poster/26.jpg", "10": "poster/10.jpg", "15": "poster/15.jpg", "32": "poster/32.jpg", "1": "poster/1.jpg", "3": "poster/3.jpg", "7": "poster/7.jpg", "103": "poster/103.jpg", "25": "poster/25.jpg", "23": "poster/23.jpg", "16": "poster/16.jpg", "27": "poster/27.jpg", "6": "poster/6.jpg", "102": "poster/102.jpg", "37": "poster/37.jpg", "2": "poster/2.jpg", "33": "poster/33.jpg", "29": "poster/29.jpg", "17": "poster/17.jpg", "8": "poster/8.jpg", "4": "poster/4.jpg", "101": "poster/101.jpg", "36": "poster/36.jpg", "111": "poster/111.jpg", "112": "poster/112.jpg", "110": "poster/110.jpg", "105": "poster/105.jpg", "113": "poster/113.jpg", "106": "poster/106.jpg", "107": "poster/107.jpg", "109": "poster/109.jpg", "108": "poster/108.jpg", "104": "poster/104.jpg", "38": "poster/38.jpg", "39": "poster/39.jpg"};
 
 /* title, year, runtime(min), imdb, phase, chrono index, [gradient c1,c2], monogram */
 const FILMS = [
@@ -411,7 +464,12 @@ const FILMS = [
  ["Captain America: Brave New World",2025,118,5.8,5,35,["#1e3a5f","#c62828"],"CA4"],
  ["Thunderbolts*",2025,127,7.1,5,36,["#2f2f2f","#c9a227"],"TB"],
  ["The Fantastic Four: First Steps",2025,115,7.2,6,37,["#26418f","#c0c5ce"],"F4"],
+ ["Spider-Man: Brand New Day",2026,0,null,6,38,["#a33540","#1c1c2e"],"SM4"],
 ].map((f,i)=>({id:i+1,title:f[0],year:f[1],run:f[2],imdb:f[3],phase:f[4],chr:f[5],g:f[6],mono:f[7]}));
+FILMS[FILMS.length-1].avail = new Date(2026,6,31);          // BND hits theaters Jul 31, 2026
+
+/* the finale — not part of the tracker, it IS the deadline */
+const DOOM = {id:39,title:"Avengers: Doomsday",year:2026,phase:6,run:0,imdb:null,g:["#123524","#3ecf8a"],mono:"AD"};
 
 /* title, year, episodes, total mins, imdb, chrono index, tie-in, [gradient], monogram, key? */
 const SERIES = [
@@ -469,6 +527,8 @@ const DATA = {
  35:{dir:"Julius Onah",cast:[["Anthony Mackie","Sam Wilson / Captain America"],["Harrison Ford","Thaddeus Ross / Red Hulk"],["Danny Ramirez","Joaquin Torres / Falcon"],["Tim Blake Nelson","Samuel Sterns / The Leader"]],fact:"Harrison Ford took over the role of Thaddeus Ross following William Hurt's passing — and gets to turn into the Red Hulk in his first Marvel outing."},
  36:{dir:"Jake Schreier",cast:[["Florence Pugh","Yelena Belova"],["Sebastian Stan","Bucky Barnes"],["David Harbour","Red Guardian"],["Julia Louis-Dreyfus","Valentina"],["Lewis Pullman","Bob / Sentry"]],fact:"That asterisk in the title isn't a typo — it's a deliberate plot tease that only pays off in the film's final moments, quietly renaming the team."},
  37:{dir:"Matt Shakman",cast:[["Pedro Pascal","Reed Richards / Mister Fantastic"],["Vanessa Kirby","Sue Storm / Invisible Woman"],["Joseph Quinn","Johnny Storm / Human Torch"],["Ebon Moss-Bachrach","Ben Grimm / The Thing"]],fact:"Set on a retro-futuristic 1960s ‘Earth-828’ rather than the main timeline, it's the launchpad straight into Avengers: Doomsday — which is why it caps this list."},
+ 38:{dir:"Destin Daniel Cretton",plat:"In theaters Jul 31",cast:[["Tom Holland","Peter Parker / Spider-Man"],["Zendaya","MJ"],["Sadie Sink","(role under wraps)"],["Jon Bernthal","Frank Castle / Punisher"],["Mark Ruffalo","Bruce Banner / Hulk"]],fact:"A deliberate back-to-basics, street-level Spider-Man story — with Glasgow's city centre famously shut down to double for New York during the huge truck-chase shoot. It lands in theaters July 31, 2026, mid-marathon."},
+ 39:{dir:"Anthony & Joe Russo",plat:"In theaters Dec 18",cast:[["Robert Downey Jr.","Victor von Doom / Doctor Doom"],["Chris Hemsworth","Thor"],["Vanessa Kirby","Sue Storm"],["Pedro Pascal","Reed Richards"],["Anthony Mackie","Sam Wilson / Captain America"],["Patrick Stewart","Professor X"],["Ian McKellen","Magneto"]],fact:"Marvel announced the cast with a five-and-a-half-hour livestream of empty chairs being revealed one by one — and the biggest bombshell was Robert Downey Jr. returning to the MCU not as Iron Man, but as Doctor Doom."},
  101:{dir:"Matt Shakman",cast:[["Elizabeth Olsen","Wanda Maximoff"],["Paul Bettany","Vision"],["Kathryn Hahn","Agatha Harkness"],["Teyonah Parris","Monica Rambeau"]],fact:"Every episode lovingly recreates a different era of American sitcoms, from I Love Lucy to Modern Family. The villain reveal song ‘Agatha All Along’ won an Emmy."},
  102:{dir:"Kari Skogland",cast:[["Anthony Mackie","Sam Wilson / Falcon"],["Sebastian Stan","Bucky Barnes"],["Wyatt Russell","John Walker"],["Daniel Brühl","Zemo"]],fact:"It was meant to be the very first Disney+ Marvel show, but pandemic delays pushed it back — so WandaVision aired first and stole the ‘first’ title."},
  103:{dir:"Kate Herron",cast:[["Tom Hiddleston","Loki"],["Sophia Di Martino","Sylvie"],["Owen Wilson","Mobius"],["Gugu Mbatha-Raw","Ravonna Renslayer"],["Jonathan Majors","He Who Remains"]],fact:"This is where the MCU's multiverse officially breaks open — its finale unleashes the variant threat that Avengers: Doomsday is built around. It was also Marvel's first series renewed for a second season."},
@@ -572,7 +632,7 @@ document.getElementById("pgo").onclick=()=>{
     try{ seed=JSON.parse(localStorage.getItem(KEY))||[]; }catch(e){}
     localStorage.removeItem(KEY);
   }
-  const p={id:Date.now(), name, avatar:pickedAv, watched:seed};
+  const p={id:Date.now(), start:Date.now(), name, avatar:pickedAv, watched:seed};
   store.profiles.push(p); persist();
   document.getElementById("pname").value="";
   enter(p.id);
@@ -590,7 +650,7 @@ function renderWho(){
 }
 
 /* ---------- detail modal ---------- */
-function itemById(id){ return id<=37 ? FILMS.find(f=>f.id===id) : SERIES.find(s=>s.id===id); }
+function itemById(id){ return id===39 ? DOOM : id<=38 ? FILMS.find(f=>f.id===id) : SERIES.find(s=>s.id===id); }
 function openDetail(id){
   const it=itemById(id), d=DATA[id]||{};
   const isTv=id>100;
@@ -599,12 +659,12 @@ function openDetail(id){
     <div class="m-head">
       <div class="m-chip" style="${POSTERS[id]?`background-image:url(${POSTERS[id]});background-size:cover;background-position:center`:`background:linear-gradient(160deg,${it.g[0]},${it.g[1]})`}">${POSTERS[id]?"":it.mono}</div>
       <div><h3>${esc(it.title)}</h3>
-        <p class="m-sub">${it.year} · ${isTv?it.eps+" episodes":PHASES[it.phase]} · ★ ${it.imdb.toFixed(1)}${d.dir?" · Dir. "+esc(d.dir):""}</p></div>
+        <p class="m-sub">${it.year} · ${isTv?it.eps+" episodes":PHASES[it.phase]} · ${it.imdb!=null?"★ "+it.imdb.toFixed(1):"unrated yet"}${d.dir?" · Dir. "+esc(d.dir):""}</p></div>
     </div>
     <p class="m-lab">Main cast — actor & character</p>
     <div class="m-cast">${rows||'<div class="crow"><span>Cast list coming soon.</span></div>'}</div>
     ${d.fact?`<p class="m-fact"><b>Did you know?</b> ${esc(d.fact)}</p>`:""}
-    <a class="m-play" href="${jw(it.title)}" target="_blank" rel="noopener">▶ Watch on ${platOf(id)}</a>`;
+    <a class="m-play" href="${jw(it.title)}" target="_blank" rel="noopener">▶ ${platOf(id).startsWith("In theaters")?platOf(id)+", 2026":"Watch on "+platOf(id)}</a>`;
   document.getElementById("modal").hidden=false;
 }
 function closeModal(){ document.getElementById("modal").hidden=true; }
@@ -612,10 +672,64 @@ document.getElementById("modalX").onclick=closeModal;
 document.getElementById("modal").addEventListener("click",e=>{ if(e.target.id==="modal") closeModal(); });
 document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeModal(); });
 
+/* ---------- your pace ---------- */
+function renderPace(){
+  const el=document.getElementById("pace");
+  const p=activeP();
+  if(!p){ el.hidden=true; return; }
+  const now=new Date(), total=FILMS.length;
+  const doneN=FILMS.filter(f=>watched.has(f.id)).length;
+  const remaining=total-doneN;
+  const start=new Date(p.start||p.id);                      // profile creation = personal day zero
+  const spanDays=Math.max((FINISH_BY-start)/864e5,1);
+  const elapsed=Math.min(Math.max((now-start)/864e5,0),spanDays);
+  const expected=Math.min(total,Math.floor(total*elapsed/spanDays));
+  const diff=doneN-expected;
+  const daysLeft=Math.max((FINISH_BY-now)/864e5,0);
+  const name=p.name;                                        // textContent below — no escaping needed
+
+  let head;
+  if(remaining===0)            head=`Marathon complete, ${name}. Dec 18 is yours 🎉`;
+  else if(daysLeft<=0)         head=`Premiere week — ${remaining} to go. Sprint!`;
+  else if(diff>=2)             head=`${name}, you're ${diff} films ahead of schedule`;
+  else if(diff===1)            head=`1 film ahead — nice cushion, ${name}`;
+  else if(diff===0)            head=`Right on schedule, ${name}`;
+  else if(diff===-1)           head=`1 film behind — one evening fixes it`;
+  else                         head=`${-diff} films behind — a weekend marathon catches you up`;
+
+  const myRate = elapsed>=1 && doneN>0 ? doneN/(elapsed/7) : null;      // films/week so far
+  const needed = daysLeft>0 ? remaining/(daysLeft/7) : null;
+  const proj   = myRate ? new Date(now.getTime() + remaining/(myRate/7)*864e5) : null;
+
+  let tip;
+  if(remaining===0) tip=`Now the Series tab is your bonus round — and the finale is booked for you below.`;
+  else if(diff<0){
+    const expIn7=Math.min(total,Math.floor(total*Math.min(elapsed+7,spanDays)/spanDays));
+    tip=`Watch <b>${Math.max(expIn7-doneN,1)} films in the next 7 days</b> and you're back on track.`;
+  }
+  else if(!proj) tip = doneN>0
+    ? `Strong start — your personal finish projection unlocks after your first day.`
+    : `Mark your first film watched to unlock your personal finish projection.`;
+  else if(proj<=PREMIERE) tip=`At your current rate you'll finish around <b>${fmtDate(proj)}</b> — comfortably before the premiere.`;
+  else tip=`At your current rate you'd finish <b>after the premiere</b> — pick up just a little.`;
+
+  document.getElementById("paceHead").textContent=head;
+  document.getElementById("paceYou").style.width=(doneN/total*100)+"%";
+  document.getElementById("paceTick").style.left=(expected/total*100)+"%";
+  document.getElementById("paceRow").innerHTML=`
+    <span>you · <b>${doneN}</b></span>
+    <span>target by today · <b>${expected}</b></span>
+    <span>your pace · <b>${myRate?myRate.toFixed(1):"—"}</b>/wk</span>
+    <span>needed · <b>${needed?needed.toFixed(1):"—"}</b>/wk</span>`;
+  document.getElementById("paceTip").innerHTML=tip;
+  el.hidden=false;
+}
+
 /* ---------- pacing ---------- */
 function dueDates(){
-  const seq=films().filter(f=>!watched.has(f.id));
-  const now=new Date(), span=Math.max(FINISH_BY-now,0), map={};
+  const now=new Date();
+  const seq=films().filter(f=>!watched.has(f.id)&&(!f.avail||f.avail<=now));
+  const span=Math.max(FINISH_BY-now,0), map={};
   seq.forEach((f,i)=>{ map[f.id]=new Date(now.getTime()+span*(i+1)/seq.length); });
   return map;
 }
@@ -670,12 +784,13 @@ function render(){
       const n=order==="rel"?f.id:f.chr;
       const d=due[f.id];
       const late=d && d<new Date();
+      const gated=f.avail && f.avail>new Date();
       const card=document.createElement("article");
       card.className="card"+(done?" done":"");
       card.innerHTML=`${posterHTML(f,n,false)}
         <div class="meta">
-          <div class="meta-row"><span>⏱ ${fmtH(f.run)}</span><span class="imdb">★ ${f.imdb.toFixed(1)}</span></div>
-          <div class="meta-row"><span class="due ${late?"past":""}">${d?"watch by "+fmtDate(d):""}</span></div>
+          <div class="meta-row"><span>⏱ ${f.run?fmtH(f.run):"TBA"}</span><span class="imdb">${f.imdb!=null?"★ "+f.imdb.toFixed(1):"★ —"}</span></div>
+          <div class="meta-row"><span class="due ${late?"past":""}">${gated?"in theaters "+fmtDate(f.avail):(d?"watch by "+fmtDate(d):"")}</span></div>
           ${actHTML(f.id)}
           <button class="watch" data-id="${f.id}">${done?"✓ Watched":"Mark watched"}</button>
         </div>`;
@@ -710,6 +825,7 @@ function render(){
        <p>Every card above shows its own <b>“watch by” date</b>, spread evenly across the days you have left.
        Mark films watched and all remaining dates re-pace automatically.</p>`;
 
+  renderPace();
   renderSeries();
 }
 
@@ -752,9 +868,17 @@ function factCard(it){
     </div>`;
 }
 function renderDYK(){
-  document.getElementById("dykMovies").innerHTML=FILMS.map(factCard).join("");
+  document.getElementById("dykMovies").innerHTML=FILMS.map(factCard).join("")+factCard(DOOM);
   document.getElementById("dykSeries").innerHTML=SERIES.map(factCard).join("");
 }
+
+/* finale poster */
+(function(){
+  const box=document.getElementById("finPoster");
+  box.innerHTML = POSTERS[39]
+    ? `<img src="${POSTERS[39]}" alt="Avengers: Doomsday teaser poster" loading="lazy">`
+    : `<div class="fin-fallback" style="background:linear-gradient(160deg,${DOOM.g[0]},${DOOM.g[1]})">AD</div>`;
+})();
 
 /* ---------- countdown ---------- */
 function tick(){
