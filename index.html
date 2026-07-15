@@ -241,9 +241,12 @@
   .plist small{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--ink2)}
   .newp{border-top:1px solid var(--line);padding-top:18px}
   .newp[data-solo="1"]{border-top:0;padding-top:0}
-  .newp input{width:100%;box-sizing:border-box;background:var(--panel2);border:1px solid var(--line);
+  .newp input,.syncp input{width:100%;box-sizing:border-box;background:var(--panel2);border:1px solid var(--line);
               border-radius:8px;color:var(--ink);font:600 16px var(--body);padding:11px 13px;margin-bottom:14px}
-  .newp input:focus{outline:2px solid var(--accent);outline-offset:1px}
+  .newp input:focus,.syncp input:focus{outline:2px solid var(--accent);outline-offset:1px}
+  .syncp{border-top:1px solid var(--line);padding-top:16px;margin-top:18px}
+  .syncp .hint{margin:0 0 10px}
+  .syncp .watch{width:100%}
   .avgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:16px;align-items:start}
   .avgrid button{border:2px solid transparent;background:var(--panel2);border-radius:50%;padding:3px;
                  cursor:pointer;display:block;width:100%;box-sizing:border-box}
@@ -390,7 +393,8 @@
        live streaming option for that title in India.</p>
     <p>Posters are shown for this personal project; all poster rights belong to the respective studios. Avatars are original artwork.</p>
     <p><b>Save as an app:</b> iPhone — open in Safari, tap Share → “Add to Home Screen”. Android/Chrome — tap Install app or menu → “Add to Home screen”.</p>
-    <p>Profiles and progress are saved on this device only.</p>
+    <p>Profiles live on each device. To carry yours across devices, tap <b>Sync devices</b>,
+       send yourself the link, and open it on the other device — ticks merge, nothing is lost.</p>
   </footer>
 </div>
 
@@ -406,6 +410,11 @@
       <div class="avgrid" id="avgrid"></div>
       <span class="avlab" id="avlab"></span>
       <button class="watch" id="pgo">Start watching</button>
+    </div>
+    <div class="syncp">
+      <p class="hint">Already watching on another device? Paste the sync link from that device:</p>
+      <input id="synccode" placeholder="Paste sync link or code" autocomplete="off">
+      <button class="watch" id="syncgo">Import my progress</button>
     </div>
   </div>
 </div>
@@ -642,12 +651,54 @@ function renderWho(){
   document.getElementById("who").innerHTML = p
     ? `<span class="av">${avatarSVG(p.avatar)}</span><span>Watching as <b>${esc(p.name)}</b></span>
        <button class="pill" id="switchBtn">Switch profile</button>
+       <button class="pill" id="syncBtn">Sync devices</button>
        <button class="pill acc" id="installBtn" hidden>Install app</button>`
     : "";
   const sb=document.getElementById("switchBtn");
   if(sb) sb.onclick=openLogin;
+  const yb=document.getElementById("syncBtn");
+  if(yb) yb.onclick=shareSync;
   wireInstall();
 }
+
+/* ---------- cross-device sync via link (no server: your progress IS the link) ---------- */
+const b64e = s => btoa(unescape(encodeURIComponent(s))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
+const b64d = s => decodeURIComponent(escape(atob(s.replace(/-/g,"+").replace(/_/g,"/"))));
+function syncLink(){
+  const p=activeP(); if(!p) return "";
+  if(!p.uid){ p.uid=String(p.id); persist(); }
+  const d={u:p.uid,n:p.name,a:p.avatar,t:p.start||p.id,w:[...watched]};
+  return location.origin+location.pathname+"#s="+b64e(JSON.stringify(d));
+}
+function shareSync(){
+  const link=syncLink(); if(!link) return;
+  const msg="Sync link copied!\n\nSend it to yourself (WhatsApp, notes, email) and open it on your other device — your profile and progress will appear there.\n\nRe-copy a fresh link whenever you want to sync again; ticks merge, nothing gets lost.";
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(link).then(()=>alert(msg)).catch(()=>prompt("Copy this link, open it on your other device:",link));
+  } else prompt("Copy this link, open it on your other device:",link);
+}
+function importSync(raw){
+  const m=String(raw).match(/#s=([A-Za-z0-9_-]+)/);
+  const code=m?m[1]:String(raw).trim();
+  let d=null;
+  try{ d=JSON.parse(b64d(code)); }catch(e){}
+  if(!d||!d.u||!Array.isArray(d.w)){ alert("That sync link doesn't look right — copy the full link from your other device and try again."); return false; }
+  let p=store.profiles.find(x=>x.uid===d.u || String(x.id)===d.u);
+  if(!p){
+    p={id:Date.now(),uid:d.u,start:d.t||Date.now(),name:d.n||"Hero",avatar:d.a||"stark",watched:[]};
+    store.profiles.push(p);
+  }
+  p.watched=[...new Set([...p.watched,...d.w])];            // merge: ticks are never lost
+  if(d.n) p.name=d.n;
+  if(d.a) p.avatar=d.a;
+  if(d.t && (!p.start || d.t<p.start)) p.start=d.t;         // keep the earliest day-zero for fair pacing
+  persist(); enter(p.id);
+  return true;
+}
+document.getElementById("syncgo").onclick=()=>{
+  const v=document.getElementById("synccode").value;
+  if(v.trim() && importSync(v)) document.getElementById("synccode").value="";
+};
 
 /* ---------- detail modal ---------- */
 function itemById(id){ return id===39 ? DOOM : id<=38 ? FILMS.find(f=>f.id===id) : SERIES.find(s=>s.id===id); }
@@ -941,7 +992,16 @@ if("serviceWorker" in navigator && (location.protocol==="https:"||location.hostn
 }
 
 /* ---------- boot ---------- */
-if(activeP()){ watched=new Set(activeP().watched); renderWho(); }
-else openLogin();
+store.profiles.forEach(p=>{ if(!p.uid) p.uid=String(p.id); });
+let importedFromLink=false;
+const hashSync=location.hash.match(/^#s=([A-Za-z0-9_-]+)/);
+if(hashSync){
+  history.replaceState(null,"",location.pathname+location.search);
+  importedFromLink=importSync(hashSync[1]);                 // enter() renders on success
+}
+if(!importedFromLink){
+  if(activeP()){ watched=new Set(activeP().watched); renderWho(); }
+  else openLogin();
+}
 render();
 </script>
