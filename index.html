@@ -431,8 +431,8 @@
        live streaming option for that title in India.</p>
     <p>Posters are shown for this personal project; all poster rights belong to the respective studios. Avatars are original artwork.</p>
     <p><b>Save as an app:</b> iPhone — open in Safari, tap Share → “Add to Home Screen”. Android/Chrome — tap Install app or menu → “Add to Home screen”.</p>
-    <p>Progress auto-syncs to the cloud. To pick up on another device, tap <b>Sync devices</b> once and
-       open the link there — or type your cloud code into the sync box. Ticks merge; nothing is lost.</p>
+    <p>Your username is your login. Progress auto-saves to the cloud — type the same name on any
+       device to continue there. No password, so keep your name uniquely yours.</p>
   </footer>
 </div>
 
@@ -441,18 +441,14 @@
   <div class="login-card">
     <p class="eyebrow">Road to Doomsday</p>
     <h2>Who's watching?</h2>
-    <p class="hint">Pick your profile, or suit up a new one. Each profile keeps its own progress on this device.</p>
+    <p class="hint">Your name is your login — type the <b>same name on any device</b> and your
+       progress follows you. No password, so make it uniquely yours (e.g. add a number).</p>
     <div class="plist" id="plist"></div>
     <div class="newp" id="newp">
-      <input id="pname" maxlength="20" placeholder="Your name" autocomplete="off">
+      <input id="pname" maxlength="24" placeholder="Your username, e.g. advait_89" autocomplete="off">
       <div class="avgrid" id="avgrid"></div>
       <span class="avlab" id="avlab"></span>
-      <button class="watch" id="pgo">Start watching</button>
-    </div>
-    <div class="syncp">
-      <p class="hint">Already watching on another device? Paste the sync link from that device:</p>
-      <input id="synccode" placeholder="Your code, e.g. IRONMAN-7K2" autocomplete="off">
-      <button class="watch" id="syncgo">Import my progress</button>
+      <button class="watch" id="pgo">Sign in / start watching</button>
     </div>
   </div>
 </div>
@@ -737,34 +733,47 @@ function enter(id){
   renderWho(); render();
   cloudPull();
 }
-const HERO_NAMES=["IRONMAN","WIDOW","THOR","HULK","LOKI","GROOT","WANDA","STRANGE","PANTHER","FURY",
- "ROCKET","VISION","FALCON","HAWKEYE","STARLORD","GAMORA","NEBULA","SHURI","VALKYRIE","QUILL",
- "PARKER","WONG","KORG","MANTIS","YELENA","KAMALA","MORBIUS","DRAX"];
-function makeHeroCode(){
-  const abc="ABCDEFGHJKMNPQRSTUVWXYZ23456789";
-  return HERO_NAMES[Math.random()*HERO_NAMES.length|0]+"-"+
-         Array.from({length:3},()=>abc[Math.random()*abc.length|0]).join("");
-}
-document.getElementById("pgo").onclick=()=>{
-  const name=document.getElementById("pname").value.trim()||"Hero";
-  let seed=[];
-  if(store.profiles.length===0){
-    try{ seed=JSON.parse(localStorage.getItem(KEY))||[]; }catch(e){}
-    localStorage.removeItem(KEY);
+/* username IS the login: same name on any device = same account */
+const userKey = n => "u_"+(String(n).trim().toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"")||"hero");
+
+document.getElementById("pgo").onclick=async()=>{
+  const raw=document.getElementById("pname").value.trim()||"Hero";
+  const key=userKey(raw);
+  let p=store.profiles.find(x=>x.uid===key);
+  if(!p){
+    let seed=[];
+    if(store.profiles.length===0){
+      try{ seed=JSON.parse(localStorage.getItem(KEY))||[]; }catch(e){}
+      localStorage.removeItem(KEY);
+    }
+    p={id:Date.now(), uid:key, start:Date.now(), name:raw, avatar:pickedAv, watched:seed};
+    store.profiles.push(p); persist();
   }
-  const uid=makeHeroCode();
-  const p={id:Date.now(), uid, start:Date.now(), name, avatar:pickedAv, watched:seed};
-  store.profiles.push(p); persist();
   document.getElementById("pname").value="";
+  let hadCloud=false;
+  try{
+    const d=await fetch(`${FIREBASE_DB}/marathon/${encodeURIComponent(key)}.json`).then(r=>r.json());
+    if(d&&Array.isArray(d.w)){
+      hadCloud=d.w.length>0;
+      p.watched=[...new Set([...p.watched,...d.w])];
+      if(d.t&&d.t<p.start) p.start=d.t;
+      if(d.a) p.avatar=d.a;
+      if(d.n) p.name=d.n;
+      persist();
+    }
+  }catch(e){}
   enter(p.id);
-  toastMsg(`Welcome, <b>${esc(name)}</b>! Your cloud code is <b>${uid}</b> — pinned at the top. Type it on any device to pick up right where you left off.`);
+  const filmsDone=p.watched.filter(x=>x<=38).length;
+  toastMsg(hadCloud
+    ? `Welcome back, <b>${esc(p.name)}</b> — progress loaded: <b>${filmsDone}/38 films</b>. ✅`
+    : `You're in, <b>${esc(p.name)}</b>! Type this exact name on any other device to continue there.`);
 };
 function renderWho(){
   const p=activeP();
   const earned = p && FILMS.every(f=>p.watched.includes(f.id));
   document.getElementById("who").innerHTML = p
     ? `<span class="av">${avatarSVG(p.avatar)}</span><span>Watching as <b>${esc(p.name)}</b></span>
-       <button class="pill acc" id="codeBtn" title="Your cloud code — tap for sync options">🔑 ${esc(p.uid||"")}</button>
+       <button class="pill acc" id="codeBtn" title="Signed in — tap for how to sync devices">☁ ${esc(p.name)}</button>
        <button class="pill" id="switchBtn">Switch profile</button>
        <button class="pill" id="syncBtn">Sync devices</button>
        ${earned?'<button class="pill acc" id="rewardBtn">🎉 Stickers</button>':""}
@@ -806,24 +815,24 @@ function copyText(t,btn){
 }
 function openSyncPanel(){
   const p=activeP(); if(!p) return;
-  const link=syncLink();
   document.getElementById("modalBody").innerHTML=`
     <div class="m-head">
-      <div class="m-chip" style="background:linear-gradient(160deg,#123524,#3ecf8a);font-size:26px">🔑</div>
+      <div class="m-chip" style="background:linear-gradient(160deg,#123524,#3ecf8a);font-size:26px">☁</div>
       <div><h3>Sync devices</h3>
-        <p class="m-sub">${esc(p.name)} — your progress follows this code</p></div>
+        <p class="m-sub">your username is your login — no codes, no passwords</p></div>
     </div>
-    <div class="code-big">${esc(p.uid)}</div>
-    <p class="code-sub">your cloud code — also pinned at the top of the page</p>
-    <p class="m-note">On any other device, open the tracker and type this code into
-       <b>“Already watching on another device?”</b> — you'll be logged in as ${esc(p.name)} with all
-       your progress. After that it stays in sync automatically whenever you're online.</p>
+    <div class="code-big">${esc(p.name)}</div>
+    <p class="code-sub">type this exact name on any device to continue there</p>
+    <p class="m-note">Open the tracker anywhere — phone, laptop, a friend's TV browser — type
+       <b>${esc(p.name)}</b> on the “Who's watching?” screen and your full progress loads.
+       Everything auto-saves to the cloud as you tick films. <b>Heads-up:</b> anyone who types the
+       exact same name shares this account, so keep it uniquely yours.</p>
     <div class="m-btns">
-      <button class="watch" id="cpCode">Copy code</button>
-      <button class="watch" id="cpLink">Copy magic link</button>
+      <button class="watch" id="cpCode">Copy my username</button>
+      <button class="watch" id="cpLink">Copy site link</button>
     </div>`;
-  document.getElementById("cpCode").onclick=e=>copyText(p.uid,e.target);
-  document.getElementById("cpLink").onclick=e=>copyText(link,e.target);
+  document.getElementById("cpCode").onclick=e=>copyText(p.name,e.target);
+  document.getElementById("cpLink").onclick=e=>copyText(location.origin+location.pathname,e.target);
   document.getElementById("modal").hidden=false;
 }
 function importSync(raw){
@@ -873,29 +882,7 @@ async function cloudPull(){
     } else cloudPush();                                    // nothing in cloud yet — seed it
   }catch(e){}
 }
-async function cloudRestore(code){
-  if(!FIREBASE_DB) return false;
-  try{
-    const r=await fetch(`${FIREBASE_DB}/marathon/${encodeURIComponent(code)}.json`);
-    const d=await r.json();
-    if(!d||!Array.isArray(d.w)) return false;
-    let p=store.profiles.find(x=>x.uid===code);
-    if(!p){ p={id:Date.now(),uid:code,start:d.t||Date.now(),name:d.n||"Hero",avatar:d.a||"stark",watched:[]}; store.profiles.push(p); }
-    p.watched=[...new Set([...p.watched,...d.w])];
-    p.name=d.n||p.name; p.avatar=d.a||p.avatar;
-    persist(); enter(p.id);
-    return true;
-  }catch(e){ return false; }
-}
 document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="visible") cloudPull(); });
-
-document.getElementById("syncgo").onclick=async()=>{
-  const v=document.getElementById("synccode").value.trim();
-  if(!v) return;
-  if(/#s=/.test(v)||v.length>40){ if(importSync(v)) document.getElementById("synccode").value=""; return; }
-  if(await cloudRestore(v)){ document.getElementById("synccode").value=""; return; }
-  if(importSync(v)) document.getElementById("synccode").value="";
-};
 
 /* ---------- detail modal ---------- */
 function itemById(id){ return id===39 ? DOOM : id<=38 ? FILMS.find(f=>f.id===id) : SERIES.find(s=>s.id===id); }
@@ -1285,15 +1272,16 @@ if("serviceWorker" in navigator && (location.protocol==="https:"||location.hostn
 }
 
 /* ---------- boot ---------- */
-store.profiles.forEach(p=>{ if(!p.uid) p.uid=String(p.id); });
+store.profiles.forEach(p=>{ p.uid=userKey(p.name||"hero"); });   // migrate everyone to name-based login
+persist();
 let importedFromLink=false;
 const hashSync=location.hash.match(/^#s=([A-Za-z0-9_-]+)/);
 if(hashSync){
   history.replaceState(null,"",location.pathname+location.search);
-  importedFromLink=importSync(hashSync[1]);                 // enter() renders on success
+  importedFromLink=importSync(hashSync[1]);                 // old shared links still work
 }
 if(!importedFromLink){
-  if(activeP()){ watched=new Set(activeP().watched); renderWho(); }
+  if(activeP()){ watched=new Set(activeP().watched); renderWho(); cloudPull(); }
   else openLogin();
 }
 render();
