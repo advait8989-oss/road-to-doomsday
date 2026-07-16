@@ -247,6 +247,7 @@
   .syncp{border-top:1px solid var(--line);padding-top:16px;margin-top:18px}
   .syncp .hint{margin:0 0 10px}
   .syncp .watch{width:100%}
+  .lerr{color:var(--warn);font-size:13px;margin:-6px 0 12px;text-align:left}
   .avgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:16px;align-items:start}
   .avgrid button{border:2px solid transparent;background:var(--panel2);border-radius:50%;padding:3px;
                  cursor:pointer;display:block;width:100%;box-sizing:border-box}
@@ -441,14 +442,16 @@
   <div class="login-card">
     <p class="eyebrow">Road to Doomsday</p>
     <h2>Who's watching?</h2>
-    <p class="hint">Your name is your login — type the <b>same name on any device</b> and your
-       progress follows you. No password, so make it uniquely yours (e.g. add a number).</p>
+    <p class="hint">Pick a username + a 4-digit PIN — that's your login on every device.
+       <b>First to take a name owns it</b>; nobody else can use it without your PIN.</p>
     <div class="plist" id="plist"></div>
     <div class="newp" id="newp">
-      <input id="pname" maxlength="24" placeholder="Your username, e.g. advait_89" autocomplete="off">
+      <input id="pname" maxlength="24" placeholder="Username, e.g. advait_89" autocomplete="off">
+      <input id="ppin" maxlength="6" inputmode="numeric" pattern="[0-9]*" placeholder="4-digit PIN (new name? choose one)" autocomplete="off">
+      <p class="lerr" id="loginErr" hidden></p>
       <div class="avgrid" id="avgrid"></div>
       <span class="avlab" id="avlab"></span>
-      <button class="watch" id="pgo">Sign in / start watching</button>
+      <button class="watch" id="pgo">Sign in / claim name</button>
     </div>
   </div>
 </div>
@@ -738,7 +741,22 @@ const userKey = n => "u_"+(String(n).trim().toLowerCase().replace(/[^a-z0-9]+/g,
 
 document.getElementById("pgo").onclick=async()=>{
   const raw=document.getElementById("pname").value.trim()||"Hero";
+  const pinIn=document.getElementById("ppin").value.trim();
+  const errEl=document.getElementById("loginErr");
+  const err=m=>{ errEl.textContent=m; errEl.hidden=false; };
+  errEl.hidden=true;
+  if(pinIn && !/^\d{4,6}$/.test(pinIn)){ err("PIN should be 4–6 digits."); return; }
+
   const key=userKey(raw);
+  let d=null;
+  try{ d=await fetch(`${FIREBASE_DB}/marathon/${encodeURIComponent(key)}.json`).then(r=>r.json()); }catch(e){}
+  const claimed = d && d.p;
+
+  if(claimed && pinIn!==String(d.p)){
+    err(`“${raw}” is already taken. Enter its PIN to sign in — or pick a different name.`);
+    return;
+  }
+
   let p=store.profiles.find(x=>x.uid===key);
   if(!p){
     let seed=[];
@@ -747,26 +765,22 @@ document.getElementById("pgo").onclick=async()=>{
       localStorage.removeItem(KEY);
     }
     p={id:Date.now(), uid:key, start:Date.now(), name:raw, avatar:pickedAv, watched:seed};
-    store.profiles.push(p); persist();
+    store.profiles.push(p);
   }
-  document.getElementById("pname").value="";
-  let hadCloud=false;
-  try{
-    const d=await fetch(`${FIREBASE_DB}/marathon/${encodeURIComponent(key)}.json`).then(r=>r.json());
-    if(d&&Array.isArray(d.w)){
-      hadCloud=d.w.length>0;
-      p.watched=[...new Set([...p.watched,...d.w])];
-      if(d.t&&d.t<p.start) p.start=d.t;
-      if(d.a) p.avatar=d.a;
-      if(d.n) p.name=d.n;
-      persist();
-    }
-  }catch(e){}
+  p.pin = claimed ? String(d.p) : (pinIn || String(1000+Math.floor(Math.random()*9000)));
+  if(d&&Array.isArray(d.w)){
+    p.watched=[...new Set([...p.watched,...d.w])];
+    if(d.t&&d.t<p.start) p.start=d.t;
+    if(d.a) p.avatar=d.a;
+    if(d.n) p.name=d.n;
+  }
+  persist();
+  document.getElementById("pname").value=""; document.getElementById("ppin").value="";
   enter(p.id);
   const filmsDone=p.watched.filter(x=>x<=38).length;
-  toastMsg(hadCloud
+  toastMsg(claimed
     ? `Welcome back, <b>${esc(p.name)}</b> — progress loaded: <b>${filmsDone}/38 films</b>. ✅`
-    : `You're in, <b>${esc(p.name)}</b>! Type this exact name on any other device to continue there.`);
+    : `Name claimed, <b>${esc(p.name)}</b>! Your login anywhere: <b>${esc(p.name)}</b> + PIN <b>${p.pin}</b> — saved under ☁ up top.`, 5600);
 };
 function renderWho(){
   const p=activeP();
@@ -821,17 +835,17 @@ function openSyncPanel(){
       <div><h3>Sync devices</h3>
         <p class="m-sub">your username is your login — no codes, no passwords</p></div>
     </div>
-    <div class="code-big">${esc(p.name)}</div>
-    <p class="code-sub">type this exact name on any device to continue there</p>
-    <p class="m-note">Open the tracker anywhere — phone, laptop, a friend's TV browser — type
-       <b>${esc(p.name)}</b> on the “Who's watching?” screen and your full progress loads.
-       Everything auto-saves to the cloud as you tick films. <b>Heads-up:</b> anyone who types the
-       exact same name shares this account, so keep it uniquely yours.</p>
+    <div class="code-big">${esc(p.name)}${p.pin?` <span style="opacity:.55">·</span> PIN ${esc(String(p.pin))}`:""}</div>
+    <p class="code-sub">${p.pin?"your name is claimed — this PIN unlocks it on any device":"not PIN-locked yet — sign in again with a PIN to claim your name"}</p>
+    <p class="m-note">Open the tracker anywhere — phone, laptop, a friend's TV browser — and sign in with
+       <b>${esc(p.name)}</b>${p.pin?` + PIN <b>${esc(String(p.pin))}</b>`:""} on the “Who's watching?” screen.
+       Your full progress loads, and everything keeps auto-saving to the cloud.
+       Only someone with your PIN can use this name.</p>
     <div class="m-btns">
-      <button class="watch" id="cpCode">Copy my username</button>
+      <button class="watch" id="cpCode">Copy my login</button>
       <button class="watch" id="cpLink">Copy site link</button>
     </div>`;
-  document.getElementById("cpCode").onclick=e=>copyText(p.name,e.target);
+  document.getElementById("cpCode").onclick=e=>copyText(p.pin?`${p.name} · PIN ${p.pin}`:p.name,e.target);
   document.getElementById("cpLink").onclick=e=>copyText(location.origin+location.pathname,e.target);
   document.getElementById("modal").hidden=false;
 }
@@ -860,9 +874,10 @@ function cloudPush(){
   const p=activeP(); if(!p||!p.uid) return;
   clearTimeout(cloudTimer);
   cloudTimer=setTimeout(()=>{
+    const body={n:p.name,a:p.avatar,t:p.start||p.id,w:[...watched],ts:Date.now()};
+    if(p.pin) body.p=String(p.pin);                          // pin claims/keeps ownership of the name
     fetch(`${FIREBASE_DB}/marathon/${encodeURIComponent(p.uid)}.json`,{
-      method:"PUT",
-      body:JSON.stringify({n:p.name,a:p.avatar,t:p.start||p.id,w:[...watched],ts:Date.now()})
+      method:"PUT", body:JSON.stringify(body)
     }).catch(()=>{});
   },800);
 }
@@ -872,6 +887,14 @@ async function cloudPull(){
   try{
     const r=await fetch(`${FIREBASE_DB}/marathon/${encodeURIComponent(p.uid)}.json`);
     const d=await r.json();
+    if(d && d.p && p.pin && String(d.p)!==String(p.pin)){  // someone else owns this name now
+      if(!p.pinWarned){
+        p.pinWarned=true; persist();
+        toastMsg(`⚠️ The name <b>${esc(p.name)}</b> is owned with a different PIN. Your ticks are safe on this device — switch profile and sign in with the right PIN, or claim a new name.`,6500);
+      }
+      return;
+    }
+    if(d && d.p && !p.pin){ p.pin=String(d.p); persist(); } // same user claimed it elsewhere — adopt
     if(d&&Array.isArray(d.w)){
       const before=p.watched.length;
       p.watched=[...new Set([...p.watched,...d.w])];

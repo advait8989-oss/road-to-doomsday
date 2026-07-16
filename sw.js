@@ -1,4 +1,4 @@
-const CACHE = "rtd-v12";
+const CACHE = "rtd-v13";
 const ASSETS = ["./", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png"];
 
 self.addEventListener("install", e => {
