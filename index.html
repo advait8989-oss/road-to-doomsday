@@ -1795,34 +1795,73 @@ if(!RM && "IntersectionObserver" in window){
     const s=marathonStats();
     const cv=document.createElement("canvas"); cv.width=1600; cv.height=1140;
     const x=cv.getContext("2d");
-    x.fillStyle="#0f0a10"; x.fillRect(0,0,1600,1140);
-    x.strokeStyle="#d9a441"; x.lineWidth=6; x.strokeRect(40,40,1520,1060);
-    x.lineWidth=2; x.strokeRect(58,58,1484,1024);
-    const grad=x.createLinearGradient(0,0,1600,0);
-    grad.addColorStop(0,"#d9a441"); grad.addColorStop(.5,"#f4e3b0"); grad.addColorStop(1,"#d9a441");
+    /* green Doomsday field */
+    const bg=x.createLinearGradient(0,0,0,1140);
+    bg.addColorStop(0,"#1a6b40"); bg.addColorStop(.55,"#11492a"); bg.addColorStop(1,"#0b331d");
+    x.fillStyle=bg; x.fillRect(0,0,1600,1140);
+    const glow=x.createRadialGradient(800,480,60,800,480,780);
+    glow.addColorStop(0,"rgba(255,244,200,.12)"); glow.addColorStop(1,"rgba(0,0,0,0)");
+    x.fillStyle=glow; x.fillRect(0,0,1600,1140);
+    /* gold frame */
+    x.strokeStyle="#e3b341"; x.lineWidth=9; x.strokeRect(42,42,1516,1056);
+    x.lineWidth=2.5; x.strokeRect(66,66,1468,1008);
     x.textAlign="center";
-    x.fillStyle="#b9a07a"; x.font="600 30px Georgia, serif";
-    x.fillText("M C U   M A R A T H O N   ·   R O A D   T O   D O O M S D A Y",800,150);
-    x.fillStyle=grad; x.font="700 86px Georgia, serif";
-    x.fillText("CERTIFICATE OF COMPLETION",800,262);
-    x.fillStyle="#8f8296"; x.font="400 30px Georgia, serif";
-    x.fillText("This certifies that",800,362);
-    x.fillStyle="#f4e3b0"; x.font="italic 700 108px Georgia, serif";
-    x.fillText(s.name,800,492);
-    x.fillStyle="#cfc4d6"; x.font="400 33px Georgia, serif";
-    x.fillText("has conquered all 38 films of the Infinity & Multiverse Sagas",800,572);
-    x.fillText(s.hours+" of story"+(s.days?"  ·  "+s.days+(s.days===1?" day":" days")+" on the road":"")+(s.ser?"  ·  "+s.ser+" bonus series":""),800,628);
+    /* red title banner */
+    x.fillStyle="#c0271d"; x.fillRect(470,104,660,80);
+    x.strokeStyle="#e3b341"; x.lineWidth=3; x.strokeRect(470,104,660,80);
+    x.fillStyle="#ffffff"; x.font="900 46px 'Arial Black','Arial',sans-serif";
+    x.fillText("ROAD TO DOOMSDAY",800,160);
+    /* heading */
+    x.fillStyle="#f6e8bd"; x.font="900 96px 'Arial Black','Arial',sans-serif";
+    x.fillText("CERTIFICATE",800,306);
+    x.font="900 54px 'Arial Black','Arial',sans-serif";
+    x.fillText("OF COMPLETION",800,372);
+    x.fillStyle="#bfe3c8"; x.font="400 31px Georgia, serif";
+    x.fillText("presented to",800,446);
+    /* name */
+    const ng=x.createLinearGradient(0,470,0,585);
+    ng.addColorStop(0,"#ffe9a8"); ng.addColorStop(1,"#e3b341");
+    x.fillStyle=ng;
+    let nameSize=100;
+    x.font="900 "+nameSize+"px 'Arial Black','Arial',sans-serif";
+    while(x.measureText(s.name.toUpperCase()).width>1180 && nameSize>44){
+      nameSize-=6; x.font="900 "+nameSize+"px 'Arial Black','Arial',sans-serif";
+    }
+    x.fillText(s.name.toUpperCase(),800,566);
+    /* achievement lines, no dashes */
+    x.fillStyle="#eaf6ee"; x.font="400 33px Georgia, serif";
+    x.fillText("for conquering all 38 films of the Marvel Cinematic Universe",800,638);
     const date=new Date().toLocaleDateString(undefined,{year:"numeric",month:"long",day:"numeric"});
-    x.fillText("completed "+date+" — before the premiere",800,684);
-    x.save(); x.translate(800,862);
-    x.strokeStyle="#d9a441"; x.lineWidth=10; x.beginPath(); x.arc(0,0,105,0,7); x.stroke();
-    x.lineWidth=4; x.beginPath(); x.arc(0,0,88,0,7); x.stroke();
-    x.fillStyle="#f4e3b0"; x.font="700 118px Georgia, serif"; x.fillText("A",0,42);
+    x.fillText(s.hours+" of story · finished before the premiere · "+date,800,690);
+    /* seal: bold circle A emblem */
+    x.save(); x.translate(800,846);
+    x.strokeStyle="#e3b341"; x.lineWidth=12; x.beginPath(); x.arc(0,0,114,0,7); x.stroke();
+    x.lineWidth=4; x.beginPath(); x.arc(0,0,95,0,7); x.stroke();
+    x.fillStyle="#f6e8bd";
+    (function(){ const k=.66;
+      x.beginPath();
+      [[0,-130],[122,130],[60,130],[34,72],[-34,72],[-60,130],[-122,130]].forEach((p,i)=>
+        i?x.lineTo(p[0]*k,p[1]*k):x.moveTo(p[0]*k,p[1]*k));
+      x.closePath();
+      x.moveTo(0,-58*k); x.lineTo(26*k,24*k); x.lineTo(-26*k,24*k); x.closePath();
+      x.fill("evenodd");
+    })();
     x.restore();
-    x.fillStyle="#b9a07a"; x.font="600 27px Georgia, serif";
-    x.fillText("E A R T H ' S   M I G H T I E S T   V I E W E R",800,1016);
-    x.fillStyle="#6f6478"; x.font="400 22px Georgia, serif";
-    x.fillText("in theaters December 18, 2026 — see you there",800,1058);
+    /* signature blocks */
+    x.strokeStyle="#e3b341"; x.lineWidth=2;
+    x.beginPath(); x.moveTo(200,956); x.lineTo(560,956); x.stroke();
+    x.beginPath(); x.moveTo(1040,956); x.lineTo(1400,956); x.stroke();
+    x.fillStyle="#ffe9a8"; x.font="italic 58px 'Brush Script MT','Snell Roundhand',cursive";
+    x.fillText("Excelsior!",1220,938);
+    x.fillStyle="#dff0e2"; x.font="700 26px Georgia, serif";
+    x.fillText("EARTH'S MIGHTIEST VIEWER",380,994);
+    x.fillText("STAN LEE · 1922 - 2018",1220,994);
+    x.fillStyle="#9dc7a9"; x.font="400 21px Georgia, serif";
+    x.fillText("official marathon title",380,1026);
+    x.fillText("in loving tribute, thanks for everything",1220,1026);
+    /* footer */
+    x.fillStyle="#dff0e2"; x.font="700 25px Georgia, serif";
+    x.fillText("AVENGERS: DOOMSDAY · IN THEATERS DECEMBER 18, 2026 · SEE YOU THERE",800,1074);
     return cv;
   }
 
