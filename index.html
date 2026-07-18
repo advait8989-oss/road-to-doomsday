@@ -605,19 +605,39 @@
   </div>
 </div>
 
+<style id="finaleCss">
+#partyBody .ftitle{font-family:var(--display);font-size:clamp(40px,9vw,64px);line-height:.95;
+  color:var(--gold);text-transform:uppercase;letter-spacing:.04em;margin:6px 0 10px;
+  animation:fpulse 2.2s ease-in-out infinite}
+@keyframes fpulse{0%,100%{text-shadow:0 0 18px rgba(217,164,65,.35)}50%{text-shadow:0 0 46px rgba(217,164,65,.75)}}
+#partyBody .statgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+#partyBody .stat2{background:rgba(217,164,65,.07);border:1px solid var(--gold);border-radius:10px;padding:12px 8px}
+#partyBody .stat2 b{display:block;font-family:var(--display);font-size:30px;color:var(--gold)}
+#partyBody .stat2 span{font-size:12px;color:var(--ink2)}
+#partyBody .certwrap img{width:100%;display:block;border:1px solid var(--gold);border-radius:8px;margin:6px 0 2px}
+#partyBody .m-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+#partyBody a.watch{display:block;text-decoration:none;text-align:center;box-sizing:border-box}
+#partyBody .goldbtn{background:var(--gold);border-color:var(--gold);color:#100b12;font-weight:800}
+#partyBody .watch{margin-top:12px}
+#stickStage #stickNext{margin-top:8px}
+@media (prefers-reduced-motion:reduce){#partyBody .ftitle{animation:none}}
+</style>
+
 <!-- ================= CELEBRATION ================= -->
 <div class="party" id="party" hidden>
   <canvas id="confetti"></canvas>
   <div class="party-card">
     <button class="modal-x" id="partyX" aria-label="Close">✕</button>
-    <p class="eyebrow">Saga complete</p>
-    <h2>You watched all 38</h2>
-    <p class="hint">Eleven-plus years of story, cleared before the premiere. Your reward:
-       a <b>15-sticker pack</b> — original hero art made for this tracker. Tap any sticker to
-       download it as a PNG, or grab the whole set.</p>
-    <div class="stgrid" id="stgrid"></div>
-    <p class="st-note">512×512 transparent-corner PNGs — perfect for WhatsApp sticker makers.</p>
-    <button class="watch" id="stAll">Download all 15</button>
+    <div id="stickStage">
+      <p class="eyebrow">Reward 3 of 4 — sticker pack</p>
+      <h2>15 heroes, yours</h2>
+      <p class="hint">Original hero art made for this tracker. Tap any sticker to
+         download it as a PNG, or grab the whole set.</p>
+      <div class="stgrid" id="stgrid"></div>
+      <p class="st-note">512×512 transparent-corner PNGs — perfect for WhatsApp sticker makers.</p>
+      <button class="watch" id="stAll">Download all 15</button>
+      <button class="watch" id="stickNext">Next reward →</button>
+    </div>
   </div>
 </div>
 
@@ -1695,5 +1715,176 @@ if(!RM && "IntersectionObserver" in window){
   if(party) new MutationObserver(()=>{ if(!party.hidden) fanfare(); })
     .observe(party,{attributes:true,attributeFilter:["hidden"]});
 })();
+})();
+
+/* ================= GRAND FINALE — staged rewards sequence ================= */
+(function(){
+  const RICK_URL="https://www.youtube.com/watch?v=QDia3e12czc";
+  const card=document.querySelector(".party-card");
+  const stick=document.getElementById("stickStage");
+  if(!card||!stick) return;
+  const body=document.createElement("div");
+  body.id="partyBody";
+  card.insertBefore(body,stick);
+  const escF=(typeof esc==="function")?esc:(s=>String(s));
+  let stage=0;
+
+  /* --- extended fanfare: original composition (synth), honors the sound toggle --- */
+  const fxMuted=()=>localStorage.getItem("rtd_fx_sound")==="off";
+  let fac=null;
+  function fctx(){ if(!fac){ try{ fac=new (window.AudioContext||window.webkitAudioContext)(); }catch(e){} }
+    if(fac&&fac.state==="suspended") fac.resume(); return fac; }
+  function fBrass(f,t,dur,vol){ const a=fctx(); if(!a||fxMuted())return;
+    const g=a.createGain(),fl=a.createBiquadFilter();
+    fl.type="lowpass"; fl.frequency.setValueAtTime(650,a.currentTime+t);
+    fl.frequency.linearRampToValueAtTime(2400,a.currentTime+t+dur*.6);
+    g.gain.setValueAtTime(0,a.currentTime+t);
+    g.gain.linearRampToValueAtTime(vol,a.currentTime+t+.07);
+    g.gain.setValueAtTime(vol,a.currentTime+t+dur*.75);
+    g.gain.exponentialRampToValueAtTime(.0001,a.currentTime+t+dur);
+    [-8,0,8].forEach(d=>{ const o=a.createOscillator(); o.type="sawtooth";
+      o.frequency.value=f; o.detune.value=d;
+      o.connect(fl); o.start(a.currentTime+t); o.stop(a.currentTime+t+dur+.1); });
+    fl.connect(g).connect(a.destination); }
+  function fTimp(t,vol){ const a=fctx(); if(!a||fxMuted())return;
+    const n=Math.floor(a.sampleRate*.4),b=a.createBuffer(1,n,a.sampleRate),d=b.getChannelData(0);
+    for(let i=0;i<n;i++)d[i]=(Math.random()*2-1)*(1-i/n);
+    const s=a.createBufferSource(); s.buffer=b;
+    const f=a.createBiquadFilter(); f.type="lowpass"; f.frequency.value=300;
+    const g=a.createGain(); g.gain.value=vol;
+    s.connect(f).connect(g).connect(a.destination); s.start(a.currentTime+t);
+    const o=a.createOscillator(),og=a.createGain(); o.type="sine";
+    o.frequency.setValueAtTime(98,a.currentTime+t);
+    o.frequency.exponentialRampToValueAtTime(45,a.currentTime+t+.45);
+    og.gain.setValueAtTime(vol,a.currentTime+t);
+    og.gain.exponentialRampToValueAtTime(.0001,a.currentTime+t+.5);
+    o.connect(og).connect(a.destination); o.start(a.currentTime+t); o.stop(a.currentTime+t+.55); }
+  function grandFanfare(){
+    for(let i=0;i<8;i++) fTimp(.12*i*(1-.04*i),.05+.012*i);   // accelerating timpani roll
+    fTimp(1.15,.2);
+    fBrass(146.83,1.15,.7,.05);
+    fBrass(196,1.75,.7,.05);
+    fBrass(220,2.35,.8,.05);
+    fTimp(3.1,.2);
+    [146.83,220,293.66,440].forEach(f=>fBrass(f,3.15,2.6,.038));
+    fBrass(587.33,3.5,2.2,.03);
+    const a=fctx();
+    if(a&&!fxMuted()){
+      [587.33,739.99,880,1174.66].forEach((f,i)=>{ const o=a.createOscillator(),g=a.createGain();
+        o.type="triangle"; o.frequency.value=f;
+        g.gain.setValueAtTime(0,a.currentTime+3.6+i*.16);
+        g.gain.linearRampToValueAtTime(.03,a.currentTime+3.66+i*.16);
+        g.gain.exponentialRampToValueAtTime(.0001,a.currentTime+5.6);
+        o.connect(g).connect(a.destination); o.start(a.currentTime+3.6+i*.16); o.stop(a.currentTime+5.7); });
+    }
+  }
+
+  /* --- personalized numbers --- */
+  function marathonStats(){
+    const p=(typeof activeP==="function")?activeP():null;
+    const mins=FILMS.reduce((s,f)=>s+(f.run||0),0);
+    const h=Math.floor(mins/60), m=mins%60;
+    const days=p&&p.start?Math.max(1,Math.round((Date.now()-p.start)/864e5)):null;
+    const wk=days?(38/(days/7)).toFixed(1):null;
+    const ser=[...watched].filter(x=>x>100).length;
+    return {name:p?p.name:"Hero", hours:h+"h "+String(m).padStart(2,"0")+"m", days, wk, ser};
+  }
+
+  /* --- certificate (original artwork, canvas) --- */
+  function certCanvas(){
+    const s=marathonStats();
+    const cv=document.createElement("canvas"); cv.width=1600; cv.height=1140;
+    const x=cv.getContext("2d");
+    x.fillStyle="#0f0a10"; x.fillRect(0,0,1600,1140);
+    x.strokeStyle="#d9a441"; x.lineWidth=6; x.strokeRect(40,40,1520,1060);
+    x.lineWidth=2; x.strokeRect(58,58,1484,1024);
+    const grad=x.createLinearGradient(0,0,1600,0);
+    grad.addColorStop(0,"#d9a441"); grad.addColorStop(.5,"#f4e3b0"); grad.addColorStop(1,"#d9a441");
+    x.textAlign="center";
+    x.fillStyle="#b9a07a"; x.font="600 30px Georgia, serif";
+    x.fillText("M C U   M A R A T H O N   ·   R O A D   T O   D O O M S D A Y",800,150);
+    x.fillStyle=grad; x.font="700 86px Georgia, serif";
+    x.fillText("CERTIFICATE OF COMPLETION",800,262);
+    x.fillStyle="#8f8296"; x.font="400 30px Georgia, serif";
+    x.fillText("This certifies that",800,362);
+    x.fillStyle="#f4e3b0"; x.font="italic 700 108px Georgia, serif";
+    x.fillText(s.name,800,492);
+    x.fillStyle="#cfc4d6"; x.font="400 33px Georgia, serif";
+    x.fillText("has conquered all 38 films of the Infinity & Multiverse Sagas",800,572);
+    x.fillText(s.hours+" of story"+(s.days?"  ·  "+s.days+(s.days===1?" day":" days")+" on the road":"")+(s.ser?"  ·  "+s.ser+" bonus series":""),800,628);
+    const date=new Date().toLocaleDateString(undefined,{year:"numeric",month:"long",day:"numeric"});
+    x.fillText("completed "+date+" — before the premiere",800,684);
+    x.save(); x.translate(800,862);
+    x.strokeStyle="#d9a441"; x.lineWidth=10; x.beginPath(); x.arc(0,0,105,0,7); x.stroke();
+    x.lineWidth=4; x.beginPath(); x.arc(0,0,88,0,7); x.stroke();
+    x.fillStyle="#f4e3b0"; x.font="700 118px Georgia, serif"; x.fillText("A",0,42);
+    x.restore();
+    x.fillStyle="#b9a07a"; x.font="600 27px Georgia, serif";
+    x.fillText("E A R T H ' S   M I G H T I E S T   V I E W E R",800,1016);
+    x.fillStyle="#6f6478"; x.font="400 22px Georgia, serif";
+    x.fillText("in theaters December 18, 2026 — see you there",800,1058);
+    return cv;
+  }
+
+  /* --- stages --- */
+  function stageHTML(n,s){
+    if(n===0) return '<p class="eyebrow">Transmission incoming</p>'+
+      '<h2 class="ftitle">Saga<br>complete</h2>'+
+      '<p class="hint">All <b>38 films</b>. Eleven-plus years of story. Finished <b>before the premiere</b>.<br>'+
+      escF(s.name)+', the marathon bows to you.</p>'+
+      '<button class="watch" id="stgNext">Claim your rewards →</button>';
+    if(n===1) return '<p class="eyebrow">Reward 1 of 4 — your numbers</p><h2>By the numbers</h2>'+
+      '<div class="statgrid">'+
+      '<div class="stat2"><b>38</b><span>films conquered</span></div>'+
+      '<div class="stat2"><b>'+s.hours+'</b><span>of story watched</span></div>'+
+      '<div class="stat2"><b>'+(s.days??"—")+'</b><span>'+(s.days===1?"day":"days")+' on the road</span></div>'+
+      '<div class="stat2"><b>'+(s.days&&s.days<7?"🏎":(s.wk??"—"))+'</b><span>'+(s.days&&s.days<7?"certified speedrun":"films / week pace")+'</span></div></div>'+
+      '<p class="hint" style="margin-top:12px">Title earned: <b>Earth’s Mightiest Viewer</b> 🏆</p>'+
+      '<button class="watch" id="stgNext">Next reward →</button>';
+    if(n===2) return '<p class="eyebrow">Reward 2 of 4 — make it official</p><h2>Your certificate</h2>'+
+      '<div class="certwrap" id="certwrap"></div>'+
+      '<div class="m-btns"><button class="watch" id="certDl">Download PNG</button>'+
+      '<button class="watch" id="stgNext">Next reward →</button></div>';
+    if(n===3) return "";                                        // sticker stage lives in #stickStage
+    return '<p class="eyebrow">One more thing…</p><h2>For finishers only</h2>'+
+      '<p class="hint">You didn’t just watch the saga — you cleared it before the world sees the ending. '+
+      'So here’s something <b>nobody else has</b>:</p>'+
+      '<p class="hint" style="font-size:15px">🎬 An <b>exclusive 10-minute early premiere of Avengers: Doomsday</b> — unlocked only for marathon finishers.</p>'+
+      '<a class="watch goldbtn" href="'+RICK_URL+'" target="_blank" rel="noopener">▶ Watch the exclusive premiere</a>'+
+      '<p class="st-note" style="margin-top:10px">sshh — don’t leak it. 🤫</p>'+
+      '<button class="watch" id="stgDone" style="margin-top:6px">Finish</button>';
+  }
+  function show(n){
+    stage=n;
+    const s=marathonStats();
+    stick.hidden=(n!==3);
+    body.hidden=(n===3);
+    body.innerHTML=stageHTML(n,s);
+    if(n===2){
+      const cw=body.querySelector("#certwrap");
+      const img=new Image();
+      img.alt="Certificate of completion";
+      img.src=certCanvas().toDataURL("image/png");
+      cw.appendChild(img);
+    }
+    card.scrollTop=0;
+  }
+  card.addEventListener("click",e=>{
+    const t=e.target;
+    if(t.id==="stgNext"||t.id==="stickNext"){ show(stage+1); }
+    else if(t.id==="stgDone"){ closeParty(); }
+    else if(t.id==="certDl"){
+      certCanvas().toBlob(b=>{
+        const a=document.createElement("a");
+        a.href=URL.createObjectURL(b);
+        a.download="doomsday-certificate-"+marathonStats().name.toLowerCase().replace(/[^a-z0-9]+/g,"-")+".png";
+        a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),4000);
+      },"image/png");
+    }
+  });
+
+  /* take over openParty: same trigger points (maybeParty, 🎉 chip) now start the sequence */
+  const origOpen=openParty;
+  openParty=function(){ origOpen(); show(0); setTimeout(grandFanfare,900); };
 })();
 </script>
