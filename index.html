@@ -1793,52 +1793,130 @@ if(!RM && "IntersectionObserver" in window){
   /* --- certificate (original artwork, canvas) --- */
   function certCanvas(){
     const s=marathonStats();
-    const cv=document.createElement("canvas"); cv.width=1600; cv.height=1140;
+    const W=2000,H=1400;
+    const cv=document.createElement("canvas"); cv.width=W; cv.height=H;
     const x=cv.getContext("2d");
-    /* green Doomsday field */
-    const bg=x.createLinearGradient(0,0,0,1140);
-    bg.addColorStop(0,"#1a6b40"); bg.addColorStop(.55,"#11492a"); bg.addColorStop(1,"#0b331d");
-    x.fillStyle=bg; x.fillRect(0,0,1600,1140);
-    const glow=x.createRadialGradient(800,480,60,800,480,780);
-    glow.addColorStop(0,"rgba(255,244,200,.12)"); glow.addColorStop(1,"rgba(0,0,0,0)");
-    x.fillStyle=glow; x.fillRect(0,0,1600,1140);
-    /* gold frame */
-    x.strokeStyle="#e3b341"; x.lineWidth=9; x.strokeRect(42,42,1516,1056);
-    x.lineWidth=2.5; x.strokeRect(66,66,1468,1008);
-    x.textAlign="center";
-    /* red title banner */
-    x.fillStyle="#c0271d"; x.fillRect(470,104,660,80);
-    x.strokeStyle="#e3b341"; x.lineWidth=3; x.strokeRect(470,104,660,80);
-    x.fillStyle="#ffffff"; x.font="900 46px 'Arial Black','Arial',sans-serif";
-    x.fillText("ROAD TO DOOMSDAY",800,160);
-    /* heading */
-    x.fillStyle="#f6e8bd"; x.font="900 96px 'Arial Black','Arial',sans-serif";
-    x.fillText("CERTIFICATE",800,306);
-    x.font="900 54px 'Arial Black','Arial',sans-serif";
-    x.fillText("OF COMPLETION",800,372);
-    x.fillStyle="#bfe3c8"; x.font="400 31px Georgia, serif";
-    x.fillText("presented to",800,446);
-    /* name */
-    const ng=x.createLinearGradient(0,470,0,585);
-    ng.addColorStop(0,"#ffe9a8"); ng.addColorStop(1,"#e3b341");
-    x.fillStyle=ng;
-    let nameSize=100;
-    x.font="900 "+nameSize+"px 'Arial Black','Arial',sans-serif";
-    while(x.measureText(s.name.toUpperCase()).width>1180 && nameSize>44){
-      nameSize-=6; x.font="900 "+nameSize+"px 'Arial Black','Arial',sans-serif";
+    const BEB="'Bebas Neue','Arial Narrow',sans-serif";
+    const ARC="'Archivo','Helvetica Neue',sans-serif";
+
+    /* helper: centered letterspaced text */
+    function spaced(txt,cx,y,track){
+      const widths=[...txt].map(c=>x.measureText(c).width);
+      const total=widths.reduce((a,w)=>a+w+track,-track);
+      let px=cx-total/2;
+      x.save(); x.textAlign="left";
+      [...txt].forEach((c,i)=>{ x.fillText(c,px,y); px+=widths[i]+track; });
+      x.restore();
     }
-    x.fillText(s.name.toUpperCase(),800,566);
-    /* achievement lines, no dashes */
-    x.fillStyle="#eaf6ee"; x.font="400 33px Georgia, serif";
-    x.fillText("for conquering all 38 films of the Marvel Cinematic Universe",800,638);
+    /* helper: metallic gold text with shadow + bevel */
+    function goldText(txt,cx,y,size,track){
+      x.font="400 "+size+"px "+BEB;
+      x.save();
+      x.shadowColor="rgba(0,0,0,.55)"; x.shadowBlur=18; x.shadowOffsetY=8;
+      const g=x.createLinearGradient(0,y-size,0,y);
+      g.addColorStop(0,"#fff3c4"); g.addColorStop(.42,"#f0cf7a");
+      g.addColorStop(.55,"#c99a35"); g.addColorStop(.75,"#e9c25e"); g.addColorStop(1,"#8a6420");
+      x.fillStyle=g;
+      spaced(txt,cx,y,track);
+      x.restore();
+      x.save();
+      x.globalAlpha=.35; x.fillStyle="#fffbe8";
+      x.font="400 "+size+"px "+BEB;
+      spaced(txt,cx,y-2,track);
+      x.restore();
+    }
+
+    /* ---- cinematic field ---- */
+    const bg=x.createLinearGradient(0,0,0,H);
+    bg.addColorStop(0,"#0d2c1a"); bg.addColorStop(.45,"#155c35"); bg.addColorStop(1,"#071c10");
+    x.fillStyle=bg; x.fillRect(0,0,W,H);
+    const spot=x.createRadialGradient(W/2,540,80,W/2,540,980);
+    spot.addColorStop(0,"rgba(216,255,225,.16)"); spot.addColorStop(1,"rgba(0,0,0,0)");
+    x.fillStyle=spot; x.fillRect(0,0,W,H);
+    /* diagonal light streaks */
+    x.save(); x.translate(W/2,H/2); x.rotate(-.5);
+    [[-260,90,.05],[140,50,.04],[460,130,.03]].forEach(st=>{
+      const lg=x.createLinearGradient(st[0]-st[1],0,st[0]+st[1],0);
+      lg.addColorStop(0,"rgba(255,255,255,0)"); lg.addColorStop(.5,"rgba(235,255,240,"+st[2]+")"); lg.addColorStop(1,"rgba(255,255,255,0)");
+      x.fillStyle=lg; x.fillRect(st[0]-st[1],-1400,st[1]*2,2800);
+    });
+    x.restore();
+    /* corner vignette */
+    const vg=x.createRadialGradient(W/2,H/2,H*.45,W/2,H/2,H*.95);
+    vg.addColorStop(0,"rgba(0,0,0,0)"); vg.addColorStop(1,"rgba(0,0,0,.5)");
+    x.fillStyle=vg; x.fillRect(0,0,W,H);
+
+    /* ---- plate frame: hairlines + corner ticks ---- */
+    x.strokeStyle="rgba(233,194,94,.9)"; x.lineWidth=3; x.strokeRect(56,56,W-112,H-112);
+    x.strokeStyle="rgba(233,194,94,.35)"; x.lineWidth=1.5; x.strokeRect(76,76,W-152,H-152);
+    x.strokeStyle="#f0cf7a"; x.lineWidth=5;
+    [[56,56,1,1],[W-56,56,-1,1],[56,H-56,1,-1],[W-56,H-56,-1,-1]].forEach(c=>{
+      x.beginPath(); x.moveTo(c[0]+c[2]*54,c[1]); x.lineTo(c[0],c[1]); x.lineTo(c[0],c[1]+c[3]*54); x.stroke();
+    });
+
+    x.textAlign="center";
+
+    /* ---- top lockup ---- */
+    x.fillStyle="#8fd4a6"; x.font="600 26px "+ARC;
+    spaced("MARVEL CINEMATIC UNIVERSE MARATHON",W/2,168,14);
+    /* red plaque */
+    const bw=560,bh=86,bx=W/2-bw/2,by=196;
+    x.save(); x.shadowColor="rgba(0,0,0,.5)"; x.shadowBlur=22; x.shadowOffsetY=10;
+    const rg=x.createLinearGradient(0,by,0,by+bh);
+    rg.addColorStop(0,"#e0392c"); rg.addColorStop(.5,"#b3231a"); rg.addColorStop(1,"#8f1a13");
+    x.fillStyle=rg; x.fillRect(bx,by,bw,bh); x.restore();
+    x.strokeStyle="#f0cf7a"; x.lineWidth=2.5; x.strokeRect(bx+6,by+6,bw-12,bh-12);
+    x.fillStyle="#ffffff"; x.font="400 56px "+BEB;
+    spaced("ROAD TO DOOMSDAY",W/2,by+64,8);
+
+    /* ---- title ---- */
+    goldText("CERTIFICATE OF COMPLETION",W/2,428,118,10);
+
+    x.fillStyle="#bfe3c8"; x.font="italic 400 34px "+ARC;
+    x.fillText("presented with honor to",W/2,506);
+
+    /* ---- name with flanking rules ---- */
+    let nameSize=150;
+    x.font="400 "+nameSize+"px "+BEB;
+    while(x.measureText(s.name.toUpperCase()).width>1250 && nameSize>60){
+      nameSize-=8; x.font="400 "+nameSize+"px "+BEB;
+    }
+    goldText(s.name.toUpperCase(),W/2,660,nameSize,6);
+    const nw=Math.min(x.measureText(s.name.toUpperCase()).width+120,1420)/2;
+    x.strokeStyle="rgba(233,194,94,.8)"; x.lineWidth=2;
+    [[W/2-nw-170,W/2-nw-30],[W/2+nw+30,W/2+nw+170]].forEach(seg=>{
+      x.beginPath(); x.moveTo(seg[0],616); x.lineTo(seg[1],616); x.stroke();
+    });
+    [[W/2-nw-190],[W/2+nw+190]].forEach(d=>{
+      x.save(); x.translate(d[0],616); x.rotate(Math.PI/4);
+      x.fillStyle="#e9c25e"; x.fillRect(-7,-7,14,14); x.restore();
+    });
+
+    /* ---- achievement copy ---- */
+    x.fillStyle="#eaf6ee"; x.font="400 34px "+ARC;
+    x.fillText("for conquering all 38 films of the Marvel Cinematic Universe",W/2,742);
     const date=new Date().toLocaleDateString(undefined,{year:"numeric",month:"long",day:"numeric"});
-    x.fillText(s.hours+" of story · finished before the premiere · "+date,800,690);
-    /* seal: bold circle A emblem */
-    x.save(); x.translate(800,846);
-    x.strokeStyle="#e3b341"; x.lineWidth=12; x.beginPath(); x.arc(0,0,114,0,7); x.stroke();
-    x.lineWidth=4; x.beginPath(); x.arc(0,0,95,0,7); x.stroke();
-    x.fillStyle="#f6e8bd";
-    (function(){ const k=.66;
+    x.fillStyle="#a9d4b6"; x.font="400 29px "+ARC;
+    x.fillText(s.hours+" of story   ·   finished before the premiere   ·   "+date,W/2,792);
+
+    /* ---- seal: 38-tick metallic ring + A emblem ---- */
+    x.save(); x.translate(W/2,1010);
+    x.save(); x.shadowColor="rgba(0,0,0,.55)"; x.shadowBlur=26; x.shadowOffsetY=10;
+    x.fillStyle="#0d3a20"; x.beginPath(); x.arc(0,0,132,0,7); x.fill(); x.restore();
+    const ring=x.createLinearGradient(-132,-132,132,132);
+    ring.addColorStop(0,"#fff3c4"); ring.addColorStop(.45,"#c99a35");
+    ring.addColorStop(.6,"#f0cf7a"); ring.addColorStop(1,"#8a6420");
+    x.strokeStyle=ring; x.lineWidth=13; x.beginPath(); x.arc(0,0,126,0,7); x.stroke();
+    x.lineWidth=3.5; x.beginPath(); x.arc(0,0,104,0,7); x.stroke();
+    for(let i=0;i<38;i++){ const a=i/38*Math.PI*2;
+      x.save(); x.rotate(a); x.strokeStyle="rgba(240,207,122,.8)"; x.lineWidth=3;
+      x.beginPath(); x.moveTo(0,-112); x.lineTo(0,-119); x.stroke(); x.restore();
+    }
+    const ag=x.createLinearGradient(0,-95,0,95);
+    ag.addColorStop(0,"#fff3c4"); ag.addColorStop(.5,"#e9c25e"); ag.addColorStop(1,"#a87c28");
+    x.fillStyle=ag;
+    x.save(); x.shadowColor="rgba(0,0,0,.4)"; x.shadowBlur=8; x.shadowOffsetY=4;
+    (function(){ const k=.72;
       x.beginPath();
       [[0,-130],[122,130],[60,130],[34,72],[-34,72],[-60,130],[-122,130]].forEach((p,i)=>
         i?x.lineTo(p[0]*k,p[1]*k):x.moveTo(p[0]*k,p[1]*k));
@@ -1846,22 +1924,35 @@ if(!RM && "IntersectionObserver" in window){
       x.moveTo(0,-58*k); x.lineTo(26*k,24*k); x.lineTo(-26*k,24*k); x.closePath();
       x.fill("evenodd");
     })();
+    x.restore(); x.restore();
+
+    /* ---- signature blocks ---- */
+    x.strokeStyle="rgba(233,194,94,.85)"; x.lineWidth=2;
+    x.beginPath(); x.moveTo(250,1176); x.lineTo(700,1176); x.stroke();
+    x.beginPath(); x.moveTo(1300,1176); x.lineTo(1750,1176); x.stroke();
+    x.fillStyle="#ffe9a8"; x.font="italic 400 72px 'Snell Roundhand','Brush Script MT',cursive";
+    x.fillText("Excelsior!",1525,1156);
+    x.fillStyle="#f0cf7a"; x.font="400 40px "+BEB;
+    spaced("EARTH'S MIGHTIEST VIEWER",475,1226,4);
+    spaced("STAN LEE  ·  1922 - 2018",1525,1226,4);
+    x.fillStyle="#8fb89d"; x.font="italic 400 24px "+ARC;
+    x.fillText("official marathon title",475,1264);
+    x.fillText("in loving tribute, thanks for everything",1525,1264);
+
+    /* ---- footer strip ---- */
+    x.strokeStyle="rgba(233,194,94,.4)"; x.lineWidth=1.5;
+    x.beginPath(); x.moveTo(250,1300); x.lineTo(1750,1300); x.stroke();
+    x.fillStyle="#cfe9d6"; x.font="400 34px "+BEB;
+    spaced("AVENGERS: DOOMSDAY · DECEMBER 18 2026 · SEE YOU THERE",W/2,1348,6);
+
+    /* ---- film grain ---- */
+    x.save();
+    for(let i=0;i<3200;i++){
+      x.globalAlpha=Math.random()*.045;
+      x.fillStyle=Math.random()>.5?"#ffffff":"#000000";
+      x.fillRect(Math.random()*W,Math.random()*H,1.6,1.6);
+    }
     x.restore();
-    /* signature blocks */
-    x.strokeStyle="#e3b341"; x.lineWidth=2;
-    x.beginPath(); x.moveTo(200,956); x.lineTo(560,956); x.stroke();
-    x.beginPath(); x.moveTo(1040,956); x.lineTo(1400,956); x.stroke();
-    x.fillStyle="#ffe9a8"; x.font="italic 58px 'Brush Script MT','Snell Roundhand',cursive";
-    x.fillText("Excelsior!",1220,938);
-    x.fillStyle="#dff0e2"; x.font="700 26px Georgia, serif";
-    x.fillText("EARTH'S MIGHTIEST VIEWER",380,994);
-    x.fillText("STAN LEE · 1922 - 2018",1220,994);
-    x.fillStyle="#9dc7a9"; x.font="400 21px Georgia, serif";
-    x.fillText("official marathon title",380,1026);
-    x.fillText("in loving tribute, thanks for everything",1220,1026);
-    /* footer */
-    x.fillStyle="#dff0e2"; x.font="700 25px Georgia, serif";
-    x.fillText("AVENGERS: DOOMSDAY · IN THEATERS DECEMBER 18, 2026 · SEE YOU THERE",800,1074);
     return cv;
   }
 
@@ -1901,10 +1992,17 @@ if(!RM && "IntersectionObserver" in window){
     body.innerHTML=stageHTML(n,s);
     if(n===2){
       const cw=body.querySelector("#certwrap");
-      const img=new Image();
-      img.alt="Certificate of completion";
-      img.src=certCanvas().toDataURL("image/png");
-      cw.appendChild(img);
+      const ready=(document.fonts&&document.fonts.load)?Promise.all([
+        document.fonts.load("100px 'Bebas Neue'"),
+        document.fonts.load("italic 60px 'Snell Roundhand'"),
+        document.fonts.load("600 30px 'Archivo'")
+      ]).catch(()=>{}):Promise.resolve();
+      ready.then(()=>{
+        const img=new Image();
+        img.alt="Certificate of completion";
+        img.src=certCanvas().toDataURL("image/png");
+        cw.appendChild(img);
+      });
     }
     card.scrollTop=0;
   }
