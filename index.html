@@ -1,6 +1,6 @@
 <!doctype html>
 <meta charset="utf-8">
-<title>Road to Doomsday — MCU Marathon Tracker</title>
+<title>Road to Doomsday - MCU Marathon Tracker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#08060a">
@@ -479,12 +479,12 @@
   <header>
     <p class="eyebrow">Marvel Cinematic Universe · Rewatch Mission</p>
     <h1>Road to <span class="doom">Doomsday</span></h1>
-    <p class="sub">All 38 MCU films with runtimes and IMDb ratings — including Spider-Man:
-       Brand New Day — plus the 13 Disney+ series for the bonus round. Tick off what you've
-       seen; the schedule re-paces itself so you finish before the premiere.</p>
+    <p class="sub">All 38 MCU films with runtimes and IMDb ratings, plus the 13 Disney+ series
+       for the bonus round and the Fox X-Men run for context. Tick off what you've seen;
+       the schedule re-paces itself so you finish before the premiere.</p>
     <div class="quote" id="quote" aria-live="off"></div>
     <div class="countdown" id="countdown" aria-label="Countdown to Avengers Doomsday"></div>
-    <p class="premiere">Avengers: Doomsday — in theaters December 18, 2026</p>
+    <p class="premiere">Avengers: Doomsday - in theaters December 18, 2026</p>
     <div class="who" id="who"></div>
     <div class="pace" id="pace" hidden>
       <p class="m-lab">Your pace</p>
@@ -500,6 +500,7 @@
     <div class="seg" role="group" aria-label="Section">
       <button id="tabMov" aria-pressed="true">Movies · 38</button>
       <button id="tabSer" aria-pressed="false">Series · 13</button>
+      <button id="tabPrep" aria-pressed="false">Marvel's Prep List</button>
       <button id="tabDyk" aria-pressed="false">Did You Know?</button>
     </div>
   </div>
@@ -546,9 +547,9 @@
   <!-- ================= SERIES ================= -->
   <section id="sec-series" hidden>
     <div class="note">
-      <p><b>Bonus round — start only after the 38 films.</b></p>
+      <p><b>Bonus round - start only after the 38 films.</b></p>
       <p>The movies are the spine of the story; none of these series is required to follow it.
-         Watch them once the film marathon is done — or cherry-pick from the notes on each card.
+         Watch them once the film marathon is done - or cherry-pick from the notes on each card.
          If you only have time for one, make it <b>Loki</b>: it's the multiverse foundation
          Doomsday builds on.</p>
     </div>
@@ -563,9 +564,23 @@
     <div class="grid" id="serlist"></div>
   </section>
 
+  <!-- ================= MARVEL'S PREP LIST ================= -->
+  <section id="sec-prep" hidden>
+    <div class="note">
+      <p><b>The short route, straight from Marvel.</b></p>
+      <p>Disney published an official catch-up list for Doomsday: <b>15 titles</b>, 14 films
+         and one series, running about 41 hours. It is the fastest way to walk in with the
+         context you actually need. Note that it reaches outside the MCU for the first two:
+         the Fox X-Men cast is back, so their introductions are on the list.</p>
+    </div>
+    <div class="stats" id="prepstats"></div>
+    <div class="phase-h"><h2>The official 15</h2><small id="prepLab">in the order Marvel lists them</small></div>
+    <div class="grid" id="preplist"></div>
+  </section>
+
   <!-- ================= DID YOU KNOW ================= -->
   <section id="sec-dyk" hidden>
-    <p class="dyk-intro">One genuinely interesting thing about every film and series in the marathon —
+    <p class="dyk-intro">One genuinely interesting thing about every film and series in the marathon -
        for the group chat, the pre-show hype, or settling an argument. Tap any card's <b>Cast</b> button
        elsewhere to see who played whom.</p>
     <div class="phase-h"><h2>The films</h2><small>38 films + the finale</small></div>
@@ -575,13 +590,13 @@
   </section>
 
   <footer>
-    <p>Runtimes and IMDb ratings as of July 2026 — ratings drift a little over time.</p>
+    <p>Runtimes and IMDb ratings as of July 2026 - ratings drift a little over time.</p>
     <p><b>Where to watch (India):</b> almost every Marvel film and series streams on <b>JioHotstar</b>; the
        Sony Spider-Man films are also on SonyLIV. Each <b>Watch</b> button opens JustWatch, which shows the
        live streaming option for that title in India.</p>
     <p>Posters are shown for this personal project; all poster rights belong to the respective studios. Avatars are original artwork.</p>
-    <p><b>Save as an app:</b> iPhone — open in Safari, tap Share → “Add to Home Screen”. Android/Chrome — tap Install app or menu → “Add to Home screen”.</p>
-    <p>Your username is your login. Progress auto-saves to the cloud — type the same name on any
+    <p><b>Save as an app:</b> iPhone - open in Safari, tap Share → “Add to Home Screen”. Android/Chrome - tap Install app or menu → “Add to Home screen”.</p>
+    <p>Your username is your login. Progress auto-saves to the cloud - type the same name on any
        device to continue there. No password, so keep your name uniquely yours.</p>
   </footer>
 </div>
@@ -591,7 +606,7 @@
   <div class="login-card">
     <p class="eyebrow">Road to Doomsday</p>
     <h2>Who's watching?</h2>
-    <p class="hint">Pick a username + a 4-digit PIN — that's your login on every device.
+    <p class="hint">Pick a username + a 4-digit PIN - that's your login on every device.
        <b>First to take a name owns it</b>; nobody else can use it without your PIN.</p>
     <div class="plist" id="plist"></div>
     <div class="newp" id="newp">
@@ -629,12 +644,12 @@
   <div class="party-card">
     <button class="modal-x" id="partyX" aria-label="Close">✕</button>
     <div id="stickStage">
-      <p class="eyebrow">Reward 3 of 4 — sticker pack</p>
+      <p class="eyebrow">Reward 3 of 4 - sticker pack</p>
       <h2>15 heroes, yours</h2>
       <p class="hint">Original hero art made for this tracker. Tap any sticker to
          download it as a PNG, or grab the whole set.</p>
       <div class="stgrid" id="stgrid"></div>
-      <p class="st-note">512×512 transparent-corner PNGs — perfect for WhatsApp sticker makers.</p>
+      <p class="st-note">512×512 transparent-corner PNGs - perfect for WhatsApp sticker makers.</p>
       <button class="watch" id="stAll">Download all 15</button>
       <button class="watch" id="stickNext">Next reward →</button>
     </div>
@@ -654,7 +669,7 @@ const PREMIERE = new Date(2026, 11, 18, 0, 0, 0);           // Dec 18 2026, loca
 const FINISH_BY = new Date(2026, 11, 11, 0, 0, 0);          // finish films a week early
 const KP  = "mcu_doomsday_profiles_v1";
 const KEY = "mcu_doomsday_watched_v1";                      // legacy single-user key
-const POSTERS = {"12": "poster/12.jpg", "20": "poster/20.jpg", "31": "poster/31.jpg", "11": "poster/11.jpg", "22": "poster/22.jpg", "19": "poster/19.jpg", "30": "poster/30.jpg", "18": "poster/18.jpg", "24": "poster/24.jpg", "35": "poster/35.jpg", "13": "poster/13.jpg", "5": "poster/5.jpg", "9": "poster/9.jpg", "21": "poster/21.jpg", "34": "poster/34.jpg", "14": "poster/14.jpg", "28": "poster/28.jpg", "26": "poster/26.jpg", "10": "poster/10.jpg", "15": "poster/15.jpg", "32": "poster/32.jpg", "1": "poster/1.jpg", "3": "poster/3.jpg", "7": "poster/7.jpg", "103": "poster/103.jpg", "25": "poster/25.jpg", "23": "poster/23.jpg", "16": "poster/16.jpg", "27": "poster/27.jpg", "6": "poster/6.jpg", "102": "poster/102.jpg", "37": "poster/37.jpg", "2": "poster/2.jpg", "33": "poster/33.jpg", "29": "poster/29.jpg", "17": "poster/17.jpg", "8": "poster/8.jpg", "4": "poster/4.jpg", "101": "poster/101.jpg", "36": "poster/36.jpg", "111": "poster/111.jpg", "112": "poster/112.jpg", "110": "poster/110.jpg", "105": "poster/105.jpg", "113": "poster/113.jpg", "106": "poster/106.jpg", "107": "poster/107.jpg", "109": "poster/109.jpg", "108": "poster/108.jpg", "104": "poster/104.jpg", "38": "poster/38.jpg", "39": "poster/39.jpg"};
+const POSTERS = {"201": "poster/201.jpg", "202": "poster/202.jpg", "203": "poster/203.jpg", "204": "poster/204.jpg", "205": "poster/205.jpg", "206": "poster/206.jpg", "207": "poster/207.jpg", "208": "poster/208.jpg", "209": "poster/209.jpg", "210": "poster/210.jpg", "211": "poster/211.jpg", "212": "poster/212.jpg", "213": "poster/213.jpg", "12": "poster/12.jpg", "20": "poster/20.jpg", "31": "poster/31.jpg", "11": "poster/11.jpg", "22": "poster/22.jpg", "19": "poster/19.jpg", "30": "poster/30.jpg", "18": "poster/18.jpg", "24": "poster/24.jpg", "35": "poster/35.jpg", "13": "poster/13.jpg", "5": "poster/5.jpg", "9": "poster/9.jpg", "21": "poster/21.jpg", "34": "poster/34.jpg", "14": "poster/14.jpg", "28": "poster/28.jpg", "26": "poster/26.jpg", "10": "poster/10.jpg", "15": "poster/15.jpg", "32": "poster/32.jpg", "1": "poster/1.jpg", "3": "poster/3.jpg", "7": "poster/7.jpg", "103": "poster/103.jpg", "25": "poster/25.jpg", "23": "poster/23.jpg", "16": "poster/16.jpg", "27": "poster/27.jpg", "6": "poster/6.jpg", "102": "poster/102.jpg", "37": "poster/37.jpg", "2": "poster/2.jpg", "33": "poster/33.jpg", "29": "poster/29.jpg", "17": "poster/17.jpg", "8": "poster/8.jpg", "4": "poster/4.jpg", "101": "poster/101.jpg", "36": "poster/36.jpg", "111": "poster/111.jpg", "112": "poster/112.jpg", "110": "poster/110.jpg", "105": "poster/105.jpg", "113": "poster/113.jpg", "106": "poster/106.jpg", "107": "poster/107.jpg", "109": "poster/109.jpg", "108": "poster/108.jpg", "104": "poster/104.jpg", "38": "poster/38.jpg", "39": "poster/39.jpg"};
 const FIREBASE_DB = "https://road-to-doomsday-default-rtdb.asia-southeast1.firebasedatabase.app";
 
 /* title, year, runtime(min), imdb, phase, chrono index, [gradient c1,c2], monogram */
@@ -696,110 +711,144 @@ const FILMS = [
  ["Captain America: Brave New World",2025,118,5.8,5,35,["#1e3a5f","#c62828"],"CA4"],
  ["Thunderbolts*",2025,127,7.1,5,36,["#2f2f2f","#c9a227"],"TB"],
  ["The Fantastic Four: First Steps",2025,115,7.2,6,37,["#26418f","#c0c5ce"],"F4"],
- ["Spider-Man: Brand New Day",2026,0,null,6,38,["#a33540","#1c1c2e"],"SM4"],
+ ["Spider-Man: Brand New Day",2026,145,8.2,6,38,["#a33540","#1c1c2e"],"SM4"],
 ].map((f,i)=>({id:i+1,title:f[0],year:f[1],run:f[2],imdb:f[3],phase:f[4],chr:f[5],g:f[6],mono:f[7]}));
-FILMS[FILMS.length-1].avail = new Date(2026,6,31);          // BND hits theaters Jul 31, 2026
+/* Brand New Day released 31 Jul 2026, so it is a normal watchable film now, with real
+   runtime and rating. The "in theaters" gate it used to carry has been removed. */
 
-/* the finale — not part of the tracker, it IS the deadline */
+/* the finale, not part of the tracker, it IS the deadline */
 const DOOM = {id:39,title:"Avengers: Doomsday",year:2026,phase:6,run:0,imdb:null,g:["#123524","#3ecf8a"],mono:"AD"};
+
+/* The Fox X-Men run. Deliberately a SEPARATE list from FILMS, not appended to it:
+   ids start at 201 so nobody's saved progress shifts, the marathon stays "38 films",
+   and the 100% reward still unlocks on the 38. Ticking these is a bonus.
+   title, year, runtime, imdb, release-order, [gradient], monogram */
+const XMEN = [
+ ["X-Men",2000,104,7.3,1,["#1c2a3d","#7a8fa6"],"X1"],
+ ["X2: X-Men United",2003,134,7.4,2,["#1a2633","#5c7a99"],"X2"],
+ ["X-Men: The Last Stand",2006,104,6.7,3,["#3d1f1f","#a35c5c"],"X3"],
+ ["X-Men Origins: Wolverine",2009,107,6.6,4,["#33261a","#a3855c"],"XO"],
+ ["X-Men: First Class",2011,132,7.7,5,["#2a2633","#8c7ab8"],"XFC"],
+ ["The Wolverine",2013,126,6.7,6,["#2a2a2a","#997a4d"],"TW"],
+ ["X-Men: Days of Future Past",2014,132,7.9,7,["#1f2633","#6b8cad"],"DOFP"],
+ ["Deadpool",2016,108,8.0,8,["#8a1c1c","#e0c341"],"DP"],
+ ["X-Men: Apocalypse",2016,144,6.9,9,["#26331f","#7a9959"],"XA"],
+ ["Logan",2017,137,8.1,10,["#26211f","#998273"],"LG"],
+ ["Deadpool 2",2018,119,7.6,11,["#8a1c1c","#c0c5ce"],"DP2"],
+ ["Dark Phoenix",2019,113,5.7,12,["#33201f","#c26b4d"],"DPX"],
+ ["The New Mutants",2020,94,5.3,13,["#1f2429","#6b7a8c"],"NM"],
+].map((f,i)=>({id:201+i,title:f[0],year:f[1],run:f[2],imdb:f[3],rel:f[4],g:f[5],mono:f[6],xmen:true}));
 
 /* title, year, episodes, total mins, imdb, chrono index, tie-in, [gradient], monogram, key? */
 const SERIES = [
- ["WandaVision",2021,9,350,7.9,1,"Reality-warping sitcom grief — leads into Multiverse of Madness",["#6e1230","#c94f7c"],"WV"],
- ["The Falcon and the Winter Soldier",2021,6,300,7.1,2,"Sam Wilson takes the shield — sets up Brave New World",["#1e3a5f","#c62828"],"FW"],
- ["Loki",2021,12,570,8.2,3,"Seasons 1 + 2. The multiverse spine — the single most important series before Doomsday",["#2a5c2a","#e0c341"],"LK",true],
- ["What If...?",2021,26,720,7.4,4,"Animated multiverse anthology (3 seasons) — optional, but very on-theme",["#26418f","#5cc8d4"],"WI"],
+ ["WandaVision",2021,9,350,7.9,1,"Reality-warping sitcom grief - leads into Multiverse of Madness",["#6e1230","#c94f7c"],"WV"],
+ ["The Falcon and the Winter Soldier",2021,6,300,7.1,2,"Sam Wilson takes the shield - sets up Brave New World",["#1e3a5f","#c62828"],"FW"],
+ ["Loki",2021,12,570,8.2,3,"Seasons 1 + 2. The multiverse spine - the single most important series before Doomsday",["#2a5c2a","#e0c341"],"LK",true],
+ ["What If...?",2021,26,720,7.4,4,"Animated multiverse anthology (3 seasons) - optional, but very on-theme",["#26418f","#5cc8d4"],"WI"],
  ["Hawkeye",2021,6,280,7.5,5,"Clint passes the bow to Kate Bishop",["#3d2a5c","#a33540"],"HK"],
- ["Moon Knight",2022,6,280,7.3,6,"Standalone — a new hero, no homework needed",["#2f2f3d","#d9d4c2"],"MK"],
- ["Ms. Marvel",2022,6,260,6.2,7,"Kamala Khan's origin — feeds straight into The Marvels",["#26418f","#c62828"],"MM"],
- ["She-Hulk: Attorney at Law",2022,9,270,5.2,8,"Courtroom comedy — light, mostly standalone",["#2a5c3d","#7fb069"],"SH"],
- ["Secret Invasion",2023,6,270,5.9,9,"Fury vs. shape-shifting Skrulls — sets up The Marvels and Brave New World",["#1c2a1e","#3d7a5c"],"SI"],
+ ["Moon Knight",2022,6,280,7.3,6,"Standalone - a new hero, no homework needed",["#2f2f3d","#d9d4c2"],"MK"],
+ ["Ms. Marvel",2022,6,260,6.2,7,"Kamala Khan's origin - feeds straight into The Marvels",["#26418f","#c62828"],"MM"],
+ ["She-Hulk: Attorney at Law",2022,9,270,5.2,8,"Courtroom comedy - light, mostly standalone",["#2a5c3d","#7fb069"],"SH"],
+ ["Secret Invasion",2023,6,270,5.9,9,"Fury vs. shape-shifting Skrulls - sets up The Marvels and Brave New World",["#1c2a1e","#3d7a5c"],"SI"],
  ["Echo",2024,5,220,5.9,10,"Street-level spinoff of Hawkeye",["#3d2f2a","#b08968"],"EC"],
- ["Agatha All Along",2024,9,330,7.2,12,"WandaVision spinoff down the Witches' Road — set three years after Westview",["#3d2a5c","#7a5cad"],"AA"],
- ["Daredevil: Born Again",2025,9,450,8.3,13,"Street-level Marvel at its best — a year after Echo",["#5c1010","#c62828"],"DD"],
+ ["Agatha All Along",2024,9,330,7.2,12,"WandaVision spinoff down the Witches' Road - set three years after Westview",["#3d2a5c","#7a5cad"],"AA"],
+ ["Daredevil: Born Again",2025,9,450,8.3,13,"Street-level Marvel at its best - a year after Echo",["#5c1010","#c62828"],"DD"],
  ["Ironheart",2025,6,270,4.2,11,"Riri Williams, straight out of Wakanda Forever",["#5c1a1a","#e0a133"],"IH"],
 ].map((s,i)=>({id:101+i,rel:i+1,title:s[0],year:s[1],eps:s[2],run:s[3],imdb:s[4],chr:s[5],tie:s[6],g:s[7],mono:s[8],key:!!s[9]}));
 
 /* per-title detail: director, cast [actor,character], one fact. plat defaults to JioHotstar. */
 const DATA = {
- 1:{dir:"Jon Favreau",cast:[["Robert Downey Jr.","Tony Stark / Iron Man"],["Gwyneth Paltrow","Pepper Potts"],["Terrence Howard","James Rhodes"],["Jeff Bridges","Obadiah Stane"]],fact:"The script was unfinished during filming, so Robert Downey Jr. improvised much of his dialogue on the spot — including the now-iconic ‘I am Iron Man’ ad-lib that ended the film."},
- 2:{dir:"Louis Leterrier",cast:[["Edward Norton","Bruce Banner / Hulk"],["Liv Tyler","Betty Ross"],["Tim Roth","Emil Blonsky / Abomination"],["William Hurt","Thaddeus Ross"]],fact:"Edward Norton quietly rewrote much of the script himself. He never returned as Banner — the role was recast with Mark Ruffalo — making this the odd one out of the saga."},
- 3:{dir:"Jon Favreau",cast:[["Robert Downey Jr.","Tony Stark / Iron Man"],["Don Cheadle","James Rhodes / War Machine"],["Scarlett Johansson","Natasha Romanoff / Black Widow"],["Mickey Rourke","Ivan Vanko / Whiplash"],["Sam Rockwell","Justin Hammer"]],fact:"Elon Musk has a cameo, and Tony Stark was partly modelled on him — Favreau sent Downey to tour SpaceX for inspiration. This is also Black Widow's debut."},
- 4:{dir:"Kenneth Branagh",cast:[["Chris Hemsworth","Thor"],["Natalie Portman","Jane Foster"],["Tom Hiddleston","Loki"],["Anthony Hopkins","Odin"]],fact:"Chris Hemsworth actually flunked his first audition — and his younger brother Liam nearly landed the role instead before Chris got a second shot."},
+ 1:{dir:"Jon Favreau",cast:[["Robert Downey Jr.","Tony Stark / Iron Man"],["Gwyneth Paltrow","Pepper Potts"],["Terrence Howard","James Rhodes"],["Jeff Bridges","Obadiah Stane"]],fact:"The script was unfinished during filming, so Robert Downey Jr. improvised much of his dialogue on the spot - including the now-iconic ‘I am Iron Man’ ad-lib that ended the film."},
+ 2:{dir:"Louis Leterrier",cast:[["Edward Norton","Bruce Banner / Hulk"],["Liv Tyler","Betty Ross"],["Tim Roth","Emil Blonsky / Abomination"],["William Hurt","Thaddeus Ross"]],fact:"Edward Norton quietly rewrote much of the script himself. He never returned as Banner - the role was recast with Mark Ruffalo - making this the odd one out of the saga."},
+ 3:{dir:"Jon Favreau",cast:[["Robert Downey Jr.","Tony Stark / Iron Man"],["Don Cheadle","James Rhodes / War Machine"],["Scarlett Johansson","Natasha Romanoff / Black Widow"],["Mickey Rourke","Ivan Vanko / Whiplash"],["Sam Rockwell","Justin Hammer"]],fact:"Elon Musk has a cameo, and Tony Stark was partly modelled on him - Favreau sent Downey to tour SpaceX for inspiration. This is also Black Widow's debut."},
+ 4:{dir:"Kenneth Branagh",cast:[["Chris Hemsworth","Thor"],["Natalie Portman","Jane Foster"],["Tom Hiddleston","Loki"],["Anthony Hopkins","Odin"]],fact:"Chris Hemsworth actually flunked his first audition - and his younger brother Liam nearly landed the role instead before Chris got a second shot."},
  5:{dir:"Joe Johnston",cast:[["Chris Evans","Steve Rogers / Captain America"],["Hayley Atwell","Peggy Carter"],["Sebastian Stan","Bucky Barnes"],["Hugo Weaving","Red Skull"]],fact:"Chris Evans turned the role down several times before saying yes. ‘Skinny Steve’ was made by digitally shrinking Evans and grafting his face onto a smaller body double."},
- 6:{dir:"Joss Whedon",cast:[["Robert Downey Jr.","Tony Stark / Iron Man"],["Chris Evans","Steve Rogers / Captain America"],["Mark Ruffalo","Bruce Banner / Hulk"],["Scarlett Johansson","Black Widow"],["Tom Hiddleston","Loki"]],fact:"The silent shawarma scene was shot the day after the premiere and added at the last minute — which is why a few actors look noticeably different in it."},
- 7:{dir:"Shane Black",cast:[["Robert Downey Jr.","Tony Stark / Iron Man"],["Gwyneth Paltrow","Pepper Potts"],["Guy Pearce","Aldrich Killian"],["Ben Kingsley","Trevor Slattery"]],fact:"The ‘Mandarin’ twist — that the terrifying villain was really a washed-up actor — so divided fans that Marvel made a short film years later to reveal the real Mandarin existed."},
- 8:{dir:"Alan Taylor",cast:[["Chris Hemsworth","Thor"],["Natalie Portman","Jane Foster"],["Tom Hiddleston","Loki"],["Christopher Eccleston","Malekith"]],fact:"That surprise cameo where Loki morphs into Captain America? That's Chris Evans playing Loki-playing-Cap — Hemsworth reportedly couldn't stop laughing on set."},
+ 6:{dir:"Joss Whedon",cast:[["Robert Downey Jr.","Tony Stark / Iron Man"],["Chris Evans","Steve Rogers / Captain America"],["Mark Ruffalo","Bruce Banner / Hulk"],["Scarlett Johansson","Black Widow"],["Tom Hiddleston","Loki"]],fact:"The silent shawarma scene was shot the day after the premiere and added at the last minute - which is why a few actors look noticeably different in it."},
+ 7:{dir:"Shane Black",cast:[["Robert Downey Jr.","Tony Stark / Iron Man"],["Gwyneth Paltrow","Pepper Potts"],["Guy Pearce","Aldrich Killian"],["Ben Kingsley","Trevor Slattery"]],fact:"The ‘Mandarin’ twist - that the terrifying villain was really a washed-up actor - so divided fans that Marvel made a short film years later to reveal the real Mandarin existed."},
+ 8:{dir:"Alan Taylor",cast:[["Chris Hemsworth","Thor"],["Natalie Portman","Jane Foster"],["Tom Hiddleston","Loki"],["Christopher Eccleston","Malekith"]],fact:"That surprise cameo where Loki morphs into Captain America? That's Chris Evans playing Loki-playing-Cap - Hemsworth reportedly couldn't stop laughing on set."},
  9:{dir:"Anthony & Joe Russo",cast:[["Chris Evans","Steve Rogers / Captain America"],["Scarlett Johansson","Black Widow"],["Sebastian Stan","Bucky / Winter Soldier"],["Anthony Mackie","Sam Wilson / Falcon"],["Robert Redford","Alexander Pierce"]],fact:"Marvel hired the Russo brothers off the back of their TV comedy work on Community. Robert Redford took the villain role largely because his grandchildren were fans."},
  10:{dir:"James Gunn",cast:[["Chris Pratt","Peter Quill / Star-Lord"],["Zoe Saldaña","Gamora"],["Dave Bautista","Drax"],["Vin Diesel","Groot (voice)"],["Bradley Cooper","Rocket (voice)"]],fact:"Vin Diesel recorded ‘I am Groot’ in several languages for international releases. Rocket was modelled on a real long-haired raccoon named Oreo, brought onto set."},
  11:{dir:"Joss Whedon",cast:[["Robert Downey Jr.","Tony Stark / Iron Man"],["Chris Evans","Captain America"],["Mark Ruffalo","Hulk"],["James Spader","Ultron (voice)"],["Elizabeth Olsen","Wanda Maximoff"]],fact:"James Spader performed Ultron via full facial motion-capture, so the robot villain carries his exact expressions and sardonic delivery."},
  12:{dir:"Peyton Reed",cast:[["Paul Rudd","Scott Lang / Ant-Man"],["Evangeline Lilly","Hope van Dyne"],["Michael Douglas","Hank Pym"],["Corey Stoll","Darren Cross / Yellowjacket"]],fact:"Original director Edgar Wright developed the film for eight years before leaving over creative differences; Paul Rudd co-wrote the version that finally got made."},
- 13:{dir:"Anthony & Joe Russo",cast:[["Chris Evans","Captain America"],["Robert Downey Jr.","Iron Man"],["Sebastian Stan","Winter Soldier"],["Chadwick Boseman","T'Challa / Black Panther"],["Tom Holland","Peter Parker / Spider-Man"]],fact:"The huge airport battle was filmed at a real decommissioned airport in Leipzig, Germany — Spider-Man and Ant-Man's size-changing was added digitally afterward."},
+ 13:{dir:"Anthony & Joe Russo",cast:[["Chris Evans","Captain America"],["Robert Downey Jr.","Iron Man"],["Sebastian Stan","Winter Soldier"],["Chadwick Boseman","T'Challa / Black Panther"],["Tom Holland","Peter Parker / Spider-Man"]],fact:"The huge airport battle was filmed at a real decommissioned airport in Leipzig, Germany - Spider-Man and Ant-Man's size-changing was added digitally afterward."},
  14:{dir:"Scott Derrickson",cast:[["Benedict Cumberbatch","Stephen Strange"],["Chiwetel Ejiofor","Karl Mordo"],["Rachel McAdams","Christine Palmer"],["Tilda Swinton","The Ancient One"]],fact:"Cumberbatch studied real surgeons to nail Strange's hand movements. The reality-bending city visuals pushed VFX further than Inception, folding entire streets over themselves."},
- 15:{dir:"James Gunn",cast:[["Chris Pratt","Star-Lord"],["Zoe Saldaña","Gamora"],["Dave Bautista","Drax"],["Kurt Russell","Ego"],["Michael Rooker","Yondu"]],fact:"Kurt Russell was digitally de-aged for the 1980-set opening — one of the MCU's earliest full de-aging jobs. The film hides a record five post-credits scenes."},
- 16:{dir:"Jon Watts",plat:"JioHotstar / SonyLIV",cast:[["Tom Holland","Peter Parker / Spider-Man"],["Michael Keaton","Adrian Toomes / Vulture"],["Zendaya","MJ"],["Marisa Tomei","May Parker"],["Robert Downey Jr.","Tony Stark"]],fact:"To prepare, Tom Holland secretly enrolled in a real Bronx high school under a fake name and accent — none of his classmates knew they were sitting next to Spider-Man."},
+ 15:{dir:"James Gunn",cast:[["Chris Pratt","Star-Lord"],["Zoe Saldaña","Gamora"],["Dave Bautista","Drax"],["Kurt Russell","Ego"],["Michael Rooker","Yondu"]],fact:"Kurt Russell was digitally de-aged for the 1980-set opening - one of the MCU's earliest full de-aging jobs. The film hides a record five post-credits scenes."},
+ 16:{dir:"Jon Watts",plat:"JioHotstar / SonyLIV",cast:[["Tom Holland","Peter Parker / Spider-Man"],["Michael Keaton","Adrian Toomes / Vulture"],["Zendaya","MJ"],["Marisa Tomei","May Parker"],["Robert Downey Jr.","Tony Stark"]],fact:"To prepare, Tom Holland secretly enrolled in a real Bronx high school under a fake name and accent - none of his classmates knew they were sitting next to Spider-Man."},
  17:{dir:"Taika Waititi",cast:[["Chris Hemsworth","Thor"],["Tom Hiddleston","Loki"],["Cate Blanchett","Hela"],["Tessa Thompson","Valkyrie"],["Jeff Goldblum","Grandmaster"]],fact:"Director Taika Waititi improvised huge chunks of the comedy and voices the rock gladiator Korg himself. Jeff Goldblum ad-libbed nearly all of the Grandmaster's lines."},
- 18:{dir:"Ryan Coogler",cast:[["Chadwick Boseman","T'Challa / Black Panther"],["Michael B. Jordan","Erik Killmonger"],["Lupita Nyong'o","Nakia"],["Danai Gurira","Okoye"],["Letitia Wright","Shuri"]],fact:"It became the first superhero film ever nominated for Best Picture at the Oscars — and won three Academy Awards, a genre milestone."},
- 19:{dir:"Anthony & Joe Russo",cast:[["Josh Brolin","Thanos"],["Robert Downey Jr.","Iron Man"],["Chris Hemsworth","Thor"],["Chris Evans","Captain America"],["Zoe Saldaña","Gamora"]],fact:"To stop the ending leaking, most of the cast were given fake scripts with decoy scenes — only Robert Downey Jr. and Chris Evans were trusted with the real one."},
- 20:{dir:"Peyton Reed",cast:[["Paul Rudd","Scott Lang / Ant-Man"],["Evangeline Lilly","Hope van Dyne / Wasp"],["Michael Douglas","Hank Pym"],["Michelle Pfeiffer","Janet van Dyne"],["Hannah John-Kamen","Ghost"]],fact:"It's the first MCU film to name a female hero in its title — the Wasp finally shared top billing."},
- 21:{dir:"Anna Boden & Ryan Fleck",cast:[["Brie Larson","Carol Danvers / Captain Marvel"],["Samuel L. Jackson","Nick Fury"],["Ben Mendelsohn","Talos"],["Jude Law","Yon-Rogg"]],fact:"Set in the 1990s, it digitally de-aged Samuel L. Jackson for the whole film. Goose the cat was played by four different cats — and one very patient animatronic."},
+ 18:{dir:"Ryan Coogler",cast:[["Chadwick Boseman","T'Challa / Black Panther"],["Michael B. Jordan","Erik Killmonger"],["Lupita Nyong'o","Nakia"],["Danai Gurira","Okoye"],["Letitia Wright","Shuri"]],fact:"It became the first superhero film ever nominated for Best Picture at the Oscars - and won three Academy Awards, a genre milestone."},
+ 19:{dir:"Anthony & Joe Russo",cast:[["Josh Brolin","Thanos"],["Robert Downey Jr.","Iron Man"],["Chris Hemsworth","Thor"],["Chris Evans","Captain America"],["Zoe Saldaña","Gamora"]],fact:"To stop the ending leaking, most of the cast were given fake scripts with decoy scenes - only Robert Downey Jr. and Chris Evans were trusted with the real one."},
+ 20:{dir:"Peyton Reed",cast:[["Paul Rudd","Scott Lang / Ant-Man"],["Evangeline Lilly","Hope van Dyne / Wasp"],["Michael Douglas","Hank Pym"],["Michelle Pfeiffer","Janet van Dyne"],["Hannah John-Kamen","Ghost"]],fact:"It's the first MCU film to name a female hero in its title - the Wasp finally shared top billing."},
+ 21:{dir:"Anna Boden & Ryan Fleck",cast:[["Brie Larson","Carol Danvers / Captain Marvel"],["Samuel L. Jackson","Nick Fury"],["Ben Mendelsohn","Talos"],["Jude Law","Yon-Rogg"]],fact:"Set in the 1990s, it digitally de-aged Samuel L. Jackson for the whole film. Goose the cat was played by four different cats - and one very patient animatronic."},
  22:{dir:"Anthony & Joe Russo",cast:[["Robert Downey Jr.","Iron Man"],["Chris Evans","Captain America"],["Scarlett Johansson","Black Widow"],["Josh Brolin","Thanos"],["Karen Gillan","Nebula"]],fact:"On release it overtook Avatar as the highest-grossing film of all time. The line ‘Avengers… assemble’ was deliberately saved across eleven years for this exact moment."},
- 23:{dir:"Jon Watts",plat:"JioHotstar / SonyLIV",cast:[["Tom Holland","Peter Parker / Spider-Man"],["Zendaya","MJ"],["Jake Gyllenhaal","Quentin Beck / Mysterio"],["Samuel L. Jackson","Nick Fury"],["Jacob Batalon","Ned Leeds"]],fact:"Shot across Venice, Prague, Berlin and London, it closed out the Infinity Saga — the final film in Marvel's first 23-movie arc."},
- 24:{dir:"Cate Shortland",cast:[["Scarlett Johansson","Natasha Romanoff / Black Widow"],["Florence Pugh","Yelena Belova"],["David Harbour","Alexei / Red Guardian"],["Rachel Weisz","Melina"],["Ray Winstone","Dreykov"]],fact:"Though released in 2021, it's set years earlier, between Civil War and Infinity War — and quietly introduced Florence Pugh's Yelena as Natasha's successor."},
+ 23:{dir:"Jon Watts",plat:"JioHotstar / SonyLIV",cast:[["Tom Holland","Peter Parker / Spider-Man"],["Zendaya","MJ"],["Jake Gyllenhaal","Quentin Beck / Mysterio"],["Samuel L. Jackson","Nick Fury"],["Jacob Batalon","Ned Leeds"]],fact:"Shot across Venice, Prague, Berlin and London, it closed out the Infinity Saga - the final film in Marvel's first 23-movie arc."},
+ 24:{dir:"Cate Shortland",cast:[["Scarlett Johansson","Natasha Romanoff / Black Widow"],["Florence Pugh","Yelena Belova"],["David Harbour","Alexei / Red Guardian"],["Rachel Weisz","Melina"],["Ray Winstone","Dreykov"]],fact:"Though released in 2021, it's set years earlier, between Civil War and Infinity War - and quietly introduced Florence Pugh's Yelena as Natasha's successor."},
  25:{dir:"Destin Daniel Cretton",cast:[["Simu Liu","Shang-Chi"],["Awkwafina","Katy"],["Tony Leung","Xu Wenwu / The Mandarin"],["Michelle Yeoh","Ying Nan"]],fact:"Hong Kong legend Tony Leung made his Hollywood debut here as the villain. The bus fight was staged as a tribute to Jackie Chan's prop-driven action comedy."},
  26:{dir:"Chloé Zhao",cast:[["Gemma Chan","Sersi"],["Richard Madden","Ikaris"],["Angelina Jolie","Thena"],["Kumail Nanjiani","Kingo"],["Salma Hayek","Ajak"]],fact:"Directed by Oscar-winner Chloé Zhao straight off Nomadland, it introduced the MCU's first deaf superhero (Makkari) and its first openly gay lead hero."},
- 27:{dir:"Jon Watts",plat:"JioHotstar / SonyLIV",cast:[["Tom Holland","Peter Parker / Spider-Man"],["Zendaya","MJ"],["Benedict Cumberbatch","Doctor Strange"],["Willem Dafoe","Green Goblin"],["Alfred Molina","Doctor Octopus"]],fact:"The return of Tobey Maguire and Andrew Garfield was denied for over a year despite relentless leaks — the cast lied in interviews right up to release day."},
- 28:{dir:"Sam Raimi",cast:[["Benedict Cumberbatch","Stephen Strange"],["Elizabeth Olsen","Wanda / Scarlet Witch"],["Xochitl Gomez","America Chavez"],["Benedict Wong","Wong"],["Chiwetel Ejiofor","Karl Mordo"]],fact:"Horror maestro Sam Raimi — director of the original Tobey Maguire Spider-Man trilogy — returned to Marvel after nearly 20 years, bringing full-on horror staging with him."},
+ 27:{dir:"Jon Watts",plat:"JioHotstar / SonyLIV",cast:[["Tom Holland","Peter Parker / Spider-Man"],["Zendaya","MJ"],["Benedict Cumberbatch","Doctor Strange"],["Willem Dafoe","Green Goblin"],["Alfred Molina","Doctor Octopus"]],fact:"The return of Tobey Maguire and Andrew Garfield was denied for over a year despite relentless leaks - the cast lied in interviews right up to release day."},
+ 28:{dir:"Sam Raimi",cast:[["Benedict Cumberbatch","Stephen Strange"],["Elizabeth Olsen","Wanda / Scarlet Witch"],["Xochitl Gomez","America Chavez"],["Benedict Wong","Wong"],["Chiwetel Ejiofor","Karl Mordo"]],fact:"Horror maestro Sam Raimi - director of the original Tobey Maguire Spider-Man trilogy - returned to Marvel after nearly 20 years, bringing full-on horror staging with him."},
  29:{dir:"Taika Waititi",cast:[["Chris Hemsworth","Thor"],["Natalie Portman","Jane Foster / Mighty Thor"],["Christian Bale","Gorr the God Butcher"],["Tessa Thompson","Valkyrie"]],fact:"Russell Crowe improvised Zeus's thick Greek accent on set. The pair of screaming goats pulling Thor's chariot became an instant internet meme."},
- 30:{dir:"Ryan Coogler",cast:[["Letitia Wright","Shuri"],["Angela Bassett","Ramonda"],["Tenoch Huerta","Namor"],["Danai Gurira","Okoye"],["Lupita Nyong'o","Nakia"]],fact:"Made after Chadwick Boseman's death in 2020, the film chose to honour him rather than recast T'Challa — reshaping the entire story around his absence."},
- 31:{dir:"Peyton Reed",cast:[["Paul Rudd","Scott Lang / Ant-Man"],["Evangeline Lilly","Hope van Dyne / Wasp"],["Jonathan Majors","Kang the Conqueror"],["Michelle Pfeiffer","Janet van Dyne"],["Kathryn Newton","Cassie Lang"]],fact:"It promoted Kang to the saga's next big villain, and set almost the entire story inside the microscopic Quantum Realm — the MCU's strangest world yet."},
- 32:{dir:"James Gunn",cast:[["Chris Pratt","Star-Lord"],["Zoe Saldaña","Gamora"],["Dave Bautista","Drax"],["Chukwudi Iwuji","The High Evolutionary"],["Bradley Cooper","Rocket (voice)"]],fact:"It was James Gunn's Marvel farewell before he left to run rival DC Studios. Rocket's harrowing origin flashbacks reduced test audiences — and cast — to tears."},
- 33:{dir:"Nia DaCosta",cast:[["Brie Larson","Carol Danvers / Captain Marvel"],["Teyonah Parris","Monica Rambeau"],["Iman Vellani","Kamala Khan / Ms. Marvel"],["Zawe Ashton","Dar-Benn"]],fact:"At 105 minutes it's the shortest film in the entire MCU — and features a gleefully bizarre detour to a planet where everyone communicates by singing."},
- 34:{dir:"Shawn Levy",cast:[["Ryan Reynolds","Wade Wilson / Deadpool"],["Hugh Jackman","Logan / Wolverine"],["Emma Corrin","Cassandra Nova"],["Matthew Macfadyen","Paradox"]],fact:"Hugh Jackman returned as Wolverine years after swearing he was finished with the character in Logan — and it became the MCU's first R-rated film."},
- 35:{dir:"Julius Onah",cast:[["Anthony Mackie","Sam Wilson / Captain America"],["Harrison Ford","Thaddeus Ross / Red Hulk"],["Danny Ramirez","Joaquin Torres / Falcon"],["Tim Blake Nelson","Samuel Sterns / The Leader"]],fact:"Harrison Ford took over the role of Thaddeus Ross following William Hurt's passing — and gets to turn into the Red Hulk in his first Marvel outing."},
- 36:{dir:"Jake Schreier",cast:[["Florence Pugh","Yelena Belova"],["Sebastian Stan","Bucky Barnes"],["David Harbour","Red Guardian"],["Julia Louis-Dreyfus","Valentina"],["Lewis Pullman","Bob / Sentry"]],fact:"That asterisk in the title isn't a typo — it's a deliberate plot tease that only pays off in the film's final moments, quietly renaming the team."},
- 37:{dir:"Matt Shakman",cast:[["Pedro Pascal","Reed Richards / Mister Fantastic"],["Vanessa Kirby","Sue Storm / Invisible Woman"],["Joseph Quinn","Johnny Storm / Human Torch"],["Ebon Moss-Bachrach","Ben Grimm / The Thing"]],fact:"Set on a retro-futuristic 1960s ‘Earth-828’ rather than the main timeline, it's the launchpad straight into Avengers: Doomsday — which is why it caps this list."},
- 38:{dir:"Destin Daniel Cretton",plat:"In theaters Jul 31",cast:[["Tom Holland","Peter Parker / Spider-Man"],["Zendaya","MJ"],["Sadie Sink","(role under wraps)"],["Jon Bernthal","Frank Castle / Punisher"],["Mark Ruffalo","Bruce Banner / Hulk"]],fact:"A deliberate back-to-basics, street-level Spider-Man story — with Glasgow's city centre famously shut down to double for New York during the huge truck-chase shoot. It lands in theaters July 31, 2026, mid-marathon."},
- 39:{dir:"Anthony & Joe Russo",plat:"In theaters Dec 18",cast:[["Robert Downey Jr.","Victor von Doom / Doctor Doom"],["Chris Hemsworth","Thor"],["Vanessa Kirby","Sue Storm"],["Pedro Pascal","Reed Richards"],["Anthony Mackie","Sam Wilson / Captain America"],["Patrick Stewart","Professor X"],["Ian McKellen","Magneto"]],fact:"Marvel announced the cast with a five-and-a-half-hour livestream of empty chairs being revealed one by one — and the biggest bombshell was Robert Downey Jr. returning to the MCU not as Iron Man, but as Doctor Doom."},
+ 30:{dir:"Ryan Coogler",cast:[["Letitia Wright","Shuri"],["Angela Bassett","Ramonda"],["Tenoch Huerta","Namor"],["Danai Gurira","Okoye"],["Lupita Nyong'o","Nakia"]],fact:"Made after Chadwick Boseman's death in 2020, the film chose to honour him rather than recast T'Challa - reshaping the entire story around his absence."},
+ 31:{dir:"Peyton Reed",cast:[["Paul Rudd","Scott Lang / Ant-Man"],["Evangeline Lilly","Hope van Dyne / Wasp"],["Jonathan Majors","Kang the Conqueror"],["Michelle Pfeiffer","Janet van Dyne"],["Kathryn Newton","Cassie Lang"]],fact:"It promoted Kang to the saga's next big villain, and set almost the entire story inside the microscopic Quantum Realm - the MCU's strangest world yet."},
+ 32:{dir:"James Gunn",cast:[["Chris Pratt","Star-Lord"],["Zoe Saldaña","Gamora"],["Dave Bautista","Drax"],["Chukwudi Iwuji","The High Evolutionary"],["Bradley Cooper","Rocket (voice)"]],fact:"It was James Gunn's Marvel farewell before he left to run rival DC Studios. Rocket's harrowing origin flashbacks reduced test audiences - and cast - to tears."},
+ 33:{dir:"Nia DaCosta",cast:[["Brie Larson","Carol Danvers / Captain Marvel"],["Teyonah Parris","Monica Rambeau"],["Iman Vellani","Kamala Khan / Ms. Marvel"],["Zawe Ashton","Dar-Benn"]],fact:"At 105 minutes it's the shortest film in the entire MCU - and features a gleefully bizarre detour to a planet where everyone communicates by singing."},
+ 34:{dir:"Shawn Levy",cast:[["Ryan Reynolds","Wade Wilson / Deadpool"],["Hugh Jackman","Logan / Wolverine"],["Emma Corrin","Cassandra Nova"],["Matthew Macfadyen","Paradox"]],fact:"Hugh Jackman returned as Wolverine years after swearing he was finished with the character in Logan - and it became the MCU's first R-rated film."},
+ 35:{dir:"Julius Onah",cast:[["Anthony Mackie","Sam Wilson / Captain America"],["Harrison Ford","Thaddeus Ross / Red Hulk"],["Danny Ramirez","Joaquin Torres / Falcon"],["Tim Blake Nelson","Samuel Sterns / The Leader"]],fact:"Harrison Ford took over the role of Thaddeus Ross following William Hurt's passing - and gets to turn into the Red Hulk in his first Marvel outing."},
+ 36:{dir:"Jake Schreier",cast:[["Florence Pugh","Yelena Belova"],["Sebastian Stan","Bucky Barnes"],["David Harbour","Red Guardian"],["Julia Louis-Dreyfus","Valentina"],["Lewis Pullman","Bob / Sentry"]],fact:"That asterisk in the title isn't a typo - it's a deliberate plot tease that only pays off in the film's final moments, quietly renaming the team."},
+ 37:{dir:"Matt Shakman",cast:[["Pedro Pascal","Reed Richards / Mister Fantastic"],["Vanessa Kirby","Sue Storm / Invisible Woman"],["Joseph Quinn","Johnny Storm / Human Torch"],["Ebon Moss-Bachrach","Ben Grimm / The Thing"]],fact:"Set on a retro-futuristic 1960s ‘Earth-828’ rather than the main timeline, it's the launchpad straight into Avengers: Doomsday - which is why it caps this list."},
+ 38:{dir:"Destin Daniel Cretton",plat:"JioHotstar / SonyLIV",cast:[["Tom Holland","Peter Parker / Spider-Man"],["Zendaya","MJ"],["Sadie Sink","(role under wraps)"],["Jon Bernthal","Frank Castle / Punisher"],["Mark Ruffalo","Bruce Banner / Hulk"]],fact:"A deliberate back-to-basics, street-level Spider-Man story - with Glasgow's city centre famously shut down to double for New York during the huge truck-chase shoot. It lands in theaters July 31, 2026, mid-marathon."},
+ 39:{dir:"Anthony & Joe Russo",plat:"In theaters Dec 18",cast:[["Robert Downey Jr.","Victor von Doom / Doctor Doom"],["Chris Hemsworth","Thor"],["Vanessa Kirby","Sue Storm"],["Pedro Pascal","Reed Richards"],["Anthony Mackie","Sam Wilson / Captain America"],["Patrick Stewart","Professor X"],["Ian McKellen","Magneto"]],fact:"Marvel announced the cast with a five-and-a-half-hour livestream of empty chairs being revealed one by one - and the biggest bombshell was Robert Downey Jr. returning to the MCU not as Iron Man, but as Doctor Doom."},
+ 201:{dir:"Bryan Singer",cast:[["Hugh Jackman","Logan / Wolverine"],["Patrick Stewart","Professor Charles Xavier"],["Ian McKellen","Erik Lehnsherr / Magneto"],["Halle Berry","Ororo Munroe / Storm"],["Famke Janssen","Jean Grey"]],fact:"Hugh Jackman was a last-minute replacement after Dougray Scott got stuck filming Mission: Impossible 2. Jackman had barely read the comics, and it turned into a seventeen-year run in the role."},
+ 202:{dir:"Bryan Singer",cast:[["Hugh Jackman","Wolverine"],["Patrick Stewart","Professor X"],["Ian McKellen","Magneto"],["Brian Cox","William Stryker"],["Alan Cumming","Kurt Wagner / Nightcrawler"]],fact:"Alan Cumming sat through roughly four hours of makeup a day for Nightcrawler, including hundreds of individually applied markings. The final scene set up the Dark Phoenix story."},
+ 203:{dir:"Brett Ratner",cast:[["Hugh Jackman","Wolverine"],["Famke Janssen","Jean Grey / Phoenix"],["Patrick Stewart","Professor X"],["Ian McKellen","Magneto"],["Kelsey Grammer","Hank McCoy / Beast"]],fact:"Bryan Singer left the trilogy to direct Superman Returns. The troubled result is exactly why Days of Future Past later rewrote this film's ending out of the timeline."},
+ 204:{dir:"Gavin Hood",cast:[["Hugh Jackman","Logan / Wolverine"],["Liev Schreiber","Victor Creed / Sabretooth"],["Danny Huston","William Stryker"],["Ryan Reynolds","Wade Wilson"]],fact:"An unfinished workprint leaked online a month before release. The mouth-sewn-shut version of Deadpool here got mocked directly by Ryan Reynolds in his own film seven years later."},
+ 205:{dir:"Matthew Vaughn",cast:[["James McAvoy","Charles Xavier"],["Michael Fassbender","Erik Lehnsherr / Magneto"],["Jennifer Lawrence","Raven / Mystique"],["Kevin Bacon","Sebastian Shaw"]],fact:"A 1962 period piece built around the Cuban Missile Crisis. Recasting Xavier and Magneto young rebooted the whole timeline and bought the series another decade."},
+ 206:{dir:"James Mangold",cast:[["Hugh Jackman","Logan / Wolverine"],["Tao Okamoto","Mariko Yashida"],["Rila Fukushima","Yukio"],["Svetlana Khodchenkova","Viper"]],fact:"Set almost entirely in Japan, adapting the classic 1982 Claremont and Miller miniseries. Stay for the mid-credits scene: it sets up Days of Future Past."},
+ 207:{dir:"Bryan Singer",cast:[["Hugh Jackman","Wolverine"],["James McAvoy","Young Charles Xavier"],["Michael Fassbender","Young Magneto"],["Patrick Stewart","Professor X"],["Ian McKellen","Magneto"]],fact:"It united both casts across two timelines and quietly erased The Last Stand from continuity. Quicksilver's kitchen sequence was shot at 3,600 frames per second."},
+ 208:{dir:"Bryan Singer",cast:[["James McAvoy","Charles Xavier"],["Michael Fassbender","Magneto"],["Jennifer Lawrence","Mystique"],["Oscar Isaac","En Sabah Nur / Apocalypse"]],fact:"Oscar Isaac has described the role as miserable: the prosthetics and armour were so heavy and restrictive that he could barely move or hear on set."},
+ 209:{dir:"Tim Miller",cast:[["Ryan Reynolds","Wade Wilson / Deadpool"],["Morena Baccarin","Vanessa"],["T.J. Miller","Weasel"],["Ed Skrein","Ajax"]],fact:"Ryan Reynolds pushed for this for eleven years. Leaked test footage in 2014 forced the studio's hand, and the R-rated result became the highest-grossing R-rated film of its time."},
+ 210:{dir:"James Mangold",cast:[["Hugh Jackman","Logan / Wolverine"],["Patrick Stewart","Charles Xavier"],["Dafne Keen","Laura / X-23"],["Boyd Holbrook","Donald Pierce"]],fact:"Jackman's farewell to the character, at least until Deadpool & Wolverine. It earned an Academy Award nomination for Adapted Screenplay, which almost no superhero film has managed."},
+ 211:{dir:"David Leitch",cast:[["Ryan Reynolds","Deadpool"],["Josh Brolin","Cable"],["Zazie Beetz","Domino"],["Julian Dennison","Russell / Firefist"]],fact:"Josh Brolin played both Cable and Thanos in the same year, and signed a four-film deal for Cable in the process."},
+ 212:{dir:"Simon Kinberg",cast:[["Sophie Turner","Jean Grey / Phoenix"],["James McAvoy","Charles Xavier"],["Michael Fassbender","Magneto"],["Jessica Chastain","Vuk"]],fact:"The last Fox X-Men film released before the Disney deal closed. Its entire third act was reshot after a similar sequence turned up in another film."},
+ 213:{dir:"Josh Boone",cast:[["Maisie Williams","Rahne Sinclair / Wolfsbane"],["Anya Taylor-Joy","Illyana Rasputin / Magik"],["Charlie Heaton","Sam Guthrie / Cannonball"],["Blu Hunt","Danielle Moonstar"]],fact:"Shot back in 2017 as a horror-tinged experiment, delayed over and over, and finally dropped into pandemic-emptied cinemas in 2020. It closed out Fox's X-Men run."},
  101:{dir:"Matt Shakman",cast:[["Elizabeth Olsen","Wanda Maximoff"],["Paul Bettany","Vision"],["Kathryn Hahn","Agatha Harkness"],["Teyonah Parris","Monica Rambeau"]],fact:"Every episode lovingly recreates a different era of American sitcoms, from I Love Lucy to Modern Family. The villain reveal song ‘Agatha All Along’ won an Emmy."},
- 102:{dir:"Kari Skogland",cast:[["Anthony Mackie","Sam Wilson / Falcon"],["Sebastian Stan","Bucky Barnes"],["Wyatt Russell","John Walker"],["Daniel Brühl","Zemo"]],fact:"It was meant to be the very first Disney+ Marvel show, but pandemic delays pushed it back — so WandaVision aired first and stole the ‘first’ title."},
- 103:{dir:"Kate Herron",cast:[["Tom Hiddleston","Loki"],["Sophia Di Martino","Sylvie"],["Owen Wilson","Mobius"],["Gugu Mbatha-Raw","Ravonna Renslayer"],["Jonathan Majors","He Who Remains"]],fact:"This is where the MCU's multiverse officially breaks open — its finale unleashes the variant threat that Avengers: Doomsday is built around. It was also Marvel's first series renewed for a second season."},
+ 102:{dir:"Kari Skogland",cast:[["Anthony Mackie","Sam Wilson / Falcon"],["Sebastian Stan","Bucky Barnes"],["Wyatt Russell","John Walker"],["Daniel Brühl","Zemo"]],fact:"It was meant to be the very first Disney+ Marvel show, but pandemic delays pushed it back - so WandaVision aired first and stole the ‘first’ title."},
+ 103:{dir:"Kate Herron",cast:[["Tom Hiddleston","Loki"],["Sophia Di Martino","Sylvie"],["Owen Wilson","Mobius"],["Gugu Mbatha-Raw","Ravonna Renslayer"],["Jonathan Majors","He Who Remains"]],fact:"This is where the MCU's multiverse officially breaks open - its finale unleashes the variant threat that Avengers: Doomsday is built around. It was also Marvel's first series renewed for a second season."},
  104:{dir:"Bryan Andrews",cast:[["Jeffrey Wright","The Watcher (voice)"],["Various","MCU cast reprising roles (voice)"]],fact:"Almost every film actor returned to voice their animated counterpart. Chadwick Boseman recorded several episodes before his death, making it part of his final work."},
  105:{dir:"Rhys Thomas",cast:[["Jeremy Renner","Clint Barton / Hawkeye"],["Hailee Steinfeld","Kate Bishop"],["Vincent D'Onofrio","Wilson Fisk / Kingpin"],["Alaqua Cox","Maya Lopez / Echo"]],fact:"Set at Christmas in New York, it introduces fan-favourite Kate Bishop and quietly brings the Netflix-era Kingpin into the main MCU."},
- 106:{dir:"Mohamed Diab",cast:[["Oscar Isaac","Marc Spector / Steven Grant"],["Ethan Hawke","Arthur Harrow"],["May Calamawy","Layla El-Faouly"]],fact:"Oscar Isaac plays several distinct personalities sharing one body. By design it barely touches the wider MCU — you can watch it almost completely standalone."},
- 107:{dir:"Adil El Arbi & Bilall Fallah",cast:[["Iman Vellani","Kamala Khan / Ms. Marvel"],["Matt Lintz","Bruno"],["Mohan Kapur","Yusuf"],["Zenobia Shroff","Muneeba"]],fact:"Iman Vellani was a lifelong Marvel superfan with no professional credits when she was cast as her own favourite hero — her first-ever acting role."},
- 108:{dir:"Kat Coiro",cast:[["Tatiana Maslany","Jennifer Walters / She-Hulk"],["Mark Ruffalo","Bruce Banner / Hulk"],["Tim Roth","Emil Blonsky / Abomination"]],fact:"Jennifer talks straight to the camera throughout — and in the finale literally breaks out of her own show to argue with Marvel's story-writing algorithm."},
- 109:{dir:"Ali Selim",cast:[["Samuel L. Jackson","Nick Fury"],["Ben Mendelsohn","Talos"],["Emilia Clarke","G'iah"],["Olivia Colman","Sonya Falsworth"]],fact:"Its AI-assisted opening title sequence sparked real controversy — a fittingly paranoid touch for a show about shape-shifters you can't trust."},
- 110:{dir:"Sydney Freeland",cast:[["Alaqua Cox","Maya Lopez / Echo"],["Vincent D'Onofrio","Wilson Fisk / Kingpin"],["Chaske Spencer","Henry"],["Graham Greene","Skully"]],fact:"Launched under Marvel's mature ‘Spotlight’ banner meant to be watchable with zero homework. Its lead, Maya, is both deaf and an amputee — as is actor Alaqua Cox."},
+ 106:{dir:"Mohamed Diab",cast:[["Oscar Isaac","Marc Spector / Steven Grant"],["Ethan Hawke","Arthur Harrow"],["May Calamawy","Layla El-Faouly"]],fact:"Oscar Isaac plays several distinct personalities sharing one body. By design it barely touches the wider MCU - you can watch it almost completely standalone."},
+ 107:{dir:"Adil El Arbi & Bilall Fallah",cast:[["Iman Vellani","Kamala Khan / Ms. Marvel"],["Matt Lintz","Bruno"],["Mohan Kapur","Yusuf"],["Zenobia Shroff","Muneeba"]],fact:"Iman Vellani was a lifelong Marvel superfan with no professional credits when she was cast as her own favourite hero - her first-ever acting role."},
+ 108:{dir:"Kat Coiro",cast:[["Tatiana Maslany","Jennifer Walters / She-Hulk"],["Mark Ruffalo","Bruce Banner / Hulk"],["Tim Roth","Emil Blonsky / Abomination"]],fact:"Jennifer talks straight to the camera throughout - and in the finale literally breaks out of her own show to argue with Marvel's story-writing algorithm."},
+ 109:{dir:"Ali Selim",cast:[["Samuel L. Jackson","Nick Fury"],["Ben Mendelsohn","Talos"],["Emilia Clarke","G'iah"],["Olivia Colman","Sonya Falsworth"]],fact:"Its AI-assisted opening title sequence sparked real controversy - a fittingly paranoid touch for a show about shape-shifters you can't trust."},
+ 110:{dir:"Sydney Freeland",cast:[["Alaqua Cox","Maya Lopez / Echo"],["Vincent D'Onofrio","Wilson Fisk / Kingpin"],["Chaske Spencer","Henry"],["Graham Greene","Skully"]],fact:"Launched under Marvel's mature ‘Spotlight’ banner meant to be watchable with zero homework. Its lead, Maya, is both deaf and an amputee - as is actor Alaqua Cox."},
  111:{dir:"Jac Schaeffer",cast:[["Kathryn Hahn","Agatha Harkness"],["Joe Locke","Billy / Wiccan"],["Aubrey Plaza","Rio Vidal"],["Patti LuPone","Lilia Calderu"]],fact:"It spun directly out of that Emmy-winning WandaVision song. Aubrey Plaza's mysterious Rio is revealed to be Death itself, walking around in human form."},
- 112:{dir:"Various",cast:[["Charlie Cox","Matt Murdock / Daredevil"],["Vincent D'Onofrio","Wilson Fisk / Kingpin"],["Margarita Levieva","Heather Glenn"],["Jon Bernthal","Frank Castle / Punisher"]],fact:"It revives the beloved, gritty Netflix Daredevil years after its cancellation — with Charlie Cox and Vincent D'Onofrio picking their rivalry right back up."},
- 113:{dir:"Sam Bailey & Angela Barnes",cast:[["Dominique Thorne","Riri Williams / Ironheart"],["Anthony Ramos","Parker Robbins / The Hood"],["Lyric Ross","Natalie"],["Regan Aliyah","Jeri"]],fact:"Riri builds her armour as a broke MIT student, straight out of Wakanda Forever — and the show collides her hard-science suit with actual magic for the first time."},
+ 112:{dir:"Various",cast:[["Charlie Cox","Matt Murdock / Daredevil"],["Vincent D'Onofrio","Wilson Fisk / Kingpin"],["Margarita Levieva","Heather Glenn"],["Jon Bernthal","Frank Castle / Punisher"]],fact:"It revives the beloved, gritty Netflix Daredevil years after its cancellation - with Charlie Cox and Vincent D'Onofrio picking their rivalry right back up."},
+ 113:{dir:"Sam Bailey & Angela Barnes",cast:[["Dominique Thorne","Riri Williams / Ironheart"],["Anthony Ramos","Parker Robbins / The Hood"],["Lyric Ross","Natalie"],["Regan Aliyah","Jeri"]],fact:"Riri builds her armour as a broke MIT student, straight out of Wakanda Forever - and the show collides her hard-science suit with actual magic for the first time."},
 };
 
 /* one-of-a-kind message when each film is marked watched */
 const CHEERS = {
- 1:"The armory is open — the whole MCU starts right here. 1 down.",
- 2:"The deep cut nobody watches — and you just did. Respect.",
+ 1:"The armory is open - the whole MCU starts right here. 1 down.",
+ 2:"The deep cut nobody watches - and you just did. Respect.",
  3:"New element invented, Black Widow recruited. Onward.",
  4:"Hammer: worthy. Asgard: toured. Shakespeare in space: complete.",
  5:"You just met the first Avenger. 1943 never looked so good.",
  6:"THE team-up that changed movies forever. Shawarma is earned.",
  7:"You survived the Mandarin twist. Tony's therapy arc: complete.",
- 8:"The one everyone skips — you didn't. Marathon honor unlocked.",
+ 8:"The one everyone skips - you didn't. Marathon honor unlocked.",
  9:"The MCU's best thriller, cleared. That elevator scene though.",
  10:"Mixtape acquired. You are now emotionally attached to a tree.",
  11:"Vision has entered the chat. Sokovia never stood a chance.",
  12:"Big things, smallest packages. Heist complete.",
- 13:"Airport battle witnessed. Pick a side — you've earned the right.",
+ 13:"Airport battle witnessed. Pick a side - you've earned the right.",
  14:"Reality folded, bargain struck. The mystic arts salute you.",
  15:"Yondu earned his fin and you know it. Tissues next time.",
  16:"Friendly neighborhood status: confirmed.",
  17:"Best haircut in the nine realms. Korg says hi.",
  18:"Wakanda opened its borders for you. What a film.",
- 19:"Deep breaths. The snap hurts every time — Endgame is coming.",
+ 19:"Deep breaths. The snap hurts every time - Endgame is coming.",
  20:"Quantum realm noted. That post-credits scene changes everything.",
  21:"The 90s called, you answered. Goose forgives you.",
- 22:"Eleven years, 22 films, one payoff — and you just felt all of it.",
+ 22:"Eleven years, 22 films, one payoff - and you just felt all of it.",
  23:"Europe survived, mostly. That mid-credits bombshell though.",
  24:"Natasha's ledger, finally balanced. Yelena unlocked.",
  25:"That bus fight is an instant classic. Ten rings collected.",
@@ -810,15 +859,15 @@ const CHEERS = {
  30:"A heavy, beautiful one. Long live the king. 🖤",
  31:"You've met Kang. The multiverse officially has a villain problem.",
  32:"Rocket's story broke us too. What a send-off.",
- 33:"The MCU's shortest film — you sprinted through it.",
+ 33:"The MCU's shortest film - you sprinted through it.",
  34:"Fourth wall status: demolished. The marathon thanks you.",
  35:"Red Hulk rampage witnessed. Sam's shield era begins.",
  36:"NOW you know what the asterisk means. 2 films left!",
  37:"Earth-828 toured. The door to Doomsday is officially open.",
- 38:"Fresh from theaters — you're watching history in real time. THAT'S THE SAGA. 🎉",
+ 38:"Fresh from theaters - you're watching history in real time. THAT'S THE SAGA. 🎉",
 };
 const SERIES_CHEERS=[
- "Bonus round advancing. The homework is optional — the bragging rights aren't.",
+ "Bonus round advancing. The homework is optional - the bragging rights aren't.",
  "Another series down. Disney+ deep-dive logged.",
  "Side quest complete. Back to the couch, hero.",
 ];
@@ -914,7 +963,7 @@ document.getElementById("pgo").onclick=async()=>{
   const errEl=document.getElementById("loginErr");
   const err=m=>{ errEl.textContent=m; errEl.hidden=false; };
   errEl.hidden=true;
-  if(pinIn && !/^\d{4,6}$/.test(pinIn)){ err("PIN should be 4–6 digits."); return; }
+  if(pinIn && !/^\d{4,6}$/.test(pinIn)){ err("PIN should be 4-6 digits."); return; }
 
   const key=userKey(raw);
   let d=null;
@@ -922,7 +971,7 @@ document.getElementById("pgo").onclick=async()=>{
   const claimed = d && d.p;
 
   if(claimed && pinIn!==String(d.p)){
-    err(`“${raw}” is already taken. Enter its PIN to sign in — or pick a different name.`);
+    err(`“${raw}” is already taken. Enter its PIN to sign in - or pick a different name.`);
     return;
   }
 
@@ -948,15 +997,15 @@ document.getElementById("pgo").onclick=async()=>{
   enter(p.id);
   const filmsDone=p.watched.filter(x=>x<=38).length;
   toastMsg(claimed
-    ? `Welcome back, <b>${esc(p.name)}</b> — progress loaded: <b>${filmsDone}/38 films</b>. ✅`
-    : `Name claimed, <b>${esc(p.name)}</b>! Your login anywhere: <b>${esc(p.name)}</b> + PIN <b>${p.pin}</b> — saved under ☁ up top.`, 5600);
+    ? `Welcome back, <b>${esc(p.name)}</b> - progress loaded: <b>${filmsDone}/38 films</b>. ✅`
+    : `Name claimed, <b>${esc(p.name)}</b>! Your login anywhere: <b>${esc(p.name)}</b> + PIN <b>${p.pin}</b> - saved under ☁ up top.`, 5600);
 };
 function renderWho(){
   const p=activeP();
   const earned = p && FILMS.every(f=>p.watched.includes(f.id));
   document.getElementById("who").innerHTML = p
     ? `<span class="av">${avatarSVG(p.avatar)}</span><span>Watching as <b>${esc(p.name)}</b></span>
-       <button class="pill acc" id="codeBtn" title="Signed in — tap for how to sync devices">☁ ${esc(p.name)}</button>
+       <button class="pill acc" id="codeBtn" title="Signed in - tap for how to sync devices">☁ ${esc(p.name)}</button>
        <button class="pill" id="switchBtn">Switch profile</button>
        <button class="pill" id="syncBtn">Sync devices</button>
        ${earned?'<button class="pill acc" id="rewardBtn">🎉 Stickers</button>':""}
@@ -1002,11 +1051,11 @@ function openSyncPanel(){
     <div class="m-head">
       <div class="m-chip" style="background:linear-gradient(160deg,#123524,#3ecf8a);font-size:26px">☁</div>
       <div><h3>Sync devices</h3>
-        <p class="m-sub">your username is your login — no codes, no passwords</p></div>
+        <p class="m-sub">your username is your login - no codes, no passwords</p></div>
     </div>
     <div class="code-big">${esc(p.name)}${p.pin?` <span style="opacity:.55">·</span> PIN ${esc(String(p.pin))}`:""}</div>
-    <p class="code-sub">${p.pin?"your name is claimed — this PIN unlocks it on any device":"not PIN-locked yet — sign in again with a PIN to claim your name"}</p>
-    <p class="m-note">Open the tracker anywhere — phone, laptop, a friend's TV browser — and sign in with
+    <p class="code-sub">${p.pin?"your name is claimed - this PIN unlocks it on any device":"not PIN-locked yet - sign in again with a PIN to claim your name"}</p>
+    <p class="m-note">Open the tracker anywhere - phone, laptop, a friend's TV browser - and sign in with
        <b>${esc(p.name)}</b>${p.pin?` + PIN <b>${esc(String(p.pin))}</b>`:""} on the “Who's watching?” screen.
        Your full progress loads, and everything keeps auto-saving to the cloud.
        Only someone with your PIN can use this name.</p>
@@ -1023,7 +1072,7 @@ function importSync(raw){
   const code=m?m[1]:String(raw).trim();
   let d=null;
   try{ d=JSON.parse(b64d(code)); }catch(e){}
-  if(!d||!d.u||!Array.isArray(d.w)){ alert("That sync link doesn't look right — copy the full link from your other device and try again."); return false; }
+  if(!d||!d.u||!Array.isArray(d.w)){ alert("That sync link doesn't look right - copy the full link from your other device and try again."); return false; }
   let p=store.profiles.find(x=>x.uid===d.u || String(x.id)===d.u);
   if(!p){
     p={id:Date.now(),uid:d.u,start:d.t||Date.now(),name:d.n||"Hero",avatar:d.a||"stark",watched:[]};
@@ -1036,7 +1085,7 @@ function importSync(raw){
   persist(); enter(p.id);
   return true;
 }
-/* ---------- Firebase auto-sync (Realtime Database REST — no SDK needed) ---------- */
+/* ---------- Firebase auto-sync (Realtime Database REST - no SDK needed) ---------- */
 let cloudTimer=null;
 function cloudPush(){
   if(!FIREBASE_DB) return;
@@ -1059,25 +1108,34 @@ async function cloudPull(){
     if(d && d.p && p.pin && String(d.p)!==String(p.pin)){  // someone else owns this name now
       if(!p.pinWarned){
         p.pinWarned=true; persist();
-        toastMsg(`⚠️ The name <b>${esc(p.name)}</b> is owned with a different PIN. Your ticks are safe on this device — switch profile and sign in with the right PIN, or claim a new name.`,6500);
+        toastMsg(`⚠️ The name <b>${esc(p.name)}</b> is owned with a different PIN. Your ticks are safe on this device - switch profile and sign in with the right PIN, or claim a new name.`,6500);
       }
       return;
     }
-    if(d && d.p && !p.pin){ p.pin=String(d.p); persist(); } // same user claimed it elsewhere — adopt
+    if(d && d.p && !p.pin){ p.pin=String(d.p); persist(); } // same user claimed it elsewhere - adopt
     if(d&&Array.isArray(d.w)){
       const before=p.watched.length;
       p.watched=[...new Set([...p.watched,...d.w])];
       if(d.t&&(!p.start||d.t<p.start)) p.start=d.t;
       persist(); watched=new Set(p.watched);
       if(p.watched.length!==before){ render(); }
-      if(p.watched.length!==d.w.length) cloudPush();      // local had extras — converge the cloud copy
-    } else cloudPush();                                    // nothing in cloud yet — seed it
+      if(p.watched.length!==d.w.length) cloudPush();      // local had extras - converge the cloud copy
+    } else cloudPush();                                    // nothing in cloud yet - seed it
   }catch(e){}
 }
 document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="visible") cloudPull(); });
 
 /* ---------- detail modal ---------- */
-function itemById(id){ return id===39 ? DOOM : id<=38 ? FILMS.find(f=>f.id===id) : SERIES.find(s=>s.id===id); }
+function itemById(id){
+  if(id===39) return DOOM;
+  if(id>=201) return XMEN.find(f=>f.id===id);
+  return id<=38 ? FILMS.find(f=>f.id===id) : SERIES.find(s=>s.id===id);
+}
+/* one label for the poster/modal sub-line, since X-Men have no MCU phase */
+function subLabel(it,isTv){
+  if(isTv) return it.eps+" episodes";
+  return it.xmen ? "Fox X-Men" : PHASES[it.phase];
+}
 function openDetail(id){
   const it=itemById(id), d=DATA[id]||{};
   const isTv=id>100;
@@ -1086,9 +1144,9 @@ function openDetail(id){
     <div class="m-head">
       <div class="m-chip" style="${POSTERS[id]?`background-image:url(${POSTERS[id]});background-size:cover;background-position:center`:`background:linear-gradient(160deg,${it.g[0]},${it.g[1]})`}">${POSTERS[id]?"":it.mono}</div>
       <div><h3>${esc(it.title)}</h3>
-        <p class="m-sub">${it.year} · ${isTv?it.eps+" episodes":PHASES[it.phase]} · ${it.imdb!=null?"★ "+it.imdb.toFixed(1):"unrated yet"}${d.dir?" · Dir. "+esc(d.dir):""}</p></div>
+        <p class="m-sub">${it.year} · ${subLabel(it,isTv)} · ${it.imdb!=null?"★ "+it.imdb.toFixed(1):"unrated yet"}${d.dir?" · Dir. "+esc(d.dir):""}</p></div>
     </div>
-    <p class="m-lab">Main cast — actor & character</p>
+    <p class="m-lab">Main cast - actor & character</p>
     <div class="m-cast">${rows||'<div class="crow"><span>Cast list coming soon.</span></div>'}</div>
     ${d.fact?`<p class="m-fact"><b>Did you know?</b> ${esc(d.fact)}</p>`:""}
     <a class="m-play" href="${jw(it.title)}" target="_blank" rel="noopener">▶ ${platOf(id).startsWith("In theaters")?platOf(id)+", 2026":"Watch on "+platOf(id)}</a>`;
@@ -1113,32 +1171,32 @@ function renderPace(){
   const expected=Math.min(total,Math.floor(total*elapsed/spanDays));
   const diff=doneN-expected;
   const daysLeft=Math.max((FINISH_BY-now)/864e5,0);
-  const name=p.name;                                        // textContent below — no escaping needed
+  const name=p.name;                                        // textContent below - no escaping needed
 
   let head;
   if(remaining===0)            head=`Marathon complete, ${name}. Dec 18 is yours 🎉`;
-  else if(daysLeft<=0)         head=`Premiere week — ${remaining} to go. Sprint!`;
+  else if(daysLeft<=0)         head=`Premiere week - ${remaining} to go. Sprint!`;
   else if(diff>=2)             head=`${name}, you're ${diff} films ahead of schedule`;
-  else if(diff===1)            head=`1 film ahead — nice cushion, ${name}`;
+  else if(diff===1)            head=`1 film ahead - nice cushion, ${name}`;
   else if(diff===0)            head=`Right on schedule, ${name}`;
-  else if(diff===-1)           head=`1 film behind — one evening fixes it`;
-  else                         head=`${-diff} films behind — a weekend marathon catches you up`;
+  else if(diff===-1)           head=`1 film behind - one evening fixes it`;
+  else                         head=`${-diff} films behind - a weekend marathon catches you up`;
 
   const myRate = elapsed>=1 && doneN>0 ? doneN/(elapsed/7) : null;      // films/week so far
   const needed = daysLeft>0 ? remaining/(daysLeft/7) : null;
   const proj   = myRate ? new Date(now.getTime() + remaining/(myRate/7)*864e5) : null;
 
   let tip;
-  if(remaining===0) tip=`Now the Series tab is your bonus round — and the finale is booked for you below.`;
+  if(remaining===0) tip=`Now the Series tab is your bonus round - and the finale is booked for you below.`;
   else if(diff<0){
     const expIn7=Math.min(total,Math.floor(total*Math.min(elapsed+7,spanDays)/spanDays));
     tip=`Watch <b>${Math.max(expIn7-doneN,1)} films in the next 7 days</b> and you're back on track.`;
   }
   else if(!proj) tip = doneN>0
-    ? `Strong start — your personal finish projection unlocks after your first day.`
+    ? `Strong start - your personal finish projection unlocks after your first day.`
     : `Mark your first film watched to unlock your personal finish projection.`;
-  else if(proj<=PREMIERE) tip=`At your current rate you'll finish around <b>${fmtDate(proj)}</b> — comfortably before the premiere.`;
-  else tip=`At your current rate you'd finish <b>after the premiere</b> — pick up just a little.`;
+  else if(proj<=PREMIERE) tip=`At your current rate you'll finish around <b>${fmtDate(proj)}</b> - comfortably before the premiere.`;
+  else tip=`At your current rate you'd finish <b>after the premiere</b> - pick up just a little.`;
 
   document.getElementById("paceHead").textContent=head;
   document.getElementById("paceYou").style.width=(doneN/total*100)+"%";
@@ -1146,8 +1204,8 @@ function renderPace(){
   document.getElementById("paceRow").innerHTML=`
     <span>you · <b>${doneN}</b></span>
     <span>target by today · <b>${expected}</b></span>
-    <span>your pace · <b>${myRate?myRate.toFixed(1):"—"}</b>/wk</span>
-    <span>needed · <b>${needed?needed.toFixed(1):"—"}</b>/wk</span>`;
+    <span>your pace · <b>${myRate?myRate.toFixed(1):"-"}</b>/wk</span>
+    <span>needed · <b>${needed?needed.toFixed(1):"-"}</b>/wk</span>`;
   document.getElementById("paceTip").innerHTML=tip;
   el.hidden=false;
 }
@@ -1175,7 +1233,7 @@ function posterHTML(item, num, tv){
       ${img?"":`<span class="p-mono" aria-hidden="true">${item.mono}</span>`}
       <span class="stamp">Watched</span>
       <div class="p-title">${item.title}</div>
-      <div class="p-year">${item.year} · ${tv?item.eps+" episodes":PHASES[item.phase]}</div>
+      <div class="p-year">${item.year} · ${subLabel(item,tv)}</div>
     </div>`;
 }
 function actHTML(id){
@@ -1183,6 +1241,86 @@ function actHTML(id){
       <a href="${jw(itemById(id).title)}" target="_blank" rel="noopener">▶ Watch<span class="plat">${platOf(id)}</span></a>
       <button type="button" data-cast="${id}">👁 Cast<span class="plat">&amp; trivia</span></button>
     </div>`;
+}
+
+/* Disney's official catch-up list for Doomsday: 14 films and one series. Every entry
+   points at a title that already exists elsewhere in this app, so ticking one here is
+   the same tick as ticking it in Movies or Series. The note is why it earns its place. */
+const PREP = [
+ [201,"Where Patrick Stewart's Xavier and Ian McKellen's Magneto begin. Both are back for Doomsday."],
+ [202,"The strongest of the original run, and the clearest read on Xavier and Magneto as friends turned rivals."],
+ [5,"Steve Rogers' origin, and the first Infinity Stone anyone lays hands on."],
+ [6,"The template for every team-up since, and the Loki appearance the rest grows out of."],
+ [19,"Thanos, the snap, and the moment the stakes stopped being theoretical."],
+ [22,"The payoff: the time heist, the portals, the end of the Infinity Saga."],
+ [103,"The multiverse gets cracked open on purpose. The single most load-bearing title on this list."],
+ [25,"The Ten Rings, and a power Marvel has quietly kept in play ever since."],
+ [27,"The first time the multiverse drags in entire other casts, and the film that proved it works."],
+ [28,"Incursions, variants and the rules of the multiverse, spelled out on screen."],
+ [30,"Namor, and where Wakanda stands after T'Challa."],
+ [34,"The bridge between Fox's universe and this one, built in the open."],
+ [35,"Sam Wilson carrying the shield for real, with Ross running the country."],
+ [36,"The team that walks into Doomsday, and the asterisk that renames them."],
+ [37,"Earth-828 and the family whose arrival leads directly into the film."],
+];
+
+function renderPrep(){
+  const grid=document.getElementById("preplist");
+  grid.innerHTML="";
+  let n=0;
+  for(const [id,why] of PREP){
+    const it=itemById(id);
+    if(!it) continue;
+    n++;
+    const done=watched.has(id);
+    const isTv=id>100 && id<200;
+    const card=document.createElement("article");
+    card.className="card"+(isTv?" tv":"")+(done?" done":"");
+    card.innerHTML=`${posterHTML(it,n,isTv)}
+      <div class="meta">
+        <div class="meta-row"><span>${isTv?it.eps+" eps · "+fmtH(it.run):"⏱ "+fmtH(it.run)}</span><span class="imdb">★ ${it.imdb.toFixed(1)}</span></div>
+        <div class="tie">${why}</div>
+        ${actHTML(id)}
+        <button class="watch" data-id="${id}">${done?"✓ Watched":"Mark watched"}</button>
+      </div>`;
+    grid.appendChild(card);
+  }
+  const doneN=PREP.filter(p=>watched.has(p[0])).length;
+  const minsLeft=PREP.filter(p=>!watched.has(p[0]))
+                     .reduce((s,p)=>s+((itemById(p[0])||{}).run||0),0);
+  document.getElementById("prepstats").innerHTML=`
+    <div class="stat"><b>${doneN} / ${PREP.length}</b><span>of Marvel's list seen</span></div>
+    <div class="stat"><b>${fmtH(minsLeft)}</b><span>left on this route</span></div>
+    <div class="stat"><b>${doneN===PREP.length?"Ready":"14 films + 1 series"}</b>
+      <span>${doneN===PREP.length?"you have the context, enjoy the film":"the official shortcut"}</span></div>`;
+}
+
+/* The Fox X-Men run, shown after the MCU phases. Ticking these is tracked like any
+   other title but never counts toward the 38-film marathon or the 100% reward. */
+function renderXMen(list){
+  const seq=[...XMEN].sort((a,b)=>a.rel-b.rel)
+    .filter(f=> filter==="all" || (filter==="done")===watched.has(f.id));
+  if(!seq.length) return;
+
+  const h=document.createElement("div"); h.className="phase-h";
+  h.innerHTML=`<h2>X-Men</h2><small>Fox era · context for Doomsday, not part of the 38</small>`;
+  list.appendChild(h);
+
+  const grid=document.createElement("div"); grid.className="grid";
+  for(const f of seq){
+    const done=watched.has(f.id);
+    const card=document.createElement("article");
+    card.className="card"+(done?" done":"");
+    card.innerHTML=`${posterHTML(f,f.rel,false)}
+      <div class="meta">
+        <div class="meta-row"><span>⏱ ${fmtH(f.run)}</span><span class="imdb">★ ${f.imdb.toFixed(1)}</span></div>
+        <div class="meta-row"><span class="due">bonus watch</span></div>
+        ${actHTML(f.id)}
+        <button class="watch" data-id="${f.id}">${done?"✓ Watched":"Mark watched"}</button>
+      </div>`;
+    grid.appendChild(card);
+  }
+  list.appendChild(grid);
 }
 
 function render(){
@@ -1216,7 +1354,7 @@ function render(){
       card.className="card"+(done?" done":"");
       card.innerHTML=`${posterHTML(f,n,false)}
         <div class="meta">
-          <div class="meta-row"><span>⏱ ${f.run?fmtH(f.run):"TBA"}</span><span class="imdb">${f.imdb!=null?"★ "+f.imdb.toFixed(1):"★ —"}</span></div>
+          <div class="meta-row"><span>⏱ ${f.run?fmtH(f.run):"TBA"}</span><span class="imdb">${f.imdb!=null?"★ "+f.imdb.toFixed(1):"★ -"}</span></div>
           <div class="meta-row"><span class="due ${late?"past":""}">${gated?"in theaters "+fmtDate(f.avail):(d?"watch by "+fmtDate(d):"")}</span></div>
           ${actHTML(f.id)}
           <button class="watch" data-id="${f.id}">${done?"✓ Watched":"Mark watched"}</button>
@@ -1225,6 +1363,8 @@ function render(){
     }
     list.appendChild(grid);
   }
+
+  renderXMen(list);
 
   const total=FILMS.length, doneN=FILMS.filter(f=>watched.has(f.id)).length;
   const minsLeft=FILMS.filter(f=>!watched.has(f.id)).reduce((s,f)=>s+f.run,0);
@@ -1235,27 +1375,28 @@ function render(){
     <div class="stat"><b>${total-doneN}</b><span>films remaining</span></div>
     <div class="stat"><b>${fmtH(minsLeft)}</b><span>screen time left</span></div>
     <div class="stat"><b>${doneN===total?"🎉":perWeek.toFixed(1)+"/wk"}</b>
-      <span>${doneN===total?"marathon complete — see you Dec 18":"pace to finish by "+fmtDate(FINISH_BY)}</span></div>`;
+      <span>${doneN===total?"marathon complete - see you Dec 18":"pace to finish by "+fmtDate(FINISH_BY)}</span></div>`;
   const pct=Math.round(doneN/total*100);
   document.getElementById("bar").style.width=pct+"%";
   document.getElementById("barwrap").setAttribute("aria-valuenow",pct);
   document.getElementById("barlab").textContent = pct>=100
-    ? "100% — 🎉 your surprise is unlocked"
+    ? "100% - 🎉 your surprise is unlocked"
     : pct+"% of the saga complete · 🎁 a surprise awaits at 100%";
 
   const avg=Math.round(minsLeft/Math.max(total-doneN,1));
   document.getElementById("planbody").innerHTML= doneN===total
-    ? `<p><b>You did it.</b> ${total} films, the whole saga. Book the Dec 18 tickets —
+    ? `<p><b>You did it.</b> ${total} films, the whole saga. Book the Dec 18 tickets -
        and the Series tab is now open for business.</p>`
     : `<p>You have <b>${total-doneN} films</b> (${fmtH(minsLeft)}) and <b>${daysLeft} days</b> until the finish line
-       of <b>${fmtDate(FINISH_BY)}</b> — a one-week buffer before the premiere.</p>
-       <p>That works out to <b>${perWeek.toFixed(1)} films a week</b> — roughly one ${fmtH(avg)} movie every
+       of <b>${fmtDate(FINISH_BY)}</b> - a one-week buffer before the premiere.</p>
+       <p>That works out to <b>${perWeek.toFixed(1)} films a week</b> - roughly one ${fmtH(avg)} movie every
        <b>${(daysLeft/(total-doneN)).toFixed(1)} days</b>. Weekend double-features put you ahead of schedule fast.</p>
        <p>Every card above shows its own <b>“watch by” date</b>, spread evenly across the days you have left.
        Mark films watched and all remaining dates re-pace automatically.</p>`;
 
   renderPace();
   renderSeries();
+  renderPrep();   // keeps its counts in sync no matter which tab you ticked from
 }
 
 function renderSeries(){
@@ -1284,7 +1425,7 @@ function renderSeries(){
     <div class="stat"><b>${doneN} / ${SERIES.length}</b><span>series watched</span></div>
     <div class="stat"><b>${fmtH(minsLeft)}</b><span>series screen time left</span></div>
     <div class="stat"><b>${filmsDone?"Open":"Locked-ish"}</b>
-      <span>${filmsDone?"films done — dive in":"finish the 38 films first (honor system)"}</span></div>`;
+      <span>${filmsDone?"films done - dive in":"finish the 38 films first (honor system)"}</span></div>`;
 }
 
 /* ---------- did you know ---------- */
@@ -1334,7 +1475,7 @@ function toastMsg(html,ms){
 function showCheer(id){
   const msg = id<=38 ? CHEERS[id] : SERIES_CHEERS[(id-101)%SERIES_CHEERS.length];
   if(!msg) return;
-  toastMsg(`<b>${esc(itemById(id).title)}</b> — ${esc(msg)}`);
+  toastMsg(`<b>${esc(itemById(id).title)}</b> - ${esc(msg)}`);
 }
 
 /* ---------- celebration + sticker pack ---------- */
@@ -1423,14 +1564,18 @@ document.addEventListener("click",e=>{
 });
 document.getElementById("tabMov").onclick=()=>{tab="movies";syncTabs();};
 document.getElementById("tabSer").onclick=()=>{tab="series";syncTabs();};
+document.getElementById("tabPrep").onclick=()=>{tab="prep";syncTabs();};
 document.getElementById("tabDyk").onclick=()=>{tab="dyk";syncTabs();};
 function syncTabs(){
   document.getElementById("tabMov").setAttribute("aria-pressed",tab==="movies");
   document.getElementById("tabSer").setAttribute("aria-pressed",tab==="series");
+  document.getElementById("tabPrep").setAttribute("aria-pressed",tab==="prep");
   document.getElementById("tabDyk").setAttribute("aria-pressed",tab==="dyk");
   document.getElementById("sec-movies").hidden = tab!=="movies";
   document.getElementById("sec-series").hidden = tab!=="series";
+  document.getElementById("sec-prep").hidden = tab!=="prep";
   document.getElementById("sec-dyk").hidden = tab!=="dyk";
+  if(tab==="prep") renderPrep();
   if(tab==="dyk") renderDYK();
 }
 document.getElementById("ordRel").onclick=()=>{order="rel";syncSeg();render();};
@@ -1459,6 +1604,41 @@ function wireInstall(){
   b.hidden=!deferredPrompt;
   b.onclick=async()=>{ if(!deferredPrompt) return; deferredPrompt.prompt(); await deferredPrompt.userChoice; deferredPrompt=null; wireInstall(); };
 }
+/* ---------- update checker ----------
+   Installed copies can sit on an old build. This asks the server for version.json
+   (cache-bypassed) on load and whenever the app is brought back to the foreground,
+   and offers a one-tap update if the published version differs from this build.
+   Updating only clears the app's caches. Watched progress lives in localStorage and
+   in the cloud, and neither is touched. */
+const APP_VERSION = "2.0";
+async function checkForUpdate(){
+  try{
+    const r = await fetch("./version.json?t=" + Date.now(), {cache:"no-store"});
+    if(!r.ok) return;
+    const d = await r.json();
+    if(d && d.v && String(d.v) !== APP_VERSION) showUpdateBanner(d.notes || "");
+  }catch(e){}
+}
+function showUpdateBanner(notes){
+  if(document.getElementById("updBanner")) return;
+  const el=document.createElement("div");
+  el.id="updBanner"; el.className="toast"; el.setAttribute("role","status");
+  el.innerHTML=`<b>Update available</b>${notes?" · "+esc(notes):""} `
+    +`<button id="updGo" class="pill acc" style="margin-left:10px">Update now</button>`;
+  document.body.appendChild(el);
+  document.getElementById("updGo").onclick=async()=>{
+    document.getElementById("updGo").textContent="Updating…";
+    try{
+      if(window.caches){ for(const k of await caches.keys()) await caches.delete(k); }
+      const regs = await navigator.serviceWorker?.getRegistrations?.() || [];
+      for(const reg of regs) await reg.unregister();
+    }catch(e){}
+    location.reload();
+  };
+}
+addEventListener("load", checkForUpdate);
+document.addEventListener("visibilitychange", ()=>{ if(document.visibilityState==="visible") checkForUpdate(); });
+
 if("serviceWorker" in navigator && (location.protocol==="https:"||location.hostname==="localhost")){
   addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));
 }
@@ -1479,7 +1659,7 @@ if(!importedFromLink){
 render();
 </script>
 <script>
-/* ============ visual enhancement layer — additive only, app logic untouched ============ */
+/* ============ visual enhancement layer - additive only, app logic untouched ============ */
 (function(){
 "use strict";
 const RM = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -1516,7 +1696,7 @@ let qi=Math.floor(Math.random()*QUOTES.length);
 function showQuote(){
   const [t,who]=QUOTES[qi];
   qEl.classList.remove("qin"); void qEl.offsetWidth;
-  qEl.innerHTML="“"+t+"”<small>— "+who+"</small>";
+  qEl.innerHTML="“"+t+"”<small>- "+who+"</small>";
   if(!RM) qEl.classList.add("qin");
   qi=(qi+1)%QUOTES.length;
 }
@@ -1644,7 +1824,7 @@ if(!RM && "IntersectionObserver" in window){
       const card=b.closest(".card"); if(!card||!card.parentNode) return;
       const d=document.createElement("div");
       d.className="sernote";
-      d.innerHTML="📺 <b>Series released here:</b> "+names+" <span>— bonus round · see the Series tab</span>";
+      d.innerHTML="📺 <b>Series released here:</b> "+names+" <span>- bonus round · see the Series tab</span>";
       card.parentNode.insertBefore(d,card);
     });
   }
@@ -1717,7 +1897,7 @@ if(!RM && "IntersectionObserver" in window){
 })();
 })();
 
-/* ================= GRAND FINALE — staged rewards sequence ================= */
+/* ================= GRAND FINALE - staged rewards sequence ================= */
 (function(){
   const RICK_URL="https://www.youtube.com/watch?v=QDia3e12czc";
   const card=document.querySelector(".party-card");
@@ -1963,25 +2143,25 @@ if(!RM && "IntersectionObserver" in window){
       '<p class="hint">All <b>38 films</b>. Eleven-plus years of story. Finished <b>before the premiere</b>.<br>'+
       escF(s.name)+', the marathon bows to you.</p>'+
       '<button class="watch" id="stgNext">Claim your rewards →</button>';
-    if(n===1) return '<p class="eyebrow">Reward 1 of 4 — your numbers</p><h2>By the numbers</h2>'+
+    if(n===1) return '<p class="eyebrow">Reward 1 of 4 - your numbers</p><h2>By the numbers</h2>'+
       '<div class="statgrid">'+
       '<div class="stat2"><b>38</b><span>films conquered</span></div>'+
       '<div class="stat2"><b>'+s.hours+'</b><span>of story watched</span></div>'+
-      '<div class="stat2"><b>'+(s.days??"—")+'</b><span>'+(s.days===1?"day":"days")+' on the road</span></div>'+
-      '<div class="stat2"><b>'+(s.days&&s.days<7?"🏎":(s.wk??"—"))+'</b><span>'+(s.days&&s.days<7?"certified speedrun":"films / week pace")+'</span></div></div>'+
+      '<div class="stat2"><b>'+(s.days??"-")+'</b><span>'+(s.days===1?"day":"days")+' on the road</span></div>'+
+      '<div class="stat2"><b>'+(s.days&&s.days<7?"🏎":(s.wk??"-"))+'</b><span>'+(s.days&&s.days<7?"certified speedrun":"films / week pace")+'</span></div></div>'+
       '<p class="hint" style="margin-top:12px">Title earned: <b>Earth’s Mightiest Viewer</b> 🏆</p>'+
       '<button class="watch" id="stgNext">Next reward →</button>';
-    if(n===2) return '<p class="eyebrow">Reward 2 of 4 — make it official</p><h2>Your certificate</h2>'+
+    if(n===2) return '<p class="eyebrow">Reward 2 of 4 - make it official</p><h2>Your certificate</h2>'+
       '<div class="certwrap" id="certwrap"></div>'+
       '<div class="m-btns"><button class="watch" id="certDl">Download PNG</button>'+
       '<button class="watch" id="stgNext">Next reward →</button></div>';
     if(n===3) return "";                                        // sticker stage lives in #stickStage
     return '<p class="eyebrow">One more thing…</p><h2>For finishers only</h2>'+
-      '<p class="hint">You didn’t just watch the saga — you cleared it before the world sees the ending. '+
+      '<p class="hint">You didn’t just watch the saga - you cleared it before the world sees the ending. '+
       'So here’s something <b>nobody else has</b>:</p>'+
-      '<p class="hint" style="font-size:15px">🎬 An <b>exclusive 10-minute early premiere of Avengers: Doomsday</b> — unlocked only for marathon finishers.</p>'+
+      '<p class="hint" style="font-size:15px">🎬 An <b>exclusive 10-minute early premiere of Avengers: Doomsday</b> - unlocked only for marathon finishers.</p>'+
       '<a class="watch goldbtn" href="'+RICK_URL+'" target="_blank" rel="noopener">▶ Watch the exclusive premiere</a>'+
-      '<p class="st-note" style="margin-top:10px">sshh — don’t leak it. 🤫</p>'+
+      '<p class="st-note" style="margin-top:10px">sshh - don’t leak it. 🤫</p>'+
       '<button class="watch" id="stgDone" style="margin-top:6px">Finish</button>';
   }
   function show(n){
