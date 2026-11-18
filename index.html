@@ -479,7 +479,7 @@
   <header>
     <p class="eyebrow">Marvel Cinematic Universe · Rewatch Mission</p>
     <h1>Road to <span class="doom">Doomsday</span></h1>
-    <p class="sub">All 38 MCU films with runtimes and IMDb ratings, plus the 13 Disney+ series
+    <p class="sub">All 38 MCU films with runtimes and IMDb ratings, plus the 14 Disney+ series
        for the bonus round and the Fox X-Men run for context. Tick off what you've seen;
        the schedule re-paces itself so you finish before the premiere.</p>
     <div class="quote" id="quote" aria-live="off"></div>
@@ -499,7 +499,7 @@
   <div class="tabs">
     <div class="seg" role="group" aria-label="Section">
       <button id="tabMov" aria-pressed="true">Movies · 38</button>
-      <button id="tabSer" aria-pressed="false">Series · 13</button>
+      <button id="tabSer" aria-pressed="false">Series · 14</button>
       <button id="tabPrep" aria-pressed="false">Marvel's Prep List</button>
       <button id="tabDyk" aria-pressed="false">Did You Know?</button>
     </div>
@@ -560,7 +560,7 @@
         <button id="serChr" aria-pressed="false">Story timeline</button>
       </div>
     </div>
-    <div class="phase-h"><h2>Disney+ series</h2><small id="serOrderLab">release order · ~76h total</small></div>
+    <div class="phase-h"><h2>Disney+ series</h2><small id="serOrderLab">release order · ~83h total</small></div>
     <div class="grid" id="serlist"></div>
   </section>
 
@@ -568,13 +568,13 @@
   <section id="sec-prep" hidden>
     <div class="note">
       <p><b>The short route, straight from Marvel.</b></p>
-      <p>Disney published an official catch-up list for Doomsday: <b>15 titles</b>, 14 films
-         and one series, running about 41 hours. It is the fastest way to walk in with the
+      <p>Disney published an official catch-up list for Doomsday: <b>16 titles</b>, 14 films
+         and two series, running about 48 hours. It is the fastest way to walk in with the
          context you actually need. Note that it reaches outside the MCU for the first two:
          the Fox X-Men cast is back, so their introductions are on the list.</p>
     </div>
     <div class="stats" id="prepstats"></div>
-    <div class="phase-h"><h2>The official 15</h2><small id="prepLab">in the order Marvel lists them</small></div>
+    <div class="phase-h"><h2>The official 16</h2><small id="prepLab">in the order Marvel lists them</small></div>
     <div class="grid" id="preplist"></div>
   </section>
 
@@ -585,7 +585,7 @@
        elsewhere to see who played whom.</p>
     <div class="phase-h"><h2>The films</h2><small>38 films + the finale</small></div>
     <div class="facts" id="dykMovies"></div>
-    <div class="phase-h"><h2>The series</h2><small>13 facts</small></div>
+    <div class="phase-h"><h2>The series</h2><small>14 facts</small></div>
     <div class="facts" id="dykSeries"></div>
   </section>
 
@@ -754,6 +754,7 @@ const SERIES = [
  ["Agatha All Along",2024,9,330,7.2,12,"WandaVision spinoff down the Witches' Road - set three years after Westview",["#3d2a5c","#7a5cad"],"AA"],
  ["Daredevil: Born Again",2025,9,450,8.3,13,"Street-level Marvel at its best - a year after Echo",["#5c1010","#c62828"],"DD"],
  ["Ironheart",2025,6,270,4.2,11,"Riri Williams, straight out of Wakanda Forever",["#5c1a1a","#e0a133"],"IH"],
+ ["VisionQuest",2026,8,430,7.8,14,"Vision rebuilt, and the WandaVision story closed out - its last scene sets up Doomsday",["#16323f","#9fd6e0"],"VQ"],
 ].map((s,i)=>({id:101+i,rel:i+1,title:s[0],year:s[1],eps:s[2],run:s[3],imdb:s[4],chr:s[5],tie:s[6],g:s[7],mono:s[8],key:!!s[9]}));
 
 /* per-title detail: director, cast [actor,character], one fact. plat defaults to JioHotstar. */
@@ -822,6 +823,7 @@ const DATA = {
  110:{dir:"Sydney Freeland",cast:[["Alaqua Cox","Maya Lopez / Echo"],["Vincent D'Onofrio","Wilson Fisk / Kingpin"],["Chaske Spencer","Henry"],["Graham Greene","Skully"]],fact:"Launched under Marvel's mature ‘Spotlight’ banner meant to be watchable with zero homework. Its lead, Maya, is both deaf and an amputee - as is actor Alaqua Cox."},
  111:{dir:"Jac Schaeffer",cast:[["Kathryn Hahn","Agatha Harkness"],["Joe Locke","Billy / Wiccan"],["Aubrey Plaza","Rio Vidal"],["Patti LuPone","Lilia Calderu"]],fact:"It spun directly out of that Emmy-winning WandaVision song. Aubrey Plaza's mysterious Rio is revealed to be Death itself, walking around in human form."},
  112:{dir:"Various",cast:[["Charlie Cox","Matt Murdock / Daredevil"],["Vincent D'Onofrio","Wilson Fisk / Kingpin"],["Margarita Levieva","Heather Glenn"],["Jon Bernthal","Frank Castle / Punisher"]],fact:"It revives the beloved, gritty Netflix Daredevil years after its cancellation - with Charlie Cox and Vincent D'Onofrio picking their rivalry right back up."},
+ 114:{dir:"Terry Matalas, Vincenzo Natali, Gandja Monteiro & Christopher J. Byrne",cast:[["Paul Bettany","Vision / Phineas Horton / J.I.M."],["James Spader","Ultron / Virgil Horton"],["Ruaridh Mollica","Tommy Maximoff / Thomas Shepherd"],["Todd Stashwick","Paul Denning / Paladin"],["T'Nia Miller","Jo Carrington / Jocasta"]],fact:"Paul Bettany plays three roles in it. He pitched the idea himself, and one Mindspace scene where Vision meets the other two took three days to film because of the makeup changes in between."},
  113:{dir:"Sam Bailey & Angela Barnes",cast:[["Dominique Thorne","Riri Williams / Ironheart"],["Anthony Ramos","Parker Robbins / The Hood"],["Lyric Ross","Natalie"],["Regan Aliyah","Jeri"]],fact:"Riri builds her armour as a broke MIT student, straight out of Wakanda Forever - and the show collides her hard-science suit with actual magic for the first time."},
 };
 
@@ -1243,7 +1245,7 @@ function actHTML(id){
     </div>`;
 }
 
-/* Disney's official catch-up list for Doomsday: 14 films and one series. Every entry
+/* Disney's official catch-up list for Doomsday: 14 films and two series. Every entry
    points at a title that already exists elsewhere in this app, so ticking one here is
    the same tick as ticking it in Movies or Series. The note is why it earns its place. */
 const PREP = [
@@ -1262,6 +1264,7 @@ const PREP = [
  [35,"Sam Wilson carrying the shield for real, with Ross running the country."],
  [36,"The team that walks into Doomsday, and the asterisk that renames them."],
  [37,"Earth-828 and the family whose arrival leads directly into the film."],
+ [114,"Added by Disney after launch. Vision comes back, the WandaVision story closes, and the last scene sets up Doomsday."],
 ];
 
 function renderPrep(){
@@ -1291,7 +1294,7 @@ function renderPrep(){
   document.getElementById("prepstats").innerHTML=`
     <div class="stat"><b>${doneN} / ${PREP.length}</b><span>of Marvel's list seen</span></div>
     <div class="stat"><b>${fmtH(minsLeft)}</b><span>left on this route</span></div>
-    <div class="stat"><b>${doneN===PREP.length?"Ready":"14 films + 1 series"}</b>
+    <div class="stat"><b>${doneN===PREP.length?"Ready":"14 films + 2 series"}</b>
       <span>${doneN===PREP.length?"you have the context, enjoy the film":"the official shortcut"}</span></div>`;
 }
 
@@ -1417,7 +1420,7 @@ function renderSeries(){
       </div>`;
     grid.appendChild(card);
   }
-  document.getElementById("serOrderLab").textContent=(serOrder==="rel"?"release order":"in-universe order")+" · ~76h total";
+  document.getElementById("serOrderLab").textContent=(serOrder==="rel"?"release order":"in-universe order")+" · ~83h total";
   const doneN=SERIES.filter(s=>watched.has(s.id)).length;
   const minsLeft=SERIES.filter(s=>!watched.has(s.id)).reduce((a,s)=>a+s.run,0);
   const filmsDone=FILMS.every(f=>watched.has(f.id));
