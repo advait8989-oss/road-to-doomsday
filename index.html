@@ -1613,7 +1613,7 @@ function wireInstall(){
    and offers a one-tap update if the published version differs from this build.
    Updating only clears the app's caches. Watched progress lives in localStorage and
    in the cloud, and neither is touched. */
-const APP_VERSION = "2.0";
+const APP_VERSION = "2.1";
 async function checkForUpdate(){
   try{
     const r = await fetch("./version.json?t=" + Date.now(), {cache:"no-store"});
